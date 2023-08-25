@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:path_provider/path_provider.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
@@ -17,13 +16,13 @@ Map trav_time = {};
 Map tag = {};
 List<int> listmeta = [];
 List<String> tags = [];
-List<String> categorys = <String> [];
+List<String> categorys = <String>[];
 List<String> recentSearches = []; //최근검색어 리스트
 List<int> liked = [];
 
-Future<int> makelist(var parsed_list) async {
+Future<int> makelist(var parsedList) async {
   int idx = 0;
-  for (var i in parsed_list) {
+  for (var i in parsedList) {
     name[i["name"]] = idx;
     if (category.containsKey(i["category"])) {
       category[i["category"]].add(idx);
@@ -49,7 +48,7 @@ Future<int> makelist(var parsed_list) async {
       }
     }
     var tmp = await ReadCaches(i["name"]);
-    if (tmp!.length == 0) {
+    if (tmp!.isEmpty) {
       WriteCaches(i["name"], '0');
     } else {
       if (tmp == '1') liked.add(idx);
@@ -67,8 +66,8 @@ Future<int> makelist(var parsed_list) async {
 Future<int> init(CounterStorage cs) async {
   print(recentSearches.length);
   bool result = await InternetConnection().hasInternetAccess;
-  var cache_status = await InitCaches('recentSearches');
-  print("cache : ${cache_status}");
+  var cacheStatus = await InitCaches('recentSearches');
+  print("cache : $cacheStatus");
   var cache = await ReadCaches('recentSearches'); // recentSearches 초기화
   if (cache!.isNotEmpty) {
     recentSearches = cache.split('\n');
@@ -76,9 +75,9 @@ Future<int> init(CounterStorage cs) async {
     recentSearches = [];
   }
   print(recentSearches.length);
-  recentSearches.forEach((element) {
+  for (var element in recentSearches) {
     print(element);
-  });
+  }
   if (result == true) {
     print("Internet Connected");
     try {
@@ -157,6 +156,7 @@ Future<int?> InitCaches(var k) async {
 
 Future<String?> WriteCaches(var k, var st) async {
   WriteCache.setString(key: k, value: st);
+  return null;
 }
 
 Future<String?> ReadCaches(var k) async {

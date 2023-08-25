@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project2307/home_page.dart';
 
 const List<String> sliderValIndicators = ["5분", "10분", "20분", "30분", "30분 이상"];
 const List<String> listMenu = <String>[
@@ -242,8 +243,18 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       leading: Padding(
         padding: const EdgeInsets.only(left: 20.0),
-        child: Image.asset(
-          'assets/images/icon.png',
+        child: InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage()),
+            );
+          },
+          child: Image.asset(
+            'assets/images/icon.png',
+            height: 50,
+            width: 50,
+          ),
         ),
       ),
       actions: [
