@@ -42,10 +42,6 @@ String getDetails(time) {
   return result;
 }
 
-
-
-
-
 class SubText extends StatelessWidget {
   final String title;
   final String details;
@@ -82,6 +78,43 @@ class SubText extends StatelessWidget {
     );
   }
 }
+
+class SubText2 extends StatelessWidget {
+  final String title;
+  final String details;
+  const SubText2(this.title, this.details, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            title,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontSize: 22,
+              fontFamily: "NanumSquare_ac",
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+          const SizedBox(height: 7),
+          Text(
+            details,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontSize: 18,
+              fontFamily: "NanumSquare_ac",
+              fontWeight: FontWeight.w200,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class iconSection extends StatelessWidget {
   const iconSection({super.key});
 
@@ -97,7 +130,7 @@ class iconSection extends StatelessWidget {
             width: 55.0,
             fit: BoxFit.cover,
           ),
-          Icon(Icons.menu, color: Colors.black, size: 45.0),
+          const Icon(Icons.menu, color: Colors.black, size: 45.0),
         ],
       ),
     );
@@ -106,7 +139,7 @@ class iconSection extends StatelessWidget {
 
 class titleSection extends StatelessWidget {
   final String title;
-  const titleSection(this.title);
+  const titleSection(this.title, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -117,11 +150,10 @@ class titleSection extends StatelessWidget {
         children: [
           Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
                 fontSize: 36,
                 fontFamily: "NanumSquare_ac",
-                fontWeight: FontWeight.w600
-            ),
+                fontWeight: FontWeight.w600),
           ),
         ],
       ),

@@ -12,19 +12,20 @@ class Info extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(22, 25, 22, 15),
       child: const Column(
         mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SubText("Developers", "SGCC 프로젝트"),
-          SizedBox(height: 15),
-          SubText("Contacts", "foodduck.app@gmail.com"),
+          SubText2("Developers", "SGCC 프로젝트"),
+          SizedBox(height: 20),
+          SubText2("Contacts", "foodduck.app@gmail.com"),
         ],
       ),
     );
 
     Widget mainSection = Container(
       margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-      height: MediaQuery.of(context).size.height - 200,
+      height: MediaQuery.of(context).size.height * 0.72,
       decoration: BoxDecoration(
-        color: Colors.grey[200],
+        color: Colors.transparent,
         borderRadius: BorderRadius.circular(30),
         border: Border.all(color: Colors.transparent),
       ),

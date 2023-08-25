@@ -58,14 +58,12 @@ class _DropdownChoiceState extends State<DropdownChoice> {
   }
 }
 
-
 class RandCondition extends StatefulWidget {
-  RandCondition({super.key});
+  const RandCondition({super.key});
 
   @override
   State<RandCondition> createState() => _RandConditionState();
 }
-
 
 class _RandConditionState extends State<RandCondition> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -83,7 +81,6 @@ class _RandConditionState extends State<RandCondition> {
 
   @override
   Widget build(BuildContext context) {
-
     Widget LocationSlider = SizedBox(
       width: 330,
       child: Column(
@@ -135,7 +132,6 @@ class _RandConditionState extends State<RandCondition> {
       ),
     );
 
-
     Widget textSection1 = Container(
       padding: const EdgeInsets.fromLTRB(22, 25, 22, 15),
       child: Column(
@@ -186,9 +182,6 @@ class _RandConditionState extends State<RandCondition> {
       ),
     );
 
-
-
-
     Widget textSection2 = Container(
       padding: const EdgeInsets.fromLTRB(22, 10, 22, 15),
       child: Column(
@@ -201,7 +194,6 @@ class _RandConditionState extends State<RandCondition> {
         ],
       ),
     );
-
 
     Widget randombutton = Column(
       mainAxisSize: MainAxisSize.min,
@@ -225,8 +217,7 @@ class _RandConditionState extends State<RandCondition> {
             var rand = Random().nextInt(listfood.length);
             Navigator.push(
               context,
-              MaterialPageRoute(
-                  builder: (context) => resultlist(rand)),
+              MaterialPageRoute(builder: (context) => resultlist(rand)),
             );
           },
           child: const Text("고르는 것도 귀찮아"),
@@ -235,76 +226,72 @@ class _RandConditionState extends State<RandCondition> {
     );
 
     Widget resultbutton = Column(
-    mainAxisSize: MainAxisSize.min,
-    children: [
-      ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          textStyle: const TextStyle(
-            fontSize: 20,
-            fontFamily: "NanumSquare_ac",
-            fontWeight: FontWeight.w600,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            textStyle: const TextStyle(
+              fontSize: 20,
+              fontFamily: "NanumSquare_ac",
+              fontWeight: FontWeight.w600,
+            ),
+            backgroundColor: Colors.amberAccent,
+            foregroundColor: Colors.black,
+            shadowColor: Colors.transparent,
+            elevation: 0.0,
+            fixedSize: const Size(310, 50),
           ),
-          backgroundColor: Colors.amberAccent,
-          foregroundColor: Colors.black,
-          shadowColor: Colors.transparent,
-          elevation: 0.0,
-          fixedSize: const Size(310, 50),
-        ),
-        onPressed: () {
-          //with tag
-          List<String> result = [];
-          List<int> tmp = Iterable<int>.generate(listfood.length).toList();
+          onPressed: () {
+            //with tag
+            List<String> result = [];
+            List<int> tmp = Iterable<int>.generate(listfood.length).toList();
 
-          tmp.removeWhere((item) => !category[dropdownValue].contains(item));
-          tmp.removeWhere((item) => !trav_time[initialSliderValue].contains(item));
-          print(tmp);
-          if(tmp.length > 0) {
-            var rand = Random().nextInt(tmp.length);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => resultlist(tmp[rand])),
-            );
-          }else{
-            Fluttertoast.showToast(
-                msg: "검색결과가 없습니다",
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.CENTER,
-                timeInSecForIosWeb: 1,
-                backgroundColor: Colors.red,
-                textColor: Colors.white,
-                fontSize: 16.0
-            );
-          }
-        },
-        child: const Text("선택 완료"),
-      ),
-    ],
-  );
+            tmp.removeWhere((item) => !category[dropdownValue].contains(item));
+            tmp.removeWhere(
+                (item) => !trav_time[initialSliderValue].contains(item));
+            print(tmp);
+            if (tmp.isNotEmpty) {
+              var rand = Random().nextInt(tmp.length);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => resultlist(tmp[rand])),
+              );
+            } else {
+              Fluttertoast.showToast(
+                  msg: "검색결과가 없습니다",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.CENTER,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.red,
+                  textColor: Colors.white,
+                  fontSize: 16.0);
+            }
+          },
+          child: const Text("선택 완료"),
+        ),
+      ],
+    );
 
     Widget mainSection = Container(
       margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-      height: MediaQuery.of(context).size.height - 200,
+      height: MediaQuery.of(context).size.height * 0.72,
       decoration: BoxDecoration(
-        color: Colors.grey[200],
+        color: Colors.transparent,
         borderRadius: BorderRadius.circular(30),
         border: Border.all(color: Colors.transparent),
       ),
       child: FittedBox(
-        child : Column(
-          children: [
-            const SizedBox(height: 30),
-            randombutton,
-            textSection1,
-            textSection2,
-            resultbutton,
-            const SizedBox(height: 30)
-          ],
-        )
-      ),
+          child: Column(
+        children: [
+          const SizedBox(height: 30),
+          randombutton,
+          textSection1,
+          textSection2,
+          resultbutton,
+          const SizedBox(height: 30)
+        ],
+      )),
     );
-
-
 
     return Scaffold(
       key: scaffoldKey,
