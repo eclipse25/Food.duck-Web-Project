@@ -66,7 +66,7 @@ class HomePage extends StatelessWidget {
                   ),
                   Image.asset(
                     'assets/images/logo.jpg', //협의수정필요
-                    width:  MediaQuery.of(context).size.width,
+                    width: 320,
                   ),
                   const SizedBox(
                     height: 20,
@@ -82,33 +82,31 @@ class HomePage extends StatelessWidget {
                                 builder: (context) => const SearchPage()),
                           );
                         },
-                        child: FittedBox(
-                          child: Container(
-                            //검색창 (실시간 반영,제안:onChanged()/TextField)
-                            height: 45,
-                            width:  MediaQuery.of(context).size.width - 60,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(
-                                  color: Colors.amber,
-                                  width: 3,
-                                ),
-                                borderRadius: BorderRadius.circular(50)),
-                            child: const SizedBox(
-                              height: 35,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  IconButton(
-                                    icon: Icon(
-                                      Icons.search,
-                                      size: 20,
-                                      color: Colors.black,
-                                    ),
-                                    onPressed: null,
-                                  ),
-                                ],
+                        child: Container(
+                          //검색창 (실시간 반영,제안:onChanged()/TextField)
+                          height: 45,
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(
+                                color: Colors.amber,
+                                width: 3,
                               ),
+                              borderRadius: BorderRadius.circular(50)),
+                          child: const SizedBox(
+                            height: 35,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.search,
+                                    size: 20,
+                                    color: Colors.black,
+                                  ),
+                                  onPressed: null,
+                                ),
+                              ],
                             ),
                           ),
                         ),
