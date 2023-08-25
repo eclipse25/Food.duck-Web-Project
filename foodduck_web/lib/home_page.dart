@@ -47,12 +47,12 @@ class HomePage extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 30),
         child: Column(
           children: [
-            Expanded(
-              flex: 2,
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.12,
               child: Container(),
             ),
-            Expanded(
-              flex: 7,
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.5,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -125,10 +125,6 @@ class HomePage extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
-            Expanded(
-              flex: 4,
-              child: Container(),
             ),
           ],
         ),
