@@ -3,6 +3,7 @@ import 'home_page.dart';
 import 'search_page.dart';
 import 'info.dart';
 import 'rand_condition.dart';
+import 'result.dart';
 import 'result_page.dart';
 import 'back/data_fetch.dart';
 
@@ -34,96 +35,95 @@ class CustomDrawer extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: Padding(
+          child: ListView(
             padding: const EdgeInsets.all(30),
-            child: Column(
-              children: [
-                ListTile(
-                  title: const Text(
-                    '홈',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontFamily: 'NanumSquareB.ttf',
-                    ),
+            children: [
+              ListTile(
+                title: const Text(
+                  '홈',
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontFamily: 'NanumSquareB.ttf',
                   ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomePage()),
-                    );
-                  },
                 ),
-                const SizedBox(height: 20),
-                ListTile(
-                  title: const Text(
-                    '랜덤 추천',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontFamily: 'NanumSquareB.ttf',
-                    ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomePage()),
+                  );
+                },
+              ),
+              const SizedBox(height: 20),
+              ListTile(
+                title: const Text(
+                  '랜덤 추천',
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontFamily: 'NanumSquareB.ttf',
                   ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => RandCondition()),
-                    );
-                  },
                 ),
-                const SizedBox(height: 20),
-                ListTile(
-                  title: const Text(
-                    '검색',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontFamily: 'NanumSquareB.ttf',
-                    ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => RandCondition()),
+                  );
+                },
+              ),
+              const SizedBox(height: 20),
+              ListTile(
+                title: const Text(
+                  '검색',
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontFamily: 'NanumSquareB.ttf',
                   ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SearchPage()),
-                    );
-                  },
                 ),
-                const SizedBox(height: 20),
-                ListTile(
-                  title: const Text(
-                    '즐겨찾기',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontFamily: 'NanumSquareB.ttf',
-                    ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const SearchPage()),
+                  );
+                },
+              ),
+              const SizedBox(height: 20),
+              ListTile(
+                title: const Text(
+                  '즐겨찾기',
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontFamily: 'NanumSquareB.ttf',
                   ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => searchList(liked, "검색 결과")),
-                    );
-                  },
                 ),
-                const SizedBox(height: 20),
-                ListTile(
-                  title: const Text(
-                    'Info',
-                    style: TextStyle(fontSize: 30),
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Info()),
-                    );
-                  },
+                onTap: () {
+                  Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => searchList(liked,"즐겨찾기")),
+                  );
+                },
+              ),
+              const SizedBox(height: 20),
+              ListTile(
+                title: const Text(
+                  'Info',
+                  style: TextStyle(fontSize: 30),
                 ),
-              ],
-            ),
+                onTap: () {
+                  Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Info()),
+                  );
+                },
+              ),
+            ],
           ),
         ),
         Padding(
           padding: const EdgeInsets.all(30),
           child: SizedBox(
-            height: 50,
+            height: 100,
             child: Align(
               alignment: Alignment.bottomRight,
               child: Container(
