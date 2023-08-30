@@ -100,8 +100,6 @@ class _HomePage extends State<HomePage> {
           ),
         ),
         body: SingleChildScrollView(
-          child: Container(
-            decoration: BoxDecoration(border: Border.all(color: Colors.purple)),
             child: Column(
               children: [
                 SizedBox(
@@ -188,7 +186,6 @@ class _HomePage extends State<HomePage> {
                 ),
               ],
             ),
-          ),
         ),
       );
     } else {

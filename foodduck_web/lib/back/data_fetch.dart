@@ -22,6 +22,7 @@ List<int> liked = [];
 
 Future<int> makelist(var parsedList) async {
   int idx = 0;
+  liked = [];
   for (var i in parsedList) {
     name[i["name"]] = idx;
     if (category.containsKey(i["category"])) {
@@ -51,7 +52,7 @@ Future<int> makelist(var parsedList) async {
     if (tmp!.isEmpty) {
       WriteCaches(i["name"], '0');
     } else {
-      if (tmp == '1') liked.add(idx);
+      if (tmp == '1' && !liked.contains(idx)) liked.add(idx);
       print("asdfasdf $tmp");
     }
     print(await ReadCaches(i["name"]));
