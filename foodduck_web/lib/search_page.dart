@@ -186,19 +186,18 @@ class SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leadingWidth: MediaQuery.of(context).size.width,
-        toolbarHeight: 80,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: 45,
-              child: IconButton(
+    var width = MediaQuery.of(context).size.width;
+    if(width < 1000){
+      return Scaffold(
+        appBar: AppBar(
+          leadingWidth: MediaQuery.of(context).size.width,
+          toolbarHeight: 80,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
                 icon: const Icon(
                   Icons.arrow_back,
                   size: 30,
@@ -208,75 +207,330 @@ class SearchPageState extends State<SearchPage> {
                   Navigator.pop(context);
                 },
               ),
-            ),
-            const SizedBox(
-              width: 5,
-            ),
-            Container(
-              //검색창
-              height: 45,
-              width: MediaQuery.of(context).size.width * 0.4,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(
-                  color: Colors.amber,
-                  width: 3,
-                ),
-                borderRadius: BorderRadius.circular(50),
+              const SizedBox(
+                width: 5,
               ),
-              child: Row(
-                children: [
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: SizedBox(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: TextField(
-                          textAlignVertical: TextAlignVertical.center,
-                          controller: _searchController,
-                          maxLines: 1,
-                          decoration: const InputDecoration(
-                            hintText: 'Search',
-                            border: InputBorder.none,
-                            isCollapsed: true,
+              Container(
+                //검색창
+                height: 45,
+                width: MediaQuery.of(context).size.width - 80,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(
+                    color: Colors.amber,
+                    width: 3,
+                  ),
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                child: SizedBox(
+                  height: 35,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: TextField(
+                            controller: _searchController,
+                            maxLines: 1,
+                            decoration: const InputDecoration(
+                              hintText: 'Search',
+                              border: InputBorder.none,
+                            ),
+                            onSubmitted: (value) {
+                              _submitSearch(); // 엔터를 입력했을 때 동작
+                            },
                           ),
-                          onSubmitted: (value) {
-                            _submitSearch(); // 엔터를 입력했을 때 동작
-                          },
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(
+                          Icons.search,
+                          size: 20,
+                          color: Colors.black,
+                        ),
+                        onPressed: () {
+                          _submitSearch();
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 15,
+              ),
+            ],
+          ),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 25),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Column(
+                    children: [
+                      Text(
+                        '최근 검색',
+                        style: TextStyle(
+                            fontSize: 28,
+                            fontFamily: "NanumSquare_ac",
+                            fontWeight: FontWeight.w600
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 18,
+                ),
+                ListView(
+                  shrinkWrap: true, // ListView 크기를 내용에 맞게 조절
+                  children: [
+                    for (int i = 0; i < recentSearches.length && i < 5; i++)
+                      Container(
+                        height: 35,
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    searchText = recentSearches[i];
+                                  });
+                                  clickRecentSearches();
+                                },
+                                child: Text(
+                                  recentSearches[i],
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                              icon: const Icon(
+                                Icons.close,
+                                size: 15,
+                                color: Colors.black,
+                              ),
+                              onPressed: () {
+                                _removeSearchKeyword(recentSearches[i]);
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Column(
+                    children: [
+                      Text(
+                        '태그 검색',
+                        style: TextStyle(
+                            fontSize: 28,
+                            fontFamily: "NanumSquare_ac",
+                            fontWeight: FontWeight.w600
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 18,
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Wrap(
+                    spacing: 15,
+                    runSpacing: 10,
+                    children: [
+                      for (int i = 0; i < categorys.length; i++)
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          decoration: BoxDecoration(
+                            color: isSelectedCate[i]
+                                ? Colors.amber[300]
+                                : const Color.fromARGB(255, 210, 210, 210),
+                            border: Border.all(
+                              color: isSelectedCate[i]
+                                  ? const Color.fromARGB(255, 255, 213, 79)
+                                  : const Color.fromARGB(255, 210, 210, 210),
+                              width: 3,
+                            ),
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                          child: InkWell(
+                            onTap: () {
+                              isSelectedCate[i] = !isSelectedCate[i];
+                              clickCategoryBottons(i);
+                            },
+                            child: Text(
+                              categorys[i],
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: "NanumSquare_ac",
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                        ),
+                      for (int i = 0; i < tags.length; i++)
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          decoration: BoxDecoration(
+                            color: isSelected[i]
+                                ? Colors.amber[300]
+                                : const Color.fromARGB(255, 210, 210, 210),
+                            border: Border.all(
+                              color: isSelected[i]
+                                  ? const Color.fromARGB(255, 255, 213, 79)
+                                  : const Color.fromARGB(255, 210, 210, 210),
+                              width: 3,
+                            ),
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                          child: InkWell(
+                            onTap: () {
+                              isSelected[i] = !isSelected[i];
+                              clickTagBottons(i);
+                            },
+                            child: Text(
+                              tags[i],
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: "NanumSquare_ac",
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+                /*
+              SizedBox(
+                //태그리스트 확인용, 지울 부분
+                child: Row(
+                  children: [
+                    for (String tag in selectedTags)
+                      Container(
+                        margin: const EdgeInsets.only(right: 1),
+                        padding: const EdgeInsets.all(1),
+                        child: Text(tag),
+                      ),
+                  ],
+                ),
+              ),
+              */
+                const SizedBox(
+                  height: 20,
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }else{
+      return Scaffold(
+        appBar: AppBar(
+          leadingWidth: MediaQuery.of(context).size.width,
+          toolbarHeight: 80,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 45,
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    size: 30,
+                    color: Colors.black,
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+              const SizedBox(
+                width: 5,
+              ),
+              Container(
+                //검색창
+                height: 45,
+                width: MediaQuery.of(context).size.width * 0.4,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(
+                    color: Colors.amber,
+                    width: 3,
+                  ),
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                child: Row(
+                  children: [
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: SizedBox(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: TextField(
+                            textAlignVertical: TextAlignVertical.center,
+                            controller: _searchController,
+                            maxLines: 1,
+                            decoration: const InputDecoration(
+                              hintText: 'Search',
+                              border: InputBorder.none,
+                              isCollapsed: true,
+                            ),
+                            onSubmitted: (value) {
+                              _submitSearch(); // 엔터를 입력했을 때 동작
+                            },
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  IconButton(
-                    icon: const Icon(
-                      Icons.search,
-                      size: 20,
-                      color: Colors.black,
+                    IconButton(
+                      icon: const Icon(
+                        Icons.search,
+                        size: 20,
+                        color: Colors.black,
+                      ),
+                      onPressed: () {
+                        _submitSearch();
+                      },
                     ),
-                    onPressed: () {
-                      _submitSearch();
-                    },
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(
-              width: 15,
-            ),
-          ],
+              const SizedBox(
+                width: 15,
+              ),
+            ],
+          ),
         ),
-      ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(
-            horizontal: MediaQuery.of(context).size.width * 0.05),
-        child: SingleChildScrollView(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.6,
-                height: MediaQuery.of(context).size.height * 0.85,
-                child: SingleChildScrollView(
+        body: Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * 0.05),
+          child: SingleChildScrollView(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.6,
+                  height: MediaQuery.of(context).size.height * 0.85,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -306,18 +560,16 @@ class SearchPageState extends State<SearchPage> {
                             for (int i = 0; i < categorys.length; i++)
                               Container(
                                 padding:
-                                    const EdgeInsets.symmetric(horizontal: 10),
+                                const EdgeInsets.symmetric(horizontal: 10),
                                 decoration: BoxDecoration(
                                   color: isSelectedCate[i]
                                       ? Colors.amber[300]
-                                      : const Color.fromARGB(
-                                          255, 210, 210, 210),
+                                      : const Color.fromARGB(255, 210, 210, 210),
                                   border: Border.all(
                                     color: isSelectedCate[i]
-                                        ? const Color.fromARGB(
-                                            255, 255, 213, 79)
+                                        ? const Color.fromARGB(255, 255, 213, 79)
                                         : const Color.fromARGB(
-                                            255, 210, 210, 210),
+                                        255, 210, 210, 210),
                                     width: 3,
                                   ),
                                   borderRadius: BorderRadius.circular(50),
@@ -333,18 +585,16 @@ class SearchPageState extends State<SearchPage> {
                             for (int i = 0; i < tags.length; i++)
                               Container(
                                 padding:
-                                    const EdgeInsets.symmetric(horizontal: 10),
+                                const EdgeInsets.symmetric(horizontal: 10),
                                 decoration: BoxDecoration(
                                   color: isSelected[i]
                                       ? Colors.amber[300]
-                                      : const Color.fromARGB(
-                                          255, 210, 210, 210),
+                                      : const Color.fromARGB(255, 210, 210, 210),
                                   border: Border.all(
                                     color: isSelected[i]
-                                        ? const Color.fromARGB(
-                                            255, 255, 213, 79)
+                                        ? const Color.fromARGB(255, 255, 213, 79)
                                         : const Color.fromARGB(
-                                            255, 210, 210, 210),
+                                        255, 210, 210, 210),
                                     width: 3,
                                   ),
                                   borderRadius: BorderRadius.circular(50),
@@ -360,17 +610,12 @@ class SearchPageState extends State<SearchPage> {
                           ],
                         ),
                       ),
-                      const SizedBox(
-                        height: 10,
-                      )
                     ],
                   ),
                 ),
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.2,
-                height: MediaQuery.of(context).size.height * 0.85,
-                child: SingleChildScrollView(
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.2,
+                  height: MediaQuery.of(context).size.height * 0.85,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -394,16 +639,12 @@ class SearchPageState extends State<SearchPage> {
                       ListView(
                         shrinkWrap: true, // ListView 크기를 내용에 맞게 조절
                         children: [
-                          for (int i = 0;
-                              i < recentSearches.length && i < 5;
-                              i++)
+                          for (int i = 0; i < recentSearches.length && i < 5; i++)
                             Container(
                               height: 35,
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
+                              padding: const EdgeInsets.symmetric(horizontal: 10),
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(
                                     child: InkWell(
@@ -438,11 +679,11 @@ class SearchPageState extends State<SearchPage> {
                     ],
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    }
   }
 }

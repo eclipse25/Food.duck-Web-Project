@@ -246,17 +246,25 @@ class _RandConditionState extends State<RandCondition> {
             List<String> result = [];
             List<int> tmp = Iterable<int>.generate(listfood.length).toList();
 
-            tmp.removeWhere((item) => !category[dropdownValue].contains(item));
-            tmp.removeWhere(
-                (item) => !trav_time[initialSliderValue].contains(item));
+            if(category.containsKey(dropdownValue)){
+              tmp.removeWhere((item) => !category[dropdownValue].contains(item));
+            }else{
+              tmp=[];
+            }
+            if(trav_time.containsKey(initialSliderValue)){
+              tmp.removeWhere((item) => !trav_time[initialSliderValue].contains(item));
+            }else{
+              tmp=[];
+            }
             print(tmp);
-            if (tmp.isNotEmpty) {
+            if(tmp.isNotEmpty) {
               var rand = Random().nextInt(tmp.length);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => resultlist(tmp[rand])),
+                MaterialPageRoute(
+                    builder: (context) => resultlist(tmp[rand])),
               );
-            } else {
+            }else{
               Fluttertoast.showToast(
                   msg: "검색결과가 없습니다",
                   toastLength: Toast.LENGTH_SHORT,
@@ -264,7 +272,8 @@ class _RandConditionState extends State<RandCondition> {
                   timeInSecForIosWeb: 1,
                   backgroundColor: Colors.red,
                   textColor: Colors.white,
-                  fontSize: 16.0);
+                  fontSize: 16.0
+              );
             }
           },
           child: const Text("선택 완료"),

@@ -47,10 +47,13 @@ class CustomDrawer extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomePage()),
-                    );
+                    Navigator.pop(context);
+                    if(ModalRoute.of(context)!.settings.name!='/'){
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomePage()), ((route) => false)
+                      );
+                    }
                   },
                 ),
                 const SizedBox(height: 20),
@@ -62,7 +65,7 @@ class CustomDrawer extends StatelessWidget {
                       fontFamily: 'NanumSquareB.ttf',
                     ),
                   ),
-                  onTap: () {
+                  onTap: ()  {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => RandCondition()),
@@ -79,10 +82,10 @@ class CustomDrawer extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SearchPage()),
+                    Navigator.pop(context);
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => SearchPage()), ((route) => route.settings.name=='/')
                     );
                   },
                 ),
@@ -96,10 +99,10 @@ class CustomDrawer extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => searchList(liked, "검색 결과")),
+                    Navigator.pop(context);
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => searchList(liked,"즐겨찾기")), ((route) => route.settings.name=='/')
                     );
                   },
                 ),
@@ -110,9 +113,10 @@ class CustomDrawer extends StatelessWidget {
                     style: TextStyle(fontSize: 30),
                   ),
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Info()),
+                    Navigator.pop(context);
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => Info()), ((route) => route.settings.name=='/')
                     );
                   },
                 ),
