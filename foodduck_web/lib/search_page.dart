@@ -276,152 +276,167 @@ class SearchPageState extends State<SearchPage> {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.6,
                 height: MediaQuery.of(context).size.height * 0.85,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    const Align(
-                      alignment: Alignment.centerLeft,
-                      child: Column(
-                        children: [
-                          Text(
-                            '태그 검색',
-                            style: TextStyle(
-                              fontSize: 25,
-                              fontFamily: 'NanumSquareB.ttf',
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const Align(
+                        alignment: Alignment.centerLeft,
+                        child: Column(
+                          children: [
+                            Text(
+                              '태그 검색',
+                              style: TextStyle(
+                                fontSize: 25,
+                                fontFamily: 'NanumSquareB.ttf',
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Wrap(
-                        spacing: 15,
-                        runSpacing: 10,
-                        children: [
-                          for (int i = 0; i < categorys.length; i++)
-                            Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              decoration: BoxDecoration(
-                                color: isSelectedCate[i]
-                                    ? Colors.amber[300]
-                                    : const Color.fromARGB(255, 210, 210, 210),
-                                border: Border.all(
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Wrap(
+                          spacing: 15,
+                          runSpacing: 10,
+                          children: [
+                            for (int i = 0; i < categorys.length; i++)
+                              Container(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                decoration: BoxDecoration(
                                   color: isSelectedCate[i]
-                                      ? const Color.fromARGB(255, 255, 213, 79)
+                                      ? Colors.amber[300]
                                       : const Color.fromARGB(
                                           255, 210, 210, 210),
-                                  width: 3,
+                                  border: Border.all(
+                                    color: isSelectedCate[i]
+                                        ? const Color.fromARGB(
+                                            255, 255, 213, 79)
+                                        : const Color.fromARGB(
+                                            255, 210, 210, 210),
+                                    width: 3,
+                                  ),
+                                  borderRadius: BorderRadius.circular(50),
                                 ),
-                                borderRadius: BorderRadius.circular(50),
+                                child: InkWell(
+                                  onTap: () {
+                                    isSelectedCate[i] = !isSelectedCate[i];
+                                    clickCategoryBottons(i);
+                                  },
+                                  child: Text(categorys[i]),
+                                ),
                               ),
-                              child: InkWell(
-                                onTap: () {
-                                  isSelectedCate[i] = !isSelectedCate[i];
-                                  clickCategoryBottons(i);
-                                },
-                                child: Text(categorys[i]),
-                              ),
-                            ),
-                          for (int i = 0; i < tags.length; i++)
-                            Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              decoration: BoxDecoration(
-                                color: isSelected[i]
-                                    ? Colors.amber[300]
-                                    : const Color.fromARGB(255, 210, 210, 210),
-                                border: Border.all(
+                            for (int i = 0; i < tags.length; i++)
+                              Container(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                decoration: BoxDecoration(
                                   color: isSelected[i]
-                                      ? const Color.fromARGB(255, 255, 213, 79)
+                                      ? Colors.amber[300]
                                       : const Color.fromARGB(
                                           255, 210, 210, 210),
-                                  width: 3,
+                                  border: Border.all(
+                                    color: isSelected[i]
+                                        ? const Color.fromARGB(
+                                            255, 255, 213, 79)
+                                        : const Color.fromARGB(
+                                            255, 210, 210, 210),
+                                    width: 3,
+                                  ),
+                                  borderRadius: BorderRadius.circular(50),
                                 ),
-                                borderRadius: BorderRadius.circular(50),
+                                child: InkWell(
+                                  onTap: () {
+                                    isSelected[i] = !isSelected[i];
+                                    clickTagBottons(i);
+                                  },
+                                  child: Text(tags[i]),
+                                ),
                               ),
-                              child: InkWell(
-                                onTap: () {
-                                  isSelected[i] = !isSelected[i];
-                                  clickTagBottons(i);
-                                },
-                                child: Text(tags[i]),
-                              ),
-                            ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                      const SizedBox(
+                        height: 10,
+                      )
+                    ],
+                  ),
                 ),
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.2,
                 height: MediaQuery.of(context).size.height * 0.85,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    const Align(
-                      alignment: Alignment.centerLeft,
-                      child: Column(
-                        children: [
-                          Text(
-                            '최근 검색',
-                            style: TextStyle(
-                              fontSize: 25,
-                              fontFamily: 'NanumSquareB.ttf',
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const Align(
+                        alignment: Alignment.centerLeft,
+                        child: Column(
+                          children: [
+                            Text(
+                              '최근 검색',
+                              style: TextStyle(
+                                fontSize: 25,
+                                fontFamily: 'NanumSquareB.ttf',
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    ListView(
-                      shrinkWrap: true, // ListView 크기를 내용에 맞게 조절
-                      children: [
-                        for (int i = 0; i < recentSearches.length && i < 5; i++)
-                          Container(
-                            height: 35,
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        searchText = recentSearches[i];
-                                      });
-                                      clickRecentSearches();
-                                    },
-                                    child: Text(
-                                      recentSearches[i],
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      ListView(
+                        shrinkWrap: true, // ListView 크기를 내용에 맞게 조절
+                        children: [
+                          for (int i = 0;
+                              i < recentSearches.length && i < 5;
+                              i++)
+                            Container(
+                              height: 35,
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          searchText = recentSearches[i];
+                                        });
+                                        clickRecentSearches();
+                                      },
+                                      child: Text(
+                                        recentSearches[i],
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                IconButton(
-                                  icon: const Icon(
-                                    Icons.close,
-                                    size: 15,
-                                    color: Colors.black,
+                                  IconButton(
+                                    icon: const Icon(
+                                      Icons.close,
+                                      size: 15,
+                                      color: Colors.black,
+                                    ),
+                                    onPressed: () {
+                                      _removeSearchKeyword(recentSearches[i]);
+                                    },
                                   ),
-                                  onPressed: () {
-                                    _removeSearchKeyword(recentSearches[i]);
-                                  },
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
