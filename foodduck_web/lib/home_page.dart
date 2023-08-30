@@ -99,19 +99,17 @@ class _HomePage extends State<HomePage> {
             child: CustomDrawer(), // CustomDrawer 위젯 사용
           ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30),
+        body: SingleChildScrollView(
           child: Container(
-            height: MediaQuery.of(context).size.height - 60,
             decoration: BoxDecoration(border: Border.all(color: Colors.purple)),
             child: Column(
               children: [
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.12,
+                  height: 80,
                   child: Container(),
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.5,
+                  height: 400,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -181,6 +179,9 @@ class _HomePage extends State<HomePage> {
                             fontSize: 20,
                             fontFamily: 'NanumSquareB.ttf', //협의수정필요
                             fontWeight: FontWeight.normal),
+                      ),
+                      const SizedBox(
+                        height: 80,
                       ),
                     ],
                   ),
