@@ -187,7 +187,7 @@ class SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
-    if(width < 1000){
+    if (width < 1000) {
       return Scaffold(
         appBar: AppBar(
           leadingWidth: MediaQuery.of(context).size.width,
@@ -197,15 +197,18 @@ class SearchPageState extends State<SearchPage> {
           leading: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              IconButton(
-                icon: const Icon(
-                  Icons.arrow_back,
-                  size: 30,
-                  color: Colors.black,
+              SizedBox(
+                height: 45,
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    size: 30,
+                    color: Colors.black,
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                 ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
               ),
               const SizedBox(
                 width: 5,
@@ -237,6 +240,7 @@ class SearchPageState extends State<SearchPage> {
                             decoration: const InputDecoration(
                               hintText: 'Search',
                               border: InputBorder.none,
+                              isCollapsed: true,
                             ),
                             onSubmitted: (value) {
                               _submitSearch(); // 엔터를 입력했을 때 동작
@@ -278,8 +282,7 @@ class SearchPageState extends State<SearchPage> {
                         style: TextStyle(
                             fontSize: 28,
                             fontFamily: "NanumSquare_ac",
-                            fontWeight: FontWeight.w600
-                        ),
+                            fontWeight: FontWeight.w600),
                       ),
                     ],
                   ),
@@ -339,8 +342,7 @@ class SearchPageState extends State<SearchPage> {
                         style: TextStyle(
                             fontSize: 28,
                             fontFamily: "NanumSquare_ac",
-                            fontWeight: FontWeight.w600
-                        ),
+                            fontWeight: FontWeight.w600),
                       ),
                     ],
                   ),
@@ -376,7 +378,7 @@ class SearchPageState extends State<SearchPage> {
                             },
                             child: Text(
                               categorys[i],
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 16,
                                 fontFamily: "NanumSquare_ac",
                                 fontWeight: FontWeight.w400,
@@ -406,7 +408,7 @@ class SearchPageState extends State<SearchPage> {
                             },
                             child: Text(
                               tags[i],
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 16,
                                 fontFamily: "NanumSquare_ac",
                                 fontWeight: FontWeight.w400,
@@ -440,7 +442,7 @@ class SearchPageState extends State<SearchPage> {
           ),
         ),
       );
-    }else{
+    } else {
       return Scaffold(
         appBar: AppBar(
           leadingWidth: MediaQuery.of(context).size.width,
@@ -560,16 +562,18 @@ class SearchPageState extends State<SearchPage> {
                             for (int i = 0; i < categorys.length; i++)
                               Container(
                                 padding:
-                                const EdgeInsets.symmetric(horizontal: 10),
+                                    const EdgeInsets.symmetric(horizontal: 10),
                                 decoration: BoxDecoration(
                                   color: isSelectedCate[i]
                                       ? Colors.amber[300]
-                                      : const Color.fromARGB(255, 210, 210, 210),
+                                      : const Color.fromARGB(
+                                          255, 210, 210, 210),
                                   border: Border.all(
                                     color: isSelectedCate[i]
-                                        ? const Color.fromARGB(255, 255, 213, 79)
+                                        ? const Color.fromARGB(
+                                            255, 255, 213, 79)
                                         : const Color.fromARGB(
-                                        255, 210, 210, 210),
+                                            255, 210, 210, 210),
                                     width: 3,
                                   ),
                                   borderRadius: BorderRadius.circular(50),
@@ -585,16 +589,18 @@ class SearchPageState extends State<SearchPage> {
                             for (int i = 0; i < tags.length; i++)
                               Container(
                                 padding:
-                                const EdgeInsets.symmetric(horizontal: 10),
+                                    const EdgeInsets.symmetric(horizontal: 10),
                                 decoration: BoxDecoration(
                                   color: isSelected[i]
                                       ? Colors.amber[300]
-                                      : const Color.fromARGB(255, 210, 210, 210),
+                                      : const Color.fromARGB(
+                                          255, 210, 210, 210),
                                   border: Border.all(
                                     color: isSelected[i]
-                                        ? const Color.fromARGB(255, 255, 213, 79)
+                                        ? const Color.fromARGB(
+                                            255, 255, 213, 79)
                                         : const Color.fromARGB(
-                                        255, 210, 210, 210),
+                                            255, 210, 210, 210),
                                     width: 3,
                                   ),
                                   borderRadius: BorderRadius.circular(50),
@@ -639,12 +645,16 @@ class SearchPageState extends State<SearchPage> {
                       ListView(
                         shrinkWrap: true, // ListView 크기를 내용에 맞게 조절
                         children: [
-                          for (int i = 0; i < recentSearches.length && i < 5; i++)
+                          for (int i = 0;
+                              i < recentSearches.length && i < 5;
+                              i++)
                             Container(
                               height: 35,
-                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(
                                     child: InkWell(

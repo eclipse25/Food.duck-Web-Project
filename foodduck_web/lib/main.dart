@@ -7,13 +7,13 @@ _checkDataFetch() {
   var t = init(storage);
   print(t);
   print("name");
-  name.forEach((key, value) => print('${key} : ${value}'));
+  name.forEach((key, value) => print('$key : $value'));
   print("tag");
-  tag.forEach((key, value) => print('${key} : ${value}'));
+  tag.forEach((key, value) => print('$key : $value'));
   print("category");
-  category.forEach((key, value) => print('${key} : ${value}'));
+  category.forEach((key, value) => print('$key : $value'));
   print("trav_time");
-  trav_time.forEach((key, value) => print('${key} : ${value}'));
+  trav_time.forEach((key, value) => print('$key : $value'));
   print(tags);
   print(categorys);
 }
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: HomePage(),
     );
   }
