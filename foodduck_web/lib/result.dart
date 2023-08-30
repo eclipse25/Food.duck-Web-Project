@@ -5,7 +5,7 @@ import 'back/data_fetch.dart';
 
 class resultlist extends StatefulWidget {
   final Idx;
-  const resultlist(this.Idx);
+  const resultlist(this.Idx, {super.key});
 
   @override
   Result createState() => Result();
@@ -13,28 +13,10 @@ class resultlist extends StatefulWidget {
 
 class Result extends State<resultlist> {
   var Index;
-  late String storeName;
-  late String menu;
-  late String position;
-  // String pricelevel = "1,000,000원 대";
-  late String description;
-  late String? storeimage ;
-  late List<dynamic> foodtag;
-  late String? tagstring;
-  late Image img;
 
+  @override
   void initState() {
     Index = widget.Idx;
-    storeName = listfood[Index]["name"];
-    menu = listfood[Index]["category"];
-    position = listfood[Index]["address"];
-    description = listfood[Index]["OneLiner"];
-    storeimage = listfood[Index]["image"];
-    foodtag= List.generate(listfood[Index]["tags"].length, (index) => '#${listfood[Index]["tags"][index]}');
-    tagstring = foodtag.join(" ");
-    img = Image.network(
-      storeimage!,
-    );
     super.initState();
   }
 
@@ -43,7 +25,15 @@ class Result extends State<resultlist> {
   @override
   Widget build(BuildContext context) {
     //스트링 예시 리스트에서 각 변수로 넣으면 동작함
-
+    String storeName = listfood[Index]["name"];
+    String menu = listfood[Index]["category"];
+    String position = listfood[Index]["address"];
+    // String pricelevel = "1,000,000원 대";
+    String description = listfood[Index]["OneLiner"];
+    String? storeimage = listfood[Index]["image"];
+    List<dynamic> foodtag = List.generate(listfood[Index]["tags"].length,
+        (index) => '#${listfood[Index]["tags"][index]}');
+    String? tagstring = foodtag.join(" ");
 
     //storeimage = 'assets/images/sample.png'; //가게 이미지 경로 어떻게 넘어오는지 몰라서 일단 이렇게
 
@@ -117,111 +107,133 @@ class Result extends State<resultlist> {
                     color: const Color.fromRGBO(243, 243, 243, 1),
                   ),
                   margin:
-                  const EdgeInsets.symmetric(horizontal: 5, vertical: 20),
-                  child: Column(
+                      const EdgeInsets.symmetric(horizontal: 5, vertical: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Container(
-                        alignment: Alignment.topCenter,
-                        width: double.infinity,
-                        //color: const Color.fromRGBO(0, 0,0, 1),
-                        margin: const EdgeInsets.fromLTRB(10, 15, 10, 10),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.45,
+                        child: Column(
+                          children: [
+                            Container(
+                              alignment: Alignment.topCenter,
+                              width: double.infinity,
+                              //color: const Color.fromRGBO(0, 0,0, 1),
+                              margin: const EdgeInsets.fromLTRB(10, 15, 10, 10),
 
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(30),
-                          child: img,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(30),
+                                child: Image.network(
+                                  storeimage!,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      Container(
-                        alignment: Alignment.topLeft,
-                        margin: const EdgeInsets.symmetric(horizontal: 30),
-                        child: Text(tagstring!,
-                            textAlign: TextAlign.justify,
-                            style: const TextStyle(
-                                fontSize: 20 - 4,
-                                fontFamily: letterstyle,
-                                color: Color.fromRGBO(180, 180, 180, 1))),
-                      ),
-                      Container(
-                        alignment: Alignment.topLeft,
-                        margin: const EdgeInsets.fromLTRB(30, 20, 30, 0),
-                        child: RichText(
-                            text: TextSpan(children: <TextSpan>[
-                              const TextSpan(
-                                text: "메뉴: ",
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    fontFamily: letterstyle,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromRGBO(0, 0, 0, 1)),
-                              ),
-                              TextSpan(
-                                  text: '$menu\n',
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.45,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Container(
+                              alignment: Alignment.topLeft,
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 30),
+                              child: Text(tagstring,
+                                  textAlign: TextAlign.justify,
                                   style: const TextStyle(
-                                    fontSize: 20,
-                                    fontFamily: letterstyle,
-                                    color: Color.fromRGBO(0, 0, 0, 1),
-                                  )),
-                              const TextSpan(
-                                  text: '\n',
+                                      fontSize: 20 - 4,
+                                      fontFamily: letterstyle,
+                                      color: Color.fromRGBO(180, 180, 180, 1))),
+                            ),
+                            Container(
+                              alignment: Alignment.topLeft,
+                              margin: const EdgeInsets.fromLTRB(30, 20, 30, 0),
+                              child: RichText(
+                                  text: TextSpan(children: <TextSpan>[
+                                const TextSpan(
+                                  text: "메뉴: ",
                                   style: TextStyle(
-                                    fontSize: 5,
-                                    fontFamily: letterstyle,
-                                    color: Color.fromRGBO(0, 0, 0, 1),
-                                  )),
-                              const TextSpan(
-                                text: "위치: ",
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    fontFamily: letterstyle,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromRGBO(0, 0, 0, 1)),
-                              ),
-                              TextSpan(
-                                  text: '$position\n',
-                                  style: const TextStyle(
                                       fontSize: 20,
                                       fontFamily: letterstyle,
-                                      color: Color.fromRGBO(0, 0, 0, 1))),
-                              // const TextSpan(
-                              //     text: '\n',
-                              //     style: TextStyle(
-                              //       fontSize: 5,
-                              //       fontFamily: letterstyle,
-                              //       color: Color.fromRGBO(0, 0, 0, 1),
-                              //     )),
-                              // const TextSpan(
-                              //   text: "가격대: ",
-                              //   style: TextStyle(
-                              //       fontSize: 20,
-                              //       fontFamily: letterstyle,
-                              //       fontWeight: FontWeight.bold,
-                              //       color: Color.fromRGBO(0, 0, 0, 1)),
-                              // ),
-                              // TextSpan(
-                              //     text: '$pricelevel\n',
-                              //     style: const TextStyle(
-                              //         fontSize: 20,
-                              //         fontFamily: letterstyle,
-                              //         color: Color.fromRGBO(0, 0, 0, 1)))
-                            ])),
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(25),
-                          color: const Color.fromRGBO(255, 255, 255, 1),
+                                      fontWeight: FontWeight.bold,
+                                      color: Color.fromRGBO(0, 0, 0, 1)),
+                                ),
+                                TextSpan(
+                                    text: '$menu\n',
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontFamily: letterstyle,
+                                      color: Color.fromRGBO(0, 0, 0, 1),
+                                    )),
+                                const TextSpan(
+                                    text: '\n',
+                                    style: TextStyle(
+                                      fontSize: 5,
+                                      fontFamily: letterstyle,
+                                      color: Color.fromRGBO(0, 0, 0, 1),
+                                    )),
+                                const TextSpan(
+                                  text: "위치: ",
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontFamily: letterstyle,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color.fromRGBO(0, 0, 0, 1)),
+                                ),
+                                TextSpan(
+                                    text: '$position\n',
+                                    style: const TextStyle(
+                                        fontSize: 20,
+                                        fontFamily: letterstyle,
+                                        color: Color.fromRGBO(0, 0, 0, 1))),
+                                // const TextSpan(
+                                //     text: '\n',
+                                //     style: TextStyle(
+                                //       fontSize: 5,
+                                //       fontFamily: letterstyle,
+                                //       color: Color.fromRGBO(0, 0, 0, 1),
+                                //     )),
+                                // const TextSpan(
+                                //   text: "가격대: ",
+                                //   style: TextStyle(
+                                //       fontSize: 20,
+                                //       fontFamily: letterstyle,
+                                //       fontWeight: FontWeight.bold,
+                                //       color: Color.fromRGBO(0, 0, 0, 1)),
+                                // ),
+                                // TextSpan(
+                                //     text: '$pricelevel\n',
+                                //     style: const TextStyle(
+                                //         fontSize: 20,
+                                //         fontFamily: letterstyle,
+                                //         color: Color.fromRGBO(0, 0, 0, 1)))
+                              ])),
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                                color: const Color.fromRGBO(255, 255, 255, 1),
+                              ),
+                              alignment: Alignment.center,
+                              width: double.infinity,
+                              height: 120,
+                              margin: const EdgeInsets.fromLTRB(20, 0, 20, 25),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 15),
+                              child: Text(description,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    fontSize: 20 - 2,
+                                    fontFamily: letterstyle,
+                                  )),
+                            ),
+                          ],
                         ),
-                        alignment: Alignment.center,
-                        width: double.infinity,
-                        height: 120,
-                        margin: const EdgeInsets.fromLTRB(20, 0, 20, 25),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 15),
-                        child: Text(description,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              fontSize: 20 - 2,
-                              fontFamily: letterstyle,
-                            )),
                       )
                     ],
                   ))
