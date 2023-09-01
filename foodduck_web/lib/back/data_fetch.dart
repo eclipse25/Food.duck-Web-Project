@@ -53,31 +53,21 @@ Future<int> makelist(var parsedList) async {
       WriteCaches(i["name"], '0');
     } else {
       if (tmp == '1' && !liked.contains(idx)) liked.add(idx);
-      print("asdfasdf $tmp");
     }
-    print(await ReadCaches(i["name"]));
-    print(i["name"]);
 
     idx++;
   }
-  print("즐찾 $liked");
   return 0;
 }
 
 Future<int> init(CounterStorage cs) async {
-  print(recentSearches.length);
   bool result = await InternetConnection().hasInternetAccess;
   var cacheStatus = await InitCaches('recentSearches');
-  print("cache : $cacheStatus");
   var cache = await ReadCaches('recentSearches'); // recentSearches 초기화
   if (cache!.isNotEmpty) {
     recentSearches = cache.split('\n');
   } else {
     recentSearches = [];
-  }
-  print(recentSearches.length);
-  for (var element in recentSearches) {
-    print(element);
   }
   if (result == true) {
     print("Internet Connected");
@@ -95,13 +85,11 @@ Future<int> init(CounterStorage cs) async {
         const oneMegabyte = 1024 * 1024;
         final data = await datapath.getData(oneMegabyte);
         final String fooddata = utf8.decode(data!);
-        print(fooddata);
 
         await InitCaches('food');
         await WriteCaches('food', fooddata);
 
         listfood = jsonDecode(fooddata);
-        print(listfood);
         await makelist(listfood);
         // Data for "images/island.jpg" is returned, use this as needed.
       } on FirebaseException catch (e) {

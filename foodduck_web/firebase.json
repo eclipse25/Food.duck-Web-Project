@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "source": ".",
+    "public": "build/web",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -8,6 +8,13 @@
     ],
     "frameworksBackend": {
       "region": "asia-east1"
-    }
+    },
+    "headers": [ {
+      "source": "**/*.@(jpg|jpeg|gif|png)",
+      "headers": [ {
+        "key": "Access-Control-Allow-Origin",
+        "value": "*"
+      } ]
+    } ]
   }
 }
