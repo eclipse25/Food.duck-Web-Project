@@ -1,8 +1,58 @@
 import 'package:flutter/material.dart';
+import 'package:auto_size_widget/auto_size_widget.dart';
 import 'package:text_scroll/text_scroll.dart';
 import 'drawer.dart';
 import 'widget.dart'; //appBar
 import 'back/data_fetch.dart';
+import 'dart:html';
+import 'dart:ui_web' as ui;
+import 'dart:math';
+
+class RenderLinkImage extends StatefulWidget {
+  final src;
+
+  RenderLinkImage({this.src});
+
+  @override
+  _RenderLinkImageState createState() => _RenderLinkImageState();
+}
+
+class _RenderLinkImageState extends State<RenderLinkImage> {
+  var randomString = getRandomString(17);
+  @override
+  Widget build(BuildContext context) {
+    ui.platformViewRegistry.registerViewFactory(
+      "link_image_instance$randomString",
+      (int viewId) {
+        ImageElement element = ImageElement()
+          ..src = widget.src
+          ..style.width = "100%"
+          ..style.height = "100%"
+          ..style.objectFit = "contain"
+          ..style.border = "none";
+        element.height = element.naturalHeight;
+        element.width = element.naturalWidth;
+        return element;
+      },
+    );
+
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.45,
+      height: MediaQuery.of(context).size.height * 0.45,
+      child: HtmlElementView(
+        viewType: "link_image_instance$randomString",
+      ),
+    );
+  }
+
+  static getRandomString(len) {
+    var r = Random();
+    const _chars =
+        'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+    return List.generate(len, (index) => _chars[r.nextInt(_chars.length)])
+        .join();
+  }
+}
 
 
 class resultlist extends StatefulWidget {
@@ -23,8 +73,9 @@ class Result extends State<resultlist> {
   late String? storeimage;
   late List<dynamic> foodtag;
   late String? tagstring;
-  late Image img;
+  late RenderLinkImage img;
 
+  @override
   void initState() {
     Index = widget.Idx;
     storeName = listfood[Index]["name"];
@@ -33,11 +84,9 @@ class Result extends State<resultlist> {
     description = listfood[Index]["OneLiner"];
     storeimage = listfood[Index]["image"];
     foodtag = List.generate(listfood[Index]["tags"].length,
-            (index) => '#${listfood[Index]["tags"][index]}');
+        (index) => '#${listfood[Index]["tags"][index]}');
     tagstring = foodtag.join(" ");
-    img = Image.network(
-      storeimage!,
-    );
+    img = RenderLinkImage(src: storeimage!);
     super.initState();
   }
 
@@ -49,7 +98,7 @@ class Result extends State<resultlist> {
     const String letterstyle = 'NanumSquareB.ttf';
     var width = MediaQuery.of(context).size.width;
 
-    if(width < 900){
+    if (width < 900) {
       return Scaffold(
         key: scaffoldKey,
         backgroundColor: Colors.white,
@@ -58,7 +107,8 @@ class Result extends State<resultlist> {
           child: Drawer(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(50), bottomLeft: Radius.circular(50)),
+                  topLeft: Radius.circular(50),
+                  bottomLeft: Radius.circular(50)),
             ),
             child: CustomDrawer(), // CustomDrawer 위젯 사용
           ),
@@ -91,7 +141,9 @@ class Result extends State<resultlist> {
                       ),
                       IconButton(
                         icon: Icon(
-                          liked.contains(Index) ? Icons.star : Icons.star_border,
+                          liked.contains(Index)
+                              ? Icons.star
+                              : Icons.star_border,
                           color: liked.contains(Index) ? Colors.yellow : null,
                           semanticLabel: liked.contains(Index)
                               ? 'Remove from saved'
@@ -230,7 +282,7 @@ class Result extends State<resultlist> {
           ),
         ),
       );
-    }else{
+    } else {
       return Scaffold(
         key: scaffoldKey,
         backgroundColor: Colors.white,
@@ -239,7 +291,8 @@ class Result extends State<resultlist> {
           child: Drawer(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(50), bottomLeft: Radius.circular(50)),
+                  topLeft: Radius.circular(50),
+                  bottomLeft: Radius.circular(50)),
             ),
             child: CustomDrawer(), // CustomDrawer 위젯 사용
           ),
@@ -272,7 +325,9 @@ class Result extends State<resultlist> {
                       ),
                       IconButton(
                         icon: Icon(
-                          liked.contains(Index) ? Icons.star : Icons.star_border,
+                          liked.contains(Index)
+                              ? Icons.star
+                              : Icons.star_border,
                           color: liked.contains(Index) ? Colors.yellow : null,
                           semanticLabel: liked.contains(Index)
                               ? 'Remove from saved'

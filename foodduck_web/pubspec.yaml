@@ -42,6 +42,8 @@ dependencies:
   korea_regexp: ^1.0.1
   cache_manager: ^1.0.0+4
   fluttertoast: ^8.2.2
+  run_with_network_images: ^0.0.1
+  auto_size_widget: ^0.0.4
   text_scroll: ^0.2.0
 
 dev_dependencies:
