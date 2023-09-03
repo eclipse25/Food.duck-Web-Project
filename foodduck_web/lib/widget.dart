@@ -241,20 +241,39 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       toolbarHeight: 60,
       backgroundColor: Colors.transparent,
       elevation: 0,
+      leadingWidth: 120,
       leading: Padding(
-        padding: const EdgeInsets.only(left: 20.0),
-        child: InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => HomePage()),
-            );
-          },
-          child: Image.asset(
-            'assets/images/icon.png',
-            height: 50,
-            width: 50,
-          ),
+        padding: const EdgeInsets.only(left: 10.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            IconButton(
+              padding: EdgeInsets.zero,
+              icon: const Icon(
+                Icons.arrow_back, // 뒤로가기 아이콘
+                color: Colors.black, // 아이콘 색상 (흰색)
+                size: 40,
+              ),
+              onPressed: () {
+                Navigator.pop(context); // 뒤로가기 기능 추가
+              },
+            ),
+            const SizedBox(width: 15),
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomePage()),
+                );
+              },
+              child: Image.asset(
+                'assets/images/icon.png',
+                height: 40,
+                width: 40,
+              ),
+            ),
+          ],
         ),
       ),
       actions: [
@@ -265,6 +284,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           child: Padding(
             padding: const EdgeInsets.only(right: 20.0),
             child: IconButton(
+              padding: EdgeInsets.zero,
               icon: const Icon(
                 Icons.menu,
                 color: Colors.black,
