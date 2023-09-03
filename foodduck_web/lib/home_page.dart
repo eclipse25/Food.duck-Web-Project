@@ -5,6 +5,8 @@ import 'drawer.dart';
 import 'search_page.dart';
 import 'back/data_fetch.dart';
 import 'dart:async';
+import 'result.dart';
+import 'dart:math';
 
 bool isloaded = false;
 
@@ -139,7 +141,7 @@ class _HomePage extends State<HomePage> {
                             );
                           },
                           child: Container(
-                            //검색창 (실시간 반영,제안:onChanged()/TextField)
+                            //검색창
                             height: 45,
                             width: MediaQuery.of(context).size.width * 0.4,
                             decoration: BoxDecoration(
@@ -172,12 +174,36 @@ class _HomePage extends State<HomePage> {
                     const SizedBox(
                       height: 20,
                     ),
-                    const Text(
-                      "I’m Feeling Hungry",
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: 'NanumSquareB.ttf', //협의수정필요
-                          fontWeight: FontWeight.normal),
+                    Container(
+                      height: 50,
+                      width: 250,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          color: Colors.grey[300],
+                          // border: Border.all(
+                          //   color: const Color.fromARGB(255, 180, 180, 180),
+                          //   width: 1.5,
+                          // ),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: InkWell(
+                        onTap: () {
+                          // 버튼을 클릭하면 다른 페이지로 이동
+                          var rand = Random().nextInt(listfood.length);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => resultlist(rand)),
+                          );
+                        },
+                        child: const Text(
+                          "I’m Feeling Hungry",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontFamily: 'NanumSquareB.ttf',
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ),
                     ),
                     const SizedBox(
                       height: 80,
@@ -190,7 +216,7 @@ class _HomePage extends State<HomePage> {
         ),
       );
     } else {
-      return LoadingPage();
+      return const LoadingPage();
     }
   }
 }

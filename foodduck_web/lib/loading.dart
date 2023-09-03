@@ -68,9 +68,6 @@ class _LoadingPageState extends State<LoadingPage>
                   fontWeight: FontWeight.w400,
                 ),
               ),
-              const SizedBox(
-                height: 30,
-              ),
             ],
           ),
         ),
