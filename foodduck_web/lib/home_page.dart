@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'loading.dart';
 import 'drawer.dart';
 import 'search_page.dart';
 import 'back/data_fetch.dart';
@@ -100,115 +101,96 @@ class _HomePage extends State<HomePage> {
           ),
         ),
         body: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 80,
-                  child: Container(),
-                ),
-                SizedBox(
-                  height: 400,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        'assets/images/icon.png',
-                        height: 100,
-                        width: 100,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Image.asset(
-                        'assets/images/logo.jpg', //협의수정필요
-                        width: 320,
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const SearchPage()),
-                              );
-                            },
-                            child: Container(
-                              //검색창 (실시간 반영,제안:onChanged()/TextField)
-                              height: 45,
-                              width: MediaQuery.of(context).size.width * 0.4,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border: Border.all(
-                                    color: Colors.amber,
-                                    width: 3,
-                                  ),
-                                  borderRadius: BorderRadius.circular(50)),
-                              child: const SizedBox(
-                                height: 35,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    IconButton(
-                                      icon: Icon(
-                                        Icons.search,
-                                        size: 20,
-                                        color: Colors.black,
-                                      ),
-                                      onPressed: null,
-                                    ),
-                                  ],
+          child: Column(
+            children: [
+              SizedBox(
+                height: 80,
+                child: Container(),
+              ),
+              SizedBox(
+                height: 400,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/images/icon.png',
+                      height: 100,
+                      width: 100,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Image.asset(
+                      'assets/images/logo.jpg', //협의수정필요
+                      width: 320,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const SearchPage()),
+                            );
+                          },
+                          child: Container(
+                            //검색창 (실시간 반영,제안:onChanged()/TextField)
+                            height: 45,
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(
+                                  color: Colors.amber,
+                                  width: 3,
                                 ),
+                                borderRadius: BorderRadius.circular(50)),
+                            child: const SizedBox(
+                              height: 35,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  IconButton(
+                                    icon: Icon(
+                                      Icons.search,
+                                      size: 20,
+                                      color: Colors.black,
+                                    ),
+                                    onPressed: null,
+                                  ),
+                                ],
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      const Text(
-                        "I’m Feeling Hungry",
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontFamily: 'NanumSquareB.ttf', //협의수정필요
-                            fontWeight: FontWeight.normal),
-                      ),
-                      const SizedBox(
-                        height: 80,
-                      ),
-                    ],
-                  ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const Text(
+                      "I’m Feeling Hungry",
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: 'NanumSquareB.ttf', //협의수정필요
+                          fontWeight: FontWeight.normal),
+                    ),
+                    const SizedBox(
+                      height: 80,
+                    ),
+                  ],
                 ),
-              ],
-            ),
-        ),
-      );
-    } else {
-      return Scaffold(
-        key: scaffoldKey,
-        backgroundColor: Colors.white,
-        body: Container(
-          alignment: Alignment.center,
-          height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/images/icon.png',
-                height: MediaQuery.of(context).size.width * 0.4,
-                width: MediaQuery.of(context).size.width * 0.4,
               ),
             ],
           ),
         ),
       );
+    } else {
+      return LoadingPage();
     }
   }
 }
