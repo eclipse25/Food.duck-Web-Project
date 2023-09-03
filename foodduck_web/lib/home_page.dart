@@ -74,12 +74,13 @@ class _HomePage extends State<HomePage> {
           //drawer기능 때문에 Appbar 필요
           toolbarHeight: 60,
           backgroundColor: Colors.transparent,
-          elevation: 0, // 그림자
+          elevation: 0,
           actions: [
             Padding(
               padding: const EdgeInsets.only(
                   right: 20.0), //top:10 하거나 Appbar의 height올릴수도 있음
               child: IconButton(
+                padding: EdgeInsets.zero,
                 icon: const Icon(
                   Icons.menu,
                   color: Colors.black,
