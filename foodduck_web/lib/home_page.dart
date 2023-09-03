@@ -175,27 +175,27 @@ class _HomePage extends State<HomePage> {
                     const SizedBox(
                       height: 20,
                     ),
-                    Container(
-                      height: 50,
-                      width: 250,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          color: Colors.grey[300],
-                          // border: Border.all(
-                          //   color: const Color.fromARGB(255, 180, 180, 180),
-                          //   width: 1.5,
-                          // ),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: InkWell(
-                        onTap: () {
-                          // 버튼을 클릭하면 다른 페이지로 이동
-                          var rand = Random().nextInt(listfood.length);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => resultlist(rand)),
-                          );
-                        },
+                    InkWell(
+                      onTap: () {
+                        // 버튼을 클릭하면 다른 페이지로 이동
+                        var rand = Random().nextInt(listfood.length);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => resultlist(rand)),
+                        );
+                      },
+                      child: Container(
+                        height: 50,
+                        width: 250,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            color: Colors.grey[300],
+                            // border: Border.all(
+                            //   color: const Color.fromARGB(255, 180, 180, 180),
+                            //   width: 1.5,
+                            // ),
+                            borderRadius: BorderRadius.circular(10)),
                         child: const Text(
                           "I’m Feeling Hungry",
                           style: TextStyle(
