@@ -248,14 +248,15 @@ class _RandConditionState extends State<RandCondition> {
 
             if(category.containsKey(dropdownValue)){
               tmp.removeWhere((item) => !category[dropdownValue].contains(item));
+              for(int dis = initialSliderValue.toInt() + 1; dis < 5; dis++ ){
+                if(trav_time.containsKey(dis)){
+                  tmp.removeWhere((item) => trav_time[dis].contains(item));
+                }
+              }
             }else{
               tmp=[];
             }
-            if(trav_time.containsKey(initialSliderValue)){
-              tmp.removeWhere((item) => !trav_time[initialSliderValue].contains(item));
-            }else{
-              tmp=[];
-            }
+
             print(tmp);
             if(tmp.isNotEmpty) {
               var rand = Random().nextInt(tmp.length);

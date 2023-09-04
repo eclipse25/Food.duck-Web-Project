@@ -158,6 +158,7 @@ class SearchPageState extends State<SearchPage> {
     print("카테고리 $cate");
     List<String> list = tag_check(tags, cate);
     late List<String> terms;
+    List<int> tmp = [];
     print("리스트 $list");
     if (text.isNotEmpty) {
       RegExp regExp = getRegExp(
@@ -172,16 +173,34 @@ class SearchPageState extends State<SearchPage> {
           ));
       print(regExp);
       terms = list.where((element) => regExp.hasMatch(element)).toList();
+      print(terms);
+      for (var i in terms) {
+        tmp.add(name[i]);
+      }
+
+      var catlist = category.keys.toList();
+      List<dynamic> textcat = catlist.where((element) => regExp.hasMatch(element)).toList();
+      for (var i in textcat) {
+        for(var idx in category[i]){
+          if(!tmp.contains(idx)){
+            tmp.add(idx);
+          }
+        }
+      }
+      var taglist = tag.keys.toList();
+      List<dynamic> texttag = taglist.where((element) => regExp.hasMatch(element)).toList();
+      for (var i in texttag) {
+        for(var idx in tag[i]){
+          if(!tmp.contains(idx)){
+            tmp.add(idx);
+          }
+        }
+      }
+      resultlist = tmp;
     } else {
-      terms = list;
+      resultlist = Iterable<int>.generate(listfood.length).toList();
     }
-    print(terms);
-    List<int> tmp = [];
-    for (var i in terms) {
-      tmp.add(name[i]);
-    }
-    print("idx $tmp");
-    resultlist = tmp;
+    print("idx $resultlist");
   }
 
   @override

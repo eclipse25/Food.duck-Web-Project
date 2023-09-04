@@ -75,7 +75,6 @@ class _searchListState extends State<searchList> {
                 size: 35,
               ),
               onPressed: ()async{
-                print(liked);
                 int flag = 0;
                 if (liked.contains(targetIndex[index-1])) {
                   flag = 1;
