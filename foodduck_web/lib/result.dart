@@ -7,6 +7,18 @@ import 'back/data_fetch.dart';
 import 'dart:html';
 import 'dart:ui_web' as ui;
 import 'dart:math';
+import 'package:url_launcher/link.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+const _url = 'https://forms.gle/J5nnWwScc6ehhUuQ6';
+
+_launchURL(String url) async {
+  if (await canLaunch(_url)) {
+    await launch(_url);
+  } else {
+    throw 'Could not launch $_url';
+  }
+}
 
 class RenderLinkImage extends StatefulWidget {
   final src;
@@ -467,6 +479,37 @@ class Result extends State<resultlist> {
                                   ),
                                 ),
                               ),
+                              Container(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    InkWell(
+                                      onTap: _launchURL(_url),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(30),
+                                          color: Colors.grey[400],
+                                        ),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10, vertical: 5),
+                                        child: const Text(
+                                          "관리자에게 제보하기",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            fontFamily: "NanumSquare_ac",
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 20),
                             ],
                           ),
                         )
