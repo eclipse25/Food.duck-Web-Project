@@ -50,17 +50,17 @@ class _HomePage extends State<HomePage> {
   Future<int> _checkDataFetch() async {
     CounterStorage storage = CounterStorage();
     var t = await init(storage);
-    print(t);
-    print("name");
-    name.forEach((key, value) => print('$key : $value'));
-    print("tag");
-    tag.forEach((key, value) => print('$key : $value'));
-    print("category");
-    category.forEach((key, value) => print('$key : $value'));
-    print("trav_time");
-    trav_time.forEach((key, value) => print('$key : $value'));
-    print(tags);
-    print(categorys);
+    // print(t);
+    // print("name");
+    // name.forEach((key, value) => print('$key : $value'));
+    // print("tag");
+    // tag.forEach((key, value) => print('$key : $value'));
+    // print("category");
+    // category.forEach((key, value) => print('$key : $value'));
+    // print("trav_time");
+    // trav_time.forEach((key, value) => print('$key : $value'));
+    // print(tags);
+    // print(categorys);
     return t;
   }
 
@@ -72,6 +72,7 @@ class _HomePage extends State<HomePage> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           //drawer기능 때문에 Appbar 필요
+          automaticallyImplyLeading:false,
           toolbarHeight: 60,
           backgroundColor: Colors.transparent,
           elevation: 0,
