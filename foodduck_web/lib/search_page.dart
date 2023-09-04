@@ -198,7 +198,10 @@ class SearchPageState extends State<SearchPage> {
       }
       resultlist = tmp;
     } else {
-      resultlist = Iterable<int>.generate(listfood.length).toList();
+      for( var restaurantname in list){
+        tmp.add(name[restaurantname]);
+      }
+      resultlist = tmp;
     }
     print("idx $resultlist");
   }
