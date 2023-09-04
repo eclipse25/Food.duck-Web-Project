@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'loading.dart';
 import 'drawer.dart';
 import 'search_page.dart';
 import 'back/data_fetch.dart';
 import 'dart:async';
+import 'result.dart';
+import 'dart:math';
 
 bool isloaded = false;
 
@@ -72,12 +75,13 @@ class _HomePage extends State<HomePage> {
           automaticallyImplyLeading:false,
           toolbarHeight: 60,
           backgroundColor: Colors.transparent,
-          elevation: 0, // 그림자
+          elevation: 0,
           actions: [
             Padding(
               padding: const EdgeInsets.only(
                   right: 20.0), //top:10 하거나 Appbar의 height올릴수도 있음
               child: IconButton(
+                padding: EdgeInsets.zero,
                 icon: const Icon(
                   Icons.menu,
                   color: Colors.black,
@@ -101,115 +105,120 @@ class _HomePage extends State<HomePage> {
           ),
         ),
         body: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 80,
-                  child: Container(),
-                ),
-                SizedBox(
-                  height: 400,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        'assets/images/icon.png',
-                        height: 100,
-                        width: 100,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Image.asset(
-                        'assets/images/logo.jpg', //협의수정필요
-                        width: 320,
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const SearchPage()),
-                              );
-                            },
-                            child: Container(
-                              //검색창 (실시간 반영,제안:onChanged()/TextField)
-                              height: 45,
-                              width: MediaQuery.of(context).size.width * 0.4,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border: Border.all(
-                                    color: Colors.amber,
-                                    width: 3,
-                                  ),
-                                  borderRadius: BorderRadius.circular(50)),
-                              child: const SizedBox(
-                                height: 35,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    IconButton(
-                                      icon: Icon(
-                                        Icons.search,
-                                        size: 20,
-                                        color: Colors.black,
-                                      ),
-                                      onPressed: null,
-                                    ),
-                                  ],
+          child: Column(
+            children: [
+              SizedBox(
+                height: 80,
+                child: Container(),
+              ),
+              SizedBox(
+                height: 400,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/images/icon.png',
+                      height: 100,
+                      width: 100,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Image.asset(
+                      'assets/images/logo.jpg', //협의수정필요
+                      width: 320,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const SearchPage()),
+                            );
+                          },
+                          child: Container(
+                            //검색창
+                            height: 45,
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(
+                                  color: Colors.amber,
+                                  width: 3,
                                 ),
+                                borderRadius: BorderRadius.circular(50)),
+                            child: const SizedBox(
+                              height: 35,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  IconButton(
+                                    icon: Icon(
+                                      Icons.search,
+                                      size: 20,
+                                      color: Colors.black,
+                                    ),
+                                    onPressed: null,
+                                  ),
+                                ],
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      const Text(
-                        "I’m Feeling Hungry",
-                        style: TextStyle(
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        // 버튼을 클릭하면 다른 페이지로 이동
+                        var rand = Random().nextInt(listfood.length);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => resultlist(rand)),
+                        );
+                      },
+                      child: Container(
+                        height: 50,
+                        width: 250,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            color: Colors.grey[300],
+                            // border: Border.all(
+                            //   color: const Color.fromARGB(255, 180, 180, 180),
+                            //   width: 1.5,
+                            // ),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: const Text(
+                          "I’m Feeling Hungry",
+                          style: TextStyle(
                             fontSize: 20,
-                            fontFamily: 'NanumSquareB.ttf', //협의수정필요
-                            fontWeight: FontWeight.normal),
+                            fontFamily: 'NanumSquareB.ttf',
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
                       ),
-                      const SizedBox(
-                        height: 80,
-                      ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(
+                      height: 80,
+                    ),
+                  ],
                 ),
-              ],
-            ),
-        ),
-      );
-    } else {
-      return Scaffold(
-        key: scaffoldKey,
-        backgroundColor: Colors.white,
-        body: Container(
-          alignment: Alignment.center,
-          height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/images/icon.png',
-                height: MediaQuery.of(context).size.width * 0.4,
-                width: MediaQuery.of(context).size.width * 0.4,
               ),
             ],
           ),
         ),
       );
+    } else {
+      return const LoadingPage();
     }
   }
 }

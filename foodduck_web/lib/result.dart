@@ -11,7 +11,7 @@ import 'dart:math';
 class RenderLinkImage extends StatefulWidget {
   final src;
 
-  RenderLinkImage({this.src});
+  const RenderLinkImage({super.key, this.src});
 
   @override
   _RenderLinkImageState createState() => _RenderLinkImageState();
@@ -36,7 +36,7 @@ class _RenderLinkImageState extends State<RenderLinkImage> {
       },
     );
 
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width * 0.45,
       height: MediaQuery.of(context).size.height * 0.45,
       child: HtmlElementView(
@@ -47,13 +47,11 @@ class _RenderLinkImageState extends State<RenderLinkImage> {
 
   static getRandomString(len) {
     var r = Random();
-    const _chars =
+    const chars =
         'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
-    return List.generate(len, (index) => _chars[r.nextInt(_chars.length)])
-        .join();
+    return List.generate(len, (index) => chars[r.nextInt(chars.length)]).join();
   }
 }
-
 
 class resultlist extends StatefulWidget {
   final Idx;
@@ -119,57 +117,55 @@ class Result extends State<resultlist> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Expanded(
-                        child: TextScroll(
-                          storeName,
-                          velocity: Velocity(pixelsPerSecond: Offset(30, 0)),
-                          pauseBetween: Duration(milliseconds: 1000),
-                          mode: TextScrollMode.bouncing,
-                          fadedBorder: true,
-                          fadeBorderVisibility: FadeBorderVisibility.auto,
-                          fadeBorderSide: FadeBorderSide.right,
-                          style: TextStyle(
-                            fontSize: 36,
-                            fontFamily: "NanumSquare_ac",
-                            fontWeight: FontWeight.w600,
-                          ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Expanded(
+                      child: TextScroll(
+                        storeName,
+                        velocity:
+                            const Velocity(pixelsPerSecond: Offset(30, 0)),
+                        pauseBetween: const Duration(milliseconds: 1000),
+                        mode: TextScrollMode.bouncing,
+                        fadedBorder: true,
+                        fadeBorderVisibility: FadeBorderVisibility.auto,
+                        fadeBorderSide: FadeBorderSide.right,
+                        style: const TextStyle(
+                          fontSize: 36,
+                          fontFamily: "NanumSquare_ac",
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
-                      IconButton(
-                        icon: Icon(
-                          liked.contains(Index)
-                              ? Icons.star
-                              : Icons.star_border,
-                          color: liked.contains(Index) ? Colors.yellow : null,
-                          semanticLabel: liked.contains(Index)
-                              ? 'Remove from saved'
-                              : 'Save',
-                          size: 36,
-                        ),
-                        onPressed: () async {
-                          int flag = 0;
-                          if (liked.contains(Index)) {
-                            flag = 1;
-                            await WriteCaches(listfood[Index]["name"], '0');
+                    ),
+                    IconButton(
+                      padding: EdgeInsets.zero,
+                      icon: Icon(
+                        liked.contains(Index) ? Icons.star : Icons.star_border,
+                        color: liked.contains(Index) ? Colors.yellow : null,
+                        semanticLabel: liked.contains(Index)
+                            ? 'Remove from saved'
+                            : 'Save',
+                        size: 36,
+                      ),
+                      onPressed: () async {
+                        int flag = 0;
+                        if (liked.contains(Index)) {
+                          flag = 1;
+                          await WriteCaches(listfood[Index]["name"], '0');
+                        } else {
+                          flag = 0;
+                          await WriteCaches(listfood[Index]["name"], '1');
+                        }
+                        setState(() {
+                          if (flag == 1) {
+                            liked.remove(Index);
                           } else {
-                            flag = 0;
-                            await WriteCaches(listfood[Index]["name"], '1');
+                            liked.add(Index);
                           }
-                          setState(() {
-                            if (flag == 1) {
-                              liked.remove(Index);
-                            } else {
-                              liked.add(Index);
-                            }
-                          });
-                        },
-                      ),
-                    ],
-                  ),
+                        });
+                      },
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 12),
                 Container(
@@ -191,7 +187,8 @@ class Result extends State<resultlist> {
                       ),
                       Container(
                         alignment: Alignment.topLeft,
-                        margin: const EdgeInsets.symmetric(vertical: 3, horizontal: 23),
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 3, horizontal: 23),
                         child: Text(
                           tagstring!,
                           textAlign: TextAlign.justify,
@@ -207,50 +204,44 @@ class Result extends State<resultlist> {
                         alignment: Alignment.topLeft,
                         margin: const EdgeInsets.fromLTRB(23, 10, 23, 0),
                         child: RichText(
-                          text: TextSpan(
-                              children: <TextSpan>[
-                                const TextSpan(
-                                    text: "메뉴: ",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontFamily: "NanumSquare_ac",
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black,
-                                      height: 1.5,
-                                    )
-                                ),
-                                TextSpan(
-                                    text: '$menu\n',
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      fontFamily: "NanumSquare_ac",
-                                      fontWeight: FontWeight.w200,
-                                      color: Colors.black,
-                                      height: 1.5,
-                                    )
-                                ),
-                                const TextSpan(
-                                    text: "위치: ",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontFamily: "NanumSquare_ac",
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black,
-                                      height: 1.5,
-                                    )
-                                ),
-                                TextSpan(
-                                    text: '$position\n',
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      fontFamily: "NanumSquare_ac",
-                                      fontWeight: FontWeight.w200,
-                                      color: Colors.black,
-                                      height: 1.5,
-                                    )
-                                )
-                              ]
-                          ),
+                          text: TextSpan(children: <TextSpan>[
+                            const TextSpan(
+                                text: "메뉴: ",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontFamily: "NanumSquare_ac",
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black,
+                                  height: 1.5,
+                                )),
+                            TextSpan(
+                                text: '$menu\n',
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontFamily: "NanumSquare_ac",
+                                  fontWeight: FontWeight.w200,
+                                  color: Colors.black,
+                                  height: 1.5,
+                                )),
+                            const TextSpan(
+                                text: "위치: ",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontFamily: "NanumSquare_ac",
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black,
+                                  height: 1.5,
+                                )),
+                            TextSpan(
+                                text: '$position\n',
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontFamily: "NanumSquare_ac",
+                                  fontWeight: FontWeight.w200,
+                                  color: Colors.black,
+                                  height: 1.5,
+                                ))
+                          ]),
                         ),
                       ),
                       Container(
@@ -262,7 +253,8 @@ class Result extends State<resultlist> {
                         width: double.infinity,
                         height: 120,
                         margin: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 15),
                         child: Text(
                           description,
                           textAlign: TextAlign.center,
@@ -303,57 +295,55 @@ class Result extends State<resultlist> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Expanded(
-                        child: TextScroll(
-                          storeName,
-                          velocity: Velocity(pixelsPerSecond: Offset(30, 0)),
-                          pauseBetween: Duration(milliseconds: 1000),
-                          mode: TextScrollMode.bouncing,
-                          fadedBorder: true,
-                          fadeBorderVisibility: FadeBorderVisibility.auto,
-                          fadeBorderSide: FadeBorderSide.right,
-                          style: TextStyle(
-                            fontSize: 36,
-                            fontFamily: "NanumSquare_ac",
-                            fontWeight: FontWeight.w600,
-                          ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Expanded(
+                      child: TextScroll(
+                        storeName,
+                        velocity:
+                            const Velocity(pixelsPerSecond: Offset(30, 0)),
+                        pauseBetween: const Duration(milliseconds: 1000),
+                        mode: TextScrollMode.bouncing,
+                        fadedBorder: true,
+                        fadeBorderVisibility: FadeBorderVisibility.auto,
+                        fadeBorderSide: FadeBorderSide.right,
+                        style: const TextStyle(
+                          fontSize: 36,
+                          fontFamily: "NanumSquare_ac",
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
-                      IconButton(
-                        icon: Icon(
-                          liked.contains(Index)
-                              ? Icons.star
-                              : Icons.star_border,
-                          color: liked.contains(Index) ? Colors.yellow : null,
-                          semanticLabel: liked.contains(Index)
-                              ? 'Remove from saved'
-                              : 'Save',
-                          size: 36,
-                        ),
-                        onPressed: () async {
-                          int flag = 0;
-                          if (liked.contains(Index)) {
-                            flag = 1;
-                            await WriteCaches(listfood[Index]["name"], '0');
+                    ),
+                    IconButton(
+                      padding: EdgeInsets.zero,
+                      icon: Icon(
+                        liked.contains(Index) ? Icons.star : Icons.star_border,
+                        color: liked.contains(Index) ? Colors.yellow : null,
+                        semanticLabel: liked.contains(Index)
+                            ? 'Remove from saved'
+                            : 'Save',
+                        size: 36,
+                      ),
+                      onPressed: () async {
+                        int flag = 0;
+                        if (liked.contains(Index)) {
+                          flag = 1;
+                          await WriteCaches(listfood[Index]["name"], '0');
+                        } else {
+                          flag = 0;
+                          await WriteCaches(listfood[Index]["name"], '1');
+                        }
+                        setState(() {
+                          if (flag == 1) {
+                            liked.remove(Index);
                           } else {
-                            flag = 0;
-                            await WriteCaches(listfood[Index]["name"], '1');
+                            liked.add(Index);
                           }
-                          setState(() {
-                            if (flag == 1) {
-                              liked.remove(Index);
-                            } else {
-                              liked.add(Index);
-                            }
-                          });
-                        },
-                      ),
-                    ],
-                  ),
+                        });
+                      },
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 12),
                 Container(
@@ -369,13 +359,18 @@ class Result extends State<resultlist> {
                           width: MediaQuery.of(context).size.width * 0.45,
                           child: Column(
                             children: [
-                              Container(
-                                alignment: Alignment.topCenter,
-                                width: double.infinity,
-                                margin: const EdgeInsets.fromLTRB(12, 20, 12, 10),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(30),
-                                  child: img,
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 20),
+                                child: Container(
+                                  alignment: Alignment.topCenter,
+                                  width: double.infinity,
+                                  margin:
+                                      const EdgeInsets.fromLTRB(12, 20, 12, 20),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(30),
+                                    child: img,
+                                  ),
                                 ),
                               )
                             ],
@@ -391,7 +386,8 @@ class Result extends State<resultlist> {
                               ),
                               Container(
                                 alignment: Alignment.topLeft,
-                                margin: const EdgeInsets.symmetric(vertical: 3, horizontal: 23),
+                                margin: const EdgeInsets.symmetric(
+                                    vertical: 3, horizontal: 23),
                                 child: Text(
                                   tagstring!,
                                   textAlign: TextAlign.justify,
@@ -405,52 +401,47 @@ class Result extends State<resultlist> {
                               ),
                               Container(
                                 alignment: Alignment.topLeft,
-                                margin: const EdgeInsets.fromLTRB(23, 10, 23, 0),
+                                margin:
+                                    const EdgeInsets.fromLTRB(23, 10, 23, 0),
                                 child: RichText(
-                                  text: TextSpan(
-                                      children: <TextSpan>[
-                                        const TextSpan(
-                                            text: "메뉴: ",
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                              fontFamily: "NanumSquare_ac",
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.black,
-                                              height: 1.5,
-                                            )
-                                        ),
-                                        TextSpan(
-                                            text: '$menu\n',
-                                            style: const TextStyle(
-                                              fontSize: 20,
-                                              fontFamily: "NanumSquare_ac",
-                                              fontWeight: FontWeight.w200,
-                                              color: Colors.black,
-                                              height: 1.5,
-                                            )
-                                        ),
-                                        const TextSpan(
-                                            text: "위치: ",
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                              fontFamily: "NanumSquare_ac",
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.black,
-                                              height: 1.5,
-                                            )
-                                        ),
-                                        TextSpan(
-                                            text: '$position\n',
-                                            style: const TextStyle(
-                                              fontSize: 20,
-                                              fontFamily: "NanumSquare_ac",
-                                              fontWeight: FontWeight.w200,
-                                              color: Colors.black,
-                                              height: 1.5,
-                                            )
-                                        )
-                                      ]
-                                  ),
+                                  text: TextSpan(children: <TextSpan>[
+                                    const TextSpan(
+                                        text: "메뉴: ",
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontFamily: "NanumSquare_ac",
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black,
+                                          height: 1.5,
+                                        )),
+                                    TextSpan(
+                                        text: '$menu\n',
+                                        style: const TextStyle(
+                                          fontSize: 20,
+                                          fontFamily: "NanumSquare_ac",
+                                          fontWeight: FontWeight.w200,
+                                          color: Colors.black,
+                                          height: 1.5,
+                                        )),
+                                    const TextSpan(
+                                        text: "위치: ",
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontFamily: "NanumSquare_ac",
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black,
+                                          height: 1.5,
+                                        )),
+                                    TextSpan(
+                                        text: '$position\n',
+                                        style: const TextStyle(
+                                          fontSize: 20,
+                                          fontFamily: "NanumSquare_ac",
+                                          fontWeight: FontWeight.w200,
+                                          color: Colors.black,
+                                          height: 1.5,
+                                        ))
+                                  ]),
                                 ),
                               ),
                               Container(
@@ -461,8 +452,10 @@ class Result extends State<resultlist> {
                                 alignment: Alignment.center,
                                 width: double.infinity,
                                 height: 120,
-                                margin: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                                margin:
+                                    const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 15),
                                 child: Text(
                                   description,
                                   textAlign: TextAlign.center,
@@ -478,8 +471,7 @@ class Result extends State<resultlist> {
                           ),
                         )
                       ],
-                    )
-                )
+                    ))
               ],
             ),
           ),
