@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:auto_size_widget/auto_size_widget.dart';
 import 'package:text_scroll/text_scroll.dart';
 import 'drawer.dart';
 import 'widget.dart'; //appBar
@@ -7,18 +6,9 @@ import 'back/data_fetch.dart';
 import 'dart:html';
 import 'dart:ui_web' as ui;
 import 'dart:math';
-import 'package:url_launcher/link.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-const _url = 'https://forms.gle/J5nnWwScc6ehhUuQ6';
 
-_launchURL(String url) async {
-  if (await canLaunch(_url)) {
-    await launch(_url);
-  } else {
-    throw 'Could not launch $_url';
-  }
-}
 
 class RenderLinkImage extends StatefulWidget {
   final src;
@@ -80,10 +70,12 @@ class Result extends State<resultlist> {
   late String position;
   // String pricelevel = "1,000,000원 대";
   late String description;
-  late String? storeimage;
+  late String storeimage;
   late List<dynamic> foodtag;
-  late String? tagstring;
+  late String tagstring;
   late RenderLinkImage img;
+  late Uri _url;
+  late Uri maplink;
 
   @override
   void initState() {
@@ -96,9 +88,18 @@ class Result extends State<resultlist> {
     foodtag = List.generate(listfood[Index]["tags"].length,
         (index) => '#${listfood[Index]["tags"][index]}');
     tagstring = foodtag.join(" ");
-    img = RenderLinkImage(src: storeimage!);
+    img = RenderLinkImage(src: storeimage);
+    _url = Uri.parse('https://forms.gle/J5nnWwScc6ehhUuQ6');
+    maplink = Uri.parse(listfood[Index]["MapLink"]);
     super.initState();
   }
+
+  Future<void> _launchUrl(Uri url) async {
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -202,7 +203,7 @@ class Result extends State<resultlist> {
                         margin: const EdgeInsets.symmetric(
                             vertical: 3, horizontal: 23),
                         child: Text(
-                          tagstring!,
+                          tagstring,
                           textAlign: TextAlign.justify,
                           style: const TextStyle(
                             fontSize: 16,
@@ -278,6 +279,52 @@ class Result extends State<resultlist> {
                           ),
                         ),
                       ),
+                      TextButton(
+                        onPressed: () => _launchUrl(maplink),
+                        style: TextButton.styleFrom(
+                          foregroundColor: Colors.redAccent.shade200, // Text Color
+                        ),
+                        child: const Text(
+                          '식당 위치 지도로 보기',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontFamily: "NanumSquare_ac",
+                            fontWeight: FontWeight.w600,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        padding:
+                        const EdgeInsets.symmetric(horizontal: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            InkWell(
+                              onTap:  () => _launchUrl(_url),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius:
+                                  BorderRadius.circular(30),
+                                  color: Colors.grey[400],
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 5),
+                                child: const Text(
+                                  "관리자에게 제보하기",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: "NanumSquare_ac",
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 20),
                     ],
                   ),
                 )
@@ -401,7 +448,7 @@ class Result extends State<resultlist> {
                                 margin: const EdgeInsets.symmetric(
                                     vertical: 3, horizontal: 23),
                                 child: Text(
-                                  tagstring!,
+                                  tagstring,
                                   textAlign: TextAlign.justify,
                                   style: const TextStyle(
                                     fontSize: 16,
@@ -479,6 +526,21 @@ class Result extends State<resultlist> {
                                   ),
                                 ),
                               ),
+                              TextButton(
+                                onPressed: () => _launchUrl(maplink),
+                                style: TextButton.styleFrom(
+                                  foregroundColor: Colors.redAccent.shade200, // Text Color
+                                ),
+                                child: const Text(
+                                  '식당 위치 지도로 보기',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontFamily: "NanumSquare_ac",
+                                    fontWeight: FontWeight.w600,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              ),
                               Container(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 20),
@@ -486,7 +548,7 @@ class Result extends State<resultlist> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     InkWell(
-                                      onTap: _launchURL(_url),
+                                      onTap:  () => _launchUrl(_url),
                                       child: Container(
                                         decoration: BoxDecoration(
                                           borderRadius:
