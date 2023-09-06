@@ -8,8 +8,6 @@ import 'dart:ui_web' as ui;
 import 'dart:math';
 import 'package:url_launcher/url_launcher.dart';
 
-
-
 class RenderLinkImage extends StatefulWidget {
   final src;
 
@@ -99,7 +97,6 @@ class Result extends State<resultlist> {
       throw Exception('Could not launch $url');
     }
   }
-
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -282,7 +279,8 @@ class Result extends State<resultlist> {
                       TextButton(
                         onPressed: () => _launchUrl(maplink),
                         style: TextButton.styleFrom(
-                          foregroundColor: Colors.redAccent.shade200, // Text Color
+                          foregroundColor:
+                              Colors.redAccent.shade200, // Text Color
                         ),
                         child: const Text(
                           '식당 위치 지도로 보기',
@@ -295,17 +293,15 @@ class Result extends State<resultlist> {
                         ),
                       ),
                       Container(
-                        padding:
-                        const EdgeInsets.symmetric(horizontal: 20),
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             InkWell(
-                              onTap:  () => _launchUrl(_url),
+                              onTap: () => _launchUrl(_url),
                               child: Container(
                                 decoration: BoxDecoration(
-                                  borderRadius:
-                                  BorderRadius.circular(30),
+                                  borderRadius: BorderRadius.circular(30),
                                   color: Colors.grey[400],
                                 ),
                                 padding: const EdgeInsets.symmetric(
@@ -526,29 +522,31 @@ class Result extends State<resultlist> {
                                   ),
                                 ),
                               ),
-                              TextButton(
-                                onPressed: () => _launchUrl(maplink),
-                                style: TextButton.styleFrom(
-                                  foregroundColor: Colors.redAccent.shade200, // Text Color
-                                ),
-                                child: const Text(
-                                  '식당 위치 지도로 보기',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontFamily: "NanumSquare_ac",
-                                    fontWeight: FontWeight.w600,
-                                    decoration: TextDecoration.underline,
-                                  ),
-                                ),
-                              ),
                               Container(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 20),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
+                                    TextButton(
+                                      onPressed: () => _launchUrl(maplink),
+                                      style: TextButton.styleFrom(
+                                        foregroundColor: Colors
+                                            .redAccent.shade200, // Text Color
+                                      ),
+                                      child: const Text(
+                                        '식당 위치 지도로 보기',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontFamily: "NanumSquare_ac",
+                                          fontWeight: FontWeight.w600,
+                                          decoration: TextDecoration.underline,
+                                        ),
+                                      ),
+                                    ),
                                     InkWell(
-                                      onTap:  () => _launchUrl(_url),
+                                      onTap: () => _launchUrl(_url),
                                       child: Container(
                                         decoration: BoxDecoration(
                                           borderRadius:
