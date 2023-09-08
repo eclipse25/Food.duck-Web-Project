@@ -4,7 +4,7 @@ import 'drawer.dart';
 import 'widget.dart'; //appBar
 import 'back/data_fetch.dart';
 import 'dart:html';
-import 'dart:ui_web' as ui;
+import 'dart:ui' as ui;
 import 'dart:math';
 import 'package:url_launcher/url_launcher.dart';
 
