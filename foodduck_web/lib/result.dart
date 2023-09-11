@@ -4,6 +4,7 @@ import 'drawer.dart';
 import 'widget.dart'; //appBar
 import 'back/data_fetch.dart';
 import 'dart:html';
+import 'package:flutter/services.dart';
 import 'dart:ui' as ui;
 import 'dart:math';
 import 'package:url_launcher/url_launcher.dart';
@@ -28,7 +29,7 @@ class _RenderLinkImageState extends State<RenderLinkImage> {
           ..src = widget.src
           ..style.width = "100%"
           ..style.height = "100%"
-          ..style.objectFit = "contain"
+          ..style.objectFit = "cover"
           ..style.border = "none";
         element.height = element.naturalHeight;
         element.width = element.naturalWidth;
