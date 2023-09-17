@@ -13,12 +13,15 @@ List<dynamic> listfood = [];
 Map name = {};
 Map category = {};
 Map trav_time = {};
+Map price = {};
+Map place = {};
 Map tag = {};
 List<int> listmeta = [];
 List<String> tags = [];
 List<String> categorys = <String>[];
 List<String> recentSearches = []; //최근검색어 리스트
 List<int> liked = [];
+
 
 Future<int> makelist(var parsedList) async {
   int idx = 0;
@@ -39,6 +42,22 @@ Future<int> makelist(var parsedList) async {
       trav_time[i["trav_time"]] = <int>[];
       trav_time[i["trav_time"]].add(idx);
     }
+
+    var pp = ((i["price"])/10000).toInt();
+    if (price.containsKey(pp)) {
+      price[pp].add(idx);
+    } else {
+      price[pp] = <int>[];
+      price[pp].add(idx);
+    }
+
+    if (place.containsKey(i["place"])) {
+      place[i["place"]].add(idx);
+    } else {
+      place[i["place"]] = <int>[];
+      place[i["place"]].add(idx);
+    }
+
     for (var j in i["tags"]) {
       if (!tags.contains(j)) tags.add(j);
       if (tag.containsKey(j)) {
@@ -80,7 +99,7 @@ Future<int> init(CounterStorage cs) async {
       );
       print("Firebase Initialized");
       final datapath = FirebaseStorage.instance
-          .refFromURL("gs://foodduck-23ca8.appspot.com/output.json");
+          .refFromURL("gs://foodduck-23ca8.appspot.com/food_jason.json");
       try {
         const oneMegabyte = 1024 * 1024;
         final data = await datapath.getData(oneMegabyte);
@@ -91,16 +110,17 @@ Future<int> init(CounterStorage cs) async {
 
         listfood = jsonDecode(fooddata);
         await makelist(listfood);
+        print(price);
         // Data for "images/island.jpg" is returned, use this as needed.
       } on FirebaseException catch (e) {
-        print("{$e}");
+        print("fetch error {$e}");
         // Handle any errors.
       }
 
       return 0;
     } catch (e) {
       //로컬 파일이 없어서 생기는 오류(PathNotFoundException).
-      print("Error : $e");
+      print("Erroree : $e");
       return -1;
     }
   } else {

@@ -69,13 +69,17 @@ class _RandConditionState extends State<RandCondition> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   late String dropdownValue;
   late double initialSliderValue;
+  late double priceSliderValue;
   late List<String> list;
+  late List<int> tmp;
 
   @override
   void initState() {
     initialSliderValue = 0.0;
+    priceSliderValue = 0.0;
     dropdownValue = categorys[0];
     list = categorys;
+    tmp = category[dropdownValue];
     super.initState();
   }
 
@@ -243,18 +247,16 @@ class _RandConditionState extends State<RandCondition> {
           ),
           onPressed: () {
             //with tag
-            List<String> result = [];
-            List<int> tmp = Iterable<int>.generate(listfood.length).toList();
-
-            if(category.containsKey(dropdownValue)){
-              tmp.removeWhere((item) => !category[dropdownValue].contains(item));
-              for(int dis = initialSliderValue.toInt() + 1; dis < 5; dis++ ){
-                if(trav_time.containsKey(dis)){
-                  tmp.removeWhere((item) => trav_time[dis].contains(item));
-                }
+            tmp =[...category[dropdownValue]];
+            print(tmp);
+            for(int dis = initialSliderValue.toInt() + 1; dis < 5; dis++ ){
+              if(trav_time.containsKey(dis)){
+                tmp.removeWhere((item) => trav_time[dis].contains(item));
               }
-            }else{
-              tmp=[];
+            }
+
+            if(price.containsKey(priceSliderValue.toInt())){
+              tmp.removeWhere((item) => !price[priceSliderValue.toInt()].contains(item));
             }
 
             print(tmp);
@@ -282,6 +284,62 @@ class _RandConditionState extends State<RandCondition> {
       ],
     );
 
+    Widget PriceSlider = SizedBox(
+      width: 330,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SliderTheme(
+            data: SliderThemeData(
+              overlayShape: SliderComponentShape.noOverlay,
+              trackHeight: 18,
+              inactiveTrackColor: Colors.grey[350],
+              activeTrackColor: Colors.amber,
+              inactiveTickMarkColor: Colors.transparent,
+              activeTickMarkColor: Colors.transparent,
+              thumbColor: Colors.white,
+            ),
+            child: Slider(
+              value: priceSliderValue,
+              max: 3,
+              divisions: 3,
+              //label: sliderValIndicators[priceSliderValue.toInt()],
+              onChanged: (double value) {
+                setState(() {
+                  priceSliderValue = value;
+                });
+              },
+            ),
+          ),
+          const SizedBox(height: 15),
+          Text(
+            "가격대: ${PricesliderValIndicators[priceSliderValue.toInt()]}",
+            textAlign: TextAlign.start,
+            style: const TextStyle(
+              fontSize: 18,
+              fontFamily: "NanumSquare_ac",
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ],
+      ),
+    );
+
+    Widget priceSection = Container(
+      padding: const EdgeInsets.fromLTRB(22, 25, 22, 15),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          const SubText("3. 가격대 선택", "음식점의 가격대를 설정할 수 있어요."),
+          const SizedBox(height: 20),
+          PriceSlider,
+          const SizedBox(height: 20),
+        ],
+      ),
+    );
+
+
+
     Widget mainSection = Container(
       margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
       height: MediaQuery.of(context).size.height * 0.72,
@@ -297,6 +355,7 @@ class _RandConditionState extends State<RandCondition> {
           randombutton,
           textSection1,
           textSection2,
+          priceSection,
           resultbutton,
           const SizedBox(height: 30)
         ],
