@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:project2307/result_with.dart';
 import 'loading.dart';
 import 'drawer.dart';
 import 'search_page.dart';
@@ -72,7 +73,7 @@ class _HomePage extends State<HomePage> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           //drawer기능 때문에 Appbar 필요
-          automaticallyImplyLeading:false,
+          automaticallyImplyLeading: false,
           toolbarHeight: 60,
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -183,7 +184,7 @@ class _HomePage extends State<HomePage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => resultlist(rand)),
+                              builder: (context) => resultlist_with(rand)),
                         );
                       },
                       child: Container(

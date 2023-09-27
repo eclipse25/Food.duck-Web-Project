@@ -148,62 +148,33 @@ class Result extends State<resultlist> {
                         ),
                       ),
                     ),
-                    Row(
-                      children: [
-                        Container(
-                          height: 30,
-                          width: 100,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              color: Colors.grey[300],
-                              // border: Border.all(
-                              //   color: const Color.fromARGB(255, 180, 180, 180),
-                              //   width: 1.5,
-                              // ),
-                              borderRadius: BorderRadius.circular(10)),
-                          child: const Text(
-                            "다시 뽑기",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontFamily: 'NanumSquareB.ttf',
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        IconButton(
-                          padding: EdgeInsets.zero,
-                          icon: Icon(
-                            liked.contains(Index)
-                                ? Icons.star
-                                : Icons.star_border,
-                            color: liked.contains(Index) ? Colors.yellow : null,
-                            semanticLabel: liked.contains(Index)
-                                ? 'Remove from saved'
-                                : 'Save',
-                            size: 36,
-                          ),
-                          onPressed: () async {
-                            int flag = 0;
-                            if (liked.contains(Index)) {
-                              flag = 1;
-                              await WriteCaches(listfood[Index]["name"], '0');
-                            } else {
-                              flag = 0;
-                              await WriteCaches(listfood[Index]["name"], '1');
-                            }
-                            setState(() {
-                              if (flag == 1) {
-                                liked.remove(Index);
-                              } else {
-                                liked.add(Index);
-                              }
-                            });
-                          },
-                        ),
-                      ],
+                    IconButton(
+                      padding: EdgeInsets.zero,
+                      icon: Icon(
+                        liked.contains(Index) ? Icons.star : Icons.star_border,
+                        color: liked.contains(Index) ? Colors.yellow : null,
+                        semanticLabel: liked.contains(Index)
+                            ? 'Remove from saved'
+                            : 'Save',
+                        size: 36,
+                      ),
+                      onPressed: () async {
+                        int flag = 0;
+                        if (liked.contains(Index)) {
+                          flag = 1;
+                          await WriteCaches(listfood[Index]["name"], '0');
+                        } else {
+                          flag = 0;
+                          await WriteCaches(listfood[Index]["name"], '1');
+                        }
+                        setState(() {
+                          if (flag == 1) {
+                            liked.remove(Index);
+                          } else {
+                            liked.add(Index);
+                          }
+                        });
+                      },
                     ),
                   ],
                 ),
@@ -400,62 +371,33 @@ class Result extends State<resultlist> {
                         ),
                       ),
                     ),
-                    Row(
-                      children: [
-                        Container(
-                          height: 30,
-                          width: 100,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              color: Colors.grey[300],
-                              // border: Border.all(
-                              //   color: const Color.fromARGB(255, 180, 180, 180),
-                              //   width: 1.5,
-                              // ),
-                              borderRadius: BorderRadius.circular(10)),
-                          child: const Text(
-                            "다시 뽑기",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontFamily: 'NanumSquareB.ttf',
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        IconButton(
-                          padding: EdgeInsets.zero,
-                          icon: Icon(
-                            liked.contains(Index)
-                                ? Icons.star
-                                : Icons.star_border,
-                            color: liked.contains(Index) ? Colors.yellow : null,
-                            semanticLabel: liked.contains(Index)
-                                ? 'Remove from saved'
-                                : 'Save',
-                            size: 36,
-                          ),
-                          onPressed: () async {
-                            int flag = 0;
-                            if (liked.contains(Index)) {
-                              flag = 1;
-                              await WriteCaches(listfood[Index]["name"], '0');
-                            } else {
-                              flag = 0;
-                              await WriteCaches(listfood[Index]["name"], '1');
-                            }
-                            setState(() {
-                              if (flag == 1) {
-                                liked.remove(Index);
-                              } else {
-                                liked.add(Index);
-                              }
-                            });
-                          },
-                        ),
-                      ],
+                    IconButton(
+                      padding: EdgeInsets.zero,
+                      icon: Icon(
+                        liked.contains(Index) ? Icons.star : Icons.star_border,
+                        color: liked.contains(Index) ? Colors.yellow : null,
+                        semanticLabel: liked.contains(Index)
+                            ? 'Remove from saved'
+                            : 'Save',
+                        size: 36,
+                      ),
+                      onPressed: () async {
+                        int flag = 0;
+                        if (liked.contains(Index)) {
+                          flag = 1;
+                          await WriteCaches(listfood[Index]["name"], '0');
+                        } else {
+                          flag = 0;
+                          await WriteCaches(listfood[Index]["name"], '1');
+                        }
+                        setState(() {
+                          if (flag == 1) {
+                            liked.remove(Index);
+                          } else {
+                            liked.add(Index);
+                          }
+                        });
+                      },
                     ),
                   ],
                 ),

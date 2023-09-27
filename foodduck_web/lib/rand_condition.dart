@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:project2307/result_with.dart';
 import 'back/data_fetch.dart';
 import 'widget.dart';
 import 'drawer.dart';
@@ -221,7 +222,7 @@ class _RandConditionState extends State<RandCondition> {
             var rand = Random().nextInt(listfood.length);
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => resultlist(rand)),
+              MaterialPageRoute(builder: (context) => resultlist_with(rand)),
             );
           },
           child: const Text("고르는 것도 귀찮아"),
@@ -247,27 +248,27 @@ class _RandConditionState extends State<RandCondition> {
           ),
           onPressed: () {
             //with tag
-            tmp =[...category[dropdownValue]];
+            tmp = [...category[dropdownValue]];
             print(tmp);
-            for(int dis = initialSliderValue.toInt() + 1; dis < 5; dis++ ){
-              if(trav_time.containsKey(dis)){
+            for (int dis = initialSliderValue.toInt() + 1; dis < 5; dis++) {
+              if (trav_time.containsKey(dis)) {
                 tmp.removeWhere((item) => trav_time[dis].contains(item));
               }
             }
 
-            if(price.containsKey(priceSliderValue.toInt())){
-              tmp.removeWhere((item) => !price[priceSliderValue.toInt()].contains(item));
+            if (price.containsKey(priceSliderValue.toInt())) {
+              tmp.removeWhere(
+                  (item) => !price[priceSliderValue.toInt()].contains(item));
             }
 
             print(tmp);
-            if(tmp.isNotEmpty) {
+            if (tmp.isNotEmpty) {
               var rand = Random().nextInt(tmp.length);
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => resultlist(tmp[rand])),
+                MaterialPageRoute(builder: (context) => resultlist(tmp[rand])),
               );
-            }else{
+            } else {
               Fluttertoast.showToast(
                   msg: "검색결과가 없습니다",
                   toastLength: Toast.LENGTH_SHORT,
@@ -275,8 +276,7 @@ class _RandConditionState extends State<RandCondition> {
                   timeInSecForIosWeb: 1,
                   backgroundColor: Colors.red,
                   textColor: Colors.white,
-                  fontSize: 16.0
-              );
+                  fontSize: 16.0);
             }
           },
           child: const Text("선택 완료"),
@@ -337,8 +337,6 @@ class _RandConditionState extends State<RandCondition> {
         ],
       ),
     );
-
-
 
     Widget mainSection = Container(
       margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
