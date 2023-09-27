@@ -110,7 +110,7 @@ Future<int> init(CounterStorage cs) async {
 
         listfood = jsonDecode(fooddata);
         await makelist(listfood);
-        print(price);
+        print(tag);
         // Data for "images/island.jpg" is returned, use this as needed.
       } on FirebaseException catch (e) {
         print("fetch error {$e}");

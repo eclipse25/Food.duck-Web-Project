@@ -5,7 +5,7 @@ import 'widget.dart';
 import 'result.dart';
 
 class searchList extends StatefulWidget {
-  final List<int> listIndex;
+  final List<dynamic> listIndex;
   final String titleString;
   const searchList(this.listIndex, this.titleString, {super.key});
 
@@ -17,13 +17,13 @@ class _searchListState extends State<searchList> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   var names = <String>[];
   var descriptions = <String>[];
-  var targetIndex = <int>[];
+  var targetIndex = <dynamic>[];
   var selectedName = <String>[];
   var selectedDesc = <String>[];
 
   @override
   void initState() {
-    targetIndex = widget.listIndex;
+    targetIndex = widget.listIndex.toSet().toList();
     /*
     if (targetIndex.isEmpty) {
       selectedName = names;
