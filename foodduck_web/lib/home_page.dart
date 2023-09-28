@@ -66,6 +66,7 @@ class _HomePage extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var screenwidth = MediaQuery.of(context).size.width;
     if (loaded) {
       return Scaffold(
         key: scaffoldKey,
@@ -145,7 +146,7 @@ class _HomePage extends State<HomePage> {
                           child: Container(
                             //검색창
                             height: 45,
-                            width: MediaQuery.of(context).size.width * 0.4,
+                            width: screenwidth < 600 ? screenwidth - 100 : 500,
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 border: Border.all(

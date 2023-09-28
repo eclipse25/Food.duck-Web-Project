@@ -6,6 +6,7 @@ import 'info.dart';
 import 'rand_condition.dart';
 import 'result_page.dart';
 import 'back/data_fetch.dart';
+import 'search_recent.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
@@ -101,7 +102,7 @@ class CustomDrawer extends StatelessWidget {
                     const SizedBox(height: 15),
                     ListTile(
                       title: const Text(
-                        '검색어 검색',
+                        '일반 검색',
                         style: TextStyle(
                           fontSize: 25,
                           fontFamily: 'NanumSquare_ac',
@@ -113,7 +114,7 @@ class CustomDrawer extends StatelessWidget {
                         Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const SearchPage()),
+                                builder: (context) => const SearchRecent()),
                             ((route) => route.settings.name == '/'));
                       },
                     ),
@@ -168,12 +169,11 @@ class CustomDrawer extends StatelessWidget {
                       padding: const EdgeInsets.all(0),
                       child: InkWell(
                         onTap: () {
-                          /*
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const SearchTag()),
-                          );*/
+                                builder: (context) => const SearchPage()),
+                          );
                         },
                         child: Image.asset(
                           'assets/images/icon.png',
