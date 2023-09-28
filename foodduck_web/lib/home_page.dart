@@ -6,7 +6,6 @@ import 'drawer.dart';
 import 'search_page.dart';
 import 'back/data_fetch.dart';
 import 'dart:async';
-import 'result.dart';
 import 'dart:math';
 
 bool isloaded = false;

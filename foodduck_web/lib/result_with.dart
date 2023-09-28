@@ -58,7 +58,7 @@ class _RenderLinkImageState extends State<RenderLinkImage> {
 
 class resultlist_with extends StatefulWidget {
   final Idx;
-  final List<dynamic> leftlist;
+  final List<dynamic>? leftlist;
   const resultlist_with(this.Idx,this.leftlist, {super.key});
 
   @override
@@ -78,7 +78,7 @@ class Result_with extends State<resultlist_with> {
   late RenderLinkImage img;
   late Uri _url;
   late Uri? maplink;
-  late List<dynamic> leftlist;
+  late List<dynamic>? leftlist;
 
   @override
   void initState() {
@@ -100,7 +100,11 @@ class Result_with extends State<resultlist_with> {
     }else {
       maplink = null;
     }
-    leftlist=widget.leftlist.toSet().toList();
+    if(widget.leftlist != null){
+      leftlist=widget.leftlist!.toSet().toList();
+    }else{
+      leftlist=widget.leftlist;
+    }
     super.initState();
   }
 
@@ -161,51 +165,52 @@ class Result_with extends State<resultlist_with> {
                     ),
                     Row(
                       children: [
-                        InkWell(
-                          onTap: () {
-                            // 버튼을 클릭하면 다른 페이지로 이동
-                            if(leftlist.length>0){
-                              var rand = leftlist[Random().nextInt(leftlist.length)];
-                              leftlist.remove(rand);
-                              Navigator.pop(context);
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => resultlist_with(rand,leftlist)),
-                              );
-                            }else{
-                              Fluttertoast.showToast(
-                                  msg: "남은 음식점이 없습니다.",
-                                  toastLength: Toast.LENGTH_SHORT,
-                                  gravity: ToastGravity.CENTER,
-                                  timeInSecForIosWeb: 1,
-                                  backgroundColor: Colors.red,
-                                  textColor: Colors.white,
-                                  fontSize: 16.0);
-                            }
+                        if(leftlist != null)
+                          InkWell(
+                              onTap: () {
+                                // 버튼을 클릭하면 다른 페이지로 이동
+                                if(leftlist!.length>0){
+                                  var rand = leftlist![Random().nextInt(leftlist!.length)];
+                                  leftlist!.remove(rand);
+                                  Navigator.pop(context);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => resultlist_with(rand,leftlist)),
+                                  );
+                                }else{
+                                  Fluttertoast.showToast(
+                                      msg: "남은 음식점이 없습니다.",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.CENTER,
+                                      timeInSecForIosWeb: 1,
+                                      backgroundColor: Colors.red,
+                                      textColor: Colors.white,
+                                      fontSize: 16.0);
+                                }
 
-                          },
-                          child: Container(
-                            height: 40,
-                            width: 150,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                color: Colors.grey[300],
-                                // border: Border.all(
-                                //   color: const Color.fromARGB(255, 180, 180, 180),
-                                //   width: 1.5,
-                                // ),
-                                borderRadius: BorderRadius.circular(10)),
-                            child: const Text(
-                              "다시 뽑기",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontFamily: 'NanumSquareB.ttf',
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          )
-                        ),
+                              },
+                              child: Container(
+                                height: 40,
+                                width: 150,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                    color: Colors.grey[300],
+                                    // border: Border.all(
+                                    //   color: const Color.fromARGB(255, 180, 180, 180),
+                                    //   width: 1.5,
+                                    // ),
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: const Text(
+                                  "다시 뽑기",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontFamily: 'NanumSquareB.ttf',
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              )
+                          ),
                         const SizedBox(
                           width: 10,
                         ),
@@ -451,63 +456,64 @@ class Result_with extends State<resultlist_with> {
                     ),
                     Row(
                       children: [
-                        Container(
-                          height: 40,
-                          width: 150,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              color: Colors.grey[300],
-                              // border: Border.all(
-                              //   color: const Color.fromARGB(255, 180, 180, 180),
-                              //   width: 1.5,
-                              // ),
-                              borderRadius: BorderRadius.circular(10)),
-                          child: InkWell(
-                              onTap: () {
-                                // 버튼을 클릭하면 다른 페이지로 이동
-                                if(leftlist.length>0){
-                                  var rand = leftlist[Random().nextInt(leftlist.length)];
-                                  leftlist.remove(rand);
-                                  Navigator.pop(context);
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => resultlist_with(rand,leftlist)),
-                                  );
-                                }else{
-                                  Fluttertoast.showToast(
-                                      msg: "남은 음식점이 없습니다.",
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      gravity: ToastGravity.CENTER,
-                                      timeInSecForIosWeb: 1,
-                                      backgroundColor: Colors.red,
-                                      textColor: Colors.white,
-                                      fontSize: 16.0);
-                                }
+                        if(leftlist != null)
+                            Container(
+                            height: 40,
+                            width: 150,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                color: Colors.grey[300],
+                                // border: Border.all(
+                                //   color: const Color.fromARGB(255, 180, 180, 180),
+                                //   width: 1.5,
+                                // ),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: InkWell(
+                                onTap: () {
+                                  // 버튼을 클릭하면 다른 페이지로 이동
+                                  if(leftlist!.length>0){
+                                    var rand = leftlist![Random().nextInt(leftlist!.length)];
+                                    leftlist!.remove(rand);
+                                    Navigator.pop(context);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => resultlist_with(rand,leftlist)),
+                                    );
+                                  }else{
+                                    Fluttertoast.showToast(
+                                        msg: "남은 음식점이 없습니다.",
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.CENTER,
+                                        timeInSecForIosWeb: 1,
+                                        backgroundColor: Colors.red,
+                                        textColor: Colors.white,
+                                        fontSize: 16.0);
+                                  }
 
-                              },
-                              child: Container(
-                                height: 40,
-                                width: 150,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                    color: Colors.grey[300],
-                                    // border: Border.all(
-                                    //   color: const Color.fromARGB(255, 180, 180, 180),
-                                    //   width: 1.5,
-                                    // ),
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: const Text(
-                                  "다시 뽑기",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontFamily: 'NanumSquareB.ttf',
-                                    fontWeight: FontWeight.normal,
+                                },
+                                child: Container(
+                                  height: 40,
+                                  width: 150,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      color: Colors.grey[300],
+                                      // border: Border.all(
+                                      //   color: const Color.fromARGB(255, 180, 180, 180),
+                                      //   width: 1.5,
+                                      // ),
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: const Text(
+                                    "다시 뽑기",
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontFamily: 'NanumSquareB.ttf',
+                                      fontWeight: FontWeight.normal,
+                                    ),
                                   ),
-                                ),
-                              )
+                                )
+                            ),
                           ),
-                        ),
                         const SizedBox(
                           width: 10,
                         ),

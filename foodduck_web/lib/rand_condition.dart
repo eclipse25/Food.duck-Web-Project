@@ -4,7 +4,6 @@ import 'package:project2307/result_with.dart';
 import 'back/data_fetch.dart';
 import 'widget.dart';
 import 'drawer.dart';
-import 'result.dart';
 import 'dart:math';
 
 class DropdownChoice extends StatefulWidget {

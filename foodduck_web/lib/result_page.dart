@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:project2307/result_with.dart';
 import 'drawer.dart';
 import 'back/data_fetch.dart';
 import 'widget.dart';
-import 'result.dart';
 
 class searchList extends StatefulWidget {
   final List<dynamic> listIndex;
@@ -61,7 +61,7 @@ class _searchListState extends State<searchList> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => resultlist(targetIndex[index - 1])),
+                    builder: (context) => resultlist_with(targetIndex[index - 1],null)),
               );
             },
             trailing: IconButton(
