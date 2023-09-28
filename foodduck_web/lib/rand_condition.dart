@@ -218,11 +218,13 @@ class _RandConditionState extends State<RandCondition> {
           ),
           onPressed: () {
             //without tag
-
             var rand = Random().nextInt(listfood.length);
+            List<dynamic> leftlist = List<int>.generate(listfood.length, (i) => i );
+            leftlist.toSet().toList().remove(rand);
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => resultlist_with(rand)),
+              MaterialPageRoute(
+                  builder: (context) => resultlist_with(rand,leftlist)),
             );
           },
           child: const Text("고르는 것도 귀찮아"),
@@ -249,6 +251,7 @@ class _RandConditionState extends State<RandCondition> {
           onPressed: () {
             //with tag
             tmp = [...category[dropdownValue]];
+            tmp = tmp.toSet().toList();
             print(tmp);
             for (int dis = initialSliderValue.toInt() + 1; dis < 5; dis++) {
               if (trav_time.containsKey(dis)) {
@@ -261,12 +264,13 @@ class _RandConditionState extends State<RandCondition> {
                   (item) => !price[priceSliderValue.toInt()].contains(item));
             }
 
-            print(tmp);
             if (tmp.isNotEmpty) {
               var rand = Random().nextInt(tmp.length);
+              tmp.remove(rand);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => resultlist(tmp[rand])),
+                MaterialPageRoute(
+                    builder: (context) => resultlist_with(rand,tmp)),
               );
             } else {
               Fluttertoast.showToast(

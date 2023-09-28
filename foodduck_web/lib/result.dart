@@ -8,6 +8,8 @@ import 'package:flutter/services.dart';
 import 'dart:ui' as ui;
 import 'dart:math';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
 
 class RenderLinkImage extends StatefulWidget {
   final src;
@@ -74,7 +76,7 @@ class Result extends State<resultlist> {
   late String tagstring;
   late RenderLinkImage img;
   late Uri _url;
-  late Uri maplink;
+  late Uri? maplink;
 
   @override
   void initState() {
@@ -83,13 +85,19 @@ class Result extends State<resultlist> {
     menu = listfood[Index]["category"];
     position = listfood[Index]["address"];
     description = listfood[Index]["OneLiner"];
-    storeimage = listfood[Index]["image"];
+    if(listfood[Index]["image"] != null){
+      storeimage = listfood[Index]["image"];
+      img = RenderLinkImage(src: storeimage);
+    }else img = RenderLinkImage(src: "https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg");
     foodtag = List.generate(listfood[Index]["tags"].length,
         (index) => '#${listfood[Index]["tags"][index]}');
     tagstring = foodtag.join(" ");
-    img = RenderLinkImage(src: storeimage);
     _url = Uri.parse('https://forms.gle/J5nnWwScc6ehhUuQ6');
-    maplink = Uri.parse(listfood[Index]["MapLink"]);
+    if(listfood[Index]["NaverMap"]!=null){
+      maplink = Uri.parse(listfood[Index]["MapLink"]);
+    }else{
+      maplink = null;
+    }
     super.initState();
   }
 
@@ -278,10 +286,23 @@ class Result extends State<resultlist> {
                         ),
                       ),
                       TextButton(
-                        onPressed: () => _launchUrl(maplink),
+                        onPressed: (){
+                          if(maplink !=null){
+                            _launchUrl(maplink!);
+                          }else{
+                            Fluttertoast.showToast(
+                                msg: "음식점 링크가 없습니다.",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.CENTER,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.red,
+                                textColor: Colors.white,
+                                fontSize: 16.0);
+                          }
+                        },
                         style: TextButton.styleFrom(
                           foregroundColor:
-                              Colors.redAccent.shade200, // Text Color
+                          Colors.redAccent.shade200, // Text Color
                         ),
                         child: const Text(
                           '식당 위치 지도로 보기',
@@ -531,10 +552,23 @@ class Result extends State<resultlist> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     TextButton(
-                                      onPressed: () => _launchUrl(maplink),
+                                      onPressed: (){
+                                        if(maplink !=null){
+                                          _launchUrl(maplink!);
+                                        }else{
+                                          Fluttertoast.showToast(
+                                              msg: "음식점 링크가 없습니다.",
+                                              toastLength: Toast.LENGTH_SHORT,
+                                              gravity: ToastGravity.CENTER,
+                                              timeInSecForIosWeb: 1,
+                                              backgroundColor: Colors.red,
+                                              textColor: Colors.white,
+                                              fontSize: 16.0);
+                                        }
+                                      },
                                       style: TextButton.styleFrom(
-                                        foregroundColor: Colors
-                                            .redAccent.shade200, // Text Color
+                                        foregroundColor:
+                                        Colors.redAccent.shade200, // Text Color
                                       ),
                                       child: const Text(
                                         '식당 위치 지도로 보기',

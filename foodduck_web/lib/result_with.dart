@@ -8,6 +8,8 @@ import 'package:flutter/services.dart';
 import 'dart:ui' as ui;
 import 'dart:math';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
 
 class RenderLinkImage extends StatefulWidget {
   final src;
@@ -56,7 +58,8 @@ class _RenderLinkImageState extends State<RenderLinkImage> {
 
 class resultlist_with extends StatefulWidget {
   final Idx;
-  const resultlist_with(this.Idx, {super.key});
+  final List<dynamic> leftlist;
+  const resultlist_with(this.Idx,this.leftlist, {super.key});
 
   @override
   Result_with createState() => Result_with();
@@ -74,7 +77,8 @@ class Result_with extends State<resultlist_with> {
   late String tagstring;
   late RenderLinkImage img;
   late Uri _url;
-  late Uri maplink;
+  late Uri? maplink;
+  late List<dynamic> leftlist;
 
   @override
   void initState() {
@@ -83,13 +87,20 @@ class Result_with extends State<resultlist_with> {
     menu = listfood[Index]["category"];
     position = listfood[Index]["address"];
     description = listfood[Index]["OneLiner"];
-    storeimage = listfood[Index]["image"];
+    if(listfood[Index]["image"] != null){
+      storeimage = listfood[Index]["image"];
+      img = RenderLinkImage(src: storeimage);
+    }else img = RenderLinkImage(src: "https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg");
     foodtag = List.generate(listfood[Index]["tags"].length,
         (index) => '#${listfood[Index]["tags"][index]}');
     tagstring = foodtag.join(" ");
-    img = RenderLinkImage(src: storeimage);
     _url = Uri.parse('https://forms.gle/J5nnWwScc6ehhUuQ6');
-    maplink = Uri.parse(listfood[Index]["MapLink"]);
+    if(listfood[Index]["NaverMap"] != null){
+      maplink = Uri.parse(listfood[Index]["NaverMap"]);
+    }else {
+      maplink = null;
+    }
+    leftlist=widget.leftlist.toSet().toList();
     super.initState();
   }
 
@@ -150,25 +161,50 @@ class Result_with extends State<resultlist_with> {
                     ),
                     Row(
                       children: [
-                        Container(
-                          height: 40,
-                          width: 150,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              color: Colors.grey[300],
-                              // border: Border.all(
-                              //   color: const Color.fromARGB(255, 180, 180, 180),
-                              //   width: 1.5,
-                              // ),
-                              borderRadius: BorderRadius.circular(10)),
-                          child: const Text(
-                            "다시 뽑기",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontFamily: 'NanumSquareB.ttf',
-                              fontWeight: FontWeight.normal,
+                        InkWell(
+                          onTap: () {
+                            // 버튼을 클릭하면 다른 페이지로 이동
+                            if(leftlist.length>0){
+                              var rand = leftlist[Random().nextInt(leftlist.length)];
+                              leftlist.remove(rand);
+                              Navigator.pop(context);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => resultlist_with(rand,leftlist)),
+                              );
+                            }else{
+                              Fluttertoast.showToast(
+                                  msg: "남은 음식점이 없습니다.",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.CENTER,
+                                  timeInSecForIosWeb: 1,
+                                  backgroundColor: Colors.red,
+                                  textColor: Colors.white,
+                                  fontSize: 16.0);
+                            }
+
+                          },
+                          child: Container(
+                            height: 40,
+                            width: 150,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                color: Colors.grey[300],
+                                // border: Border.all(
+                                //   color: const Color.fromARGB(255, 180, 180, 180),
+                                //   width: 1.5,
+                                // ),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: const Text(
+                              "다시 뽑기",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontFamily: 'NanumSquareB.ttf',
+                                fontWeight: FontWeight.normal,
+                              ),
                             ),
-                          ),
+                          )
                         ),
                         const SizedBox(
                           width: 10,
@@ -307,7 +343,20 @@ class Result_with extends State<resultlist_with> {
                         ),
                       ),
                       TextButton(
-                        onPressed: () => _launchUrl(maplink),
+                        onPressed: (){
+                          if(maplink !=null){
+                           _launchUrl(maplink!);
+                          }else{
+                            Fluttertoast.showToast(
+                                msg: "음식점 링크가 없습니다.",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.CENTER,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.red,
+                                textColor: Colors.white,
+                                fontSize: 16.0);
+                          }
+                        },
                         style: TextButton.styleFrom(
                           foregroundColor:
                               Colors.redAccent.shade200, // Text Color
@@ -413,13 +462,50 @@ class Result_with extends State<resultlist_with> {
                               //   width: 1.5,
                               // ),
                               borderRadius: BorderRadius.circular(10)),
-                          child: const Text(
-                            "다시 뽑기",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontFamily: 'NanumSquareB.ttf',
-                              fontWeight: FontWeight.normal,
-                            ),
+                          child: InkWell(
+                              onTap: () {
+                                // 버튼을 클릭하면 다른 페이지로 이동
+                                if(leftlist.length>0){
+                                  var rand = leftlist[Random().nextInt(leftlist.length)];
+                                  leftlist.remove(rand);
+                                  Navigator.pop(context);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => resultlist_with(rand,leftlist)),
+                                  );
+                                }else{
+                                  Fluttertoast.showToast(
+                                      msg: "남은 음식점이 없습니다.",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.CENTER,
+                                      timeInSecForIosWeb: 1,
+                                      backgroundColor: Colors.red,
+                                      textColor: Colors.white,
+                                      fontSize: 16.0);
+                                }
+
+                              },
+                              child: Container(
+                                height: 40,
+                                width: 150,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                    color: Colors.grey[300],
+                                    // border: Border.all(
+                                    //   color: const Color.fromARGB(255, 180, 180, 180),
+                                    //   width: 1.5,
+                                    // ),
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: const Text(
+                                  "다시 뽑기",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontFamily: 'NanumSquareB.ttf',
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              )
                           ),
                         ),
                         const SizedBox(
@@ -589,10 +675,23 @@ class Result_with extends State<resultlist_with> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     TextButton(
-                                      onPressed: () => _launchUrl(maplink),
+                                      onPressed: (){
+                                        if(maplink !=null){
+                                          _launchUrl(maplink!);
+                                        }else{
+                                          Fluttertoast.showToast(
+                                              msg: "음식점 링크가 없습니다.",
+                                              toastLength: Toast.LENGTH_SHORT,
+                                              gravity: ToastGravity.CENTER,
+                                              timeInSecForIosWeb: 1,
+                                              backgroundColor: Colors.red,
+                                              textColor: Colors.white,
+                                              fontSize: 16.0);
+                                        }
+                                      },
                                       style: TextButton.styleFrom(
-                                        foregroundColor: Colors
-                                            .redAccent.shade200, // Text Color
+                                        foregroundColor:
+                                        Colors.redAccent.shade200, // Text Color
                                       ),
                                       child: const Text(
                                         '식당 위치 지도로 보기',
