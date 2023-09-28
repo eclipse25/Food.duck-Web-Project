@@ -331,7 +331,8 @@ class SearchPageState extends State<SearchPage> {
                                     searchText = recentSearches[i];
                                   });
                                   clickRecentSearches();
-                                },
+                                }
+                                ,
                                 child: Text(
                                   recentSearches[i],
                                   overflow: TextOverflow.ellipsis,
@@ -397,8 +398,11 @@ class SearchPageState extends State<SearchPage> {
                           ),
                           child: InkWell(
                             onTap: () {
-                              isSelectedCate[i] = !isSelectedCate[i];
-                              clickCategoryBottons(i);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => searchList(category[categorys[i]], categorys[i])),
+                              );
                             },
                             child: Text(
                               categorys[i],
@@ -430,8 +434,7 @@ class SearchPageState extends State<SearchPage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        searchList(tag[tags[i]], tags[i])),
+                                    builder: (context) => searchList(tag[tags[i]], tags[i])),
                               );
                             },
                             child: Text(
@@ -609,8 +612,11 @@ class SearchPageState extends State<SearchPage> {
                                   ),
                                   child: InkWell(
                                     onTap: () {
-                                      isSelectedCate[i] = !isSelectedCate[i];
-                                      clickCategoryBottons(i);
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => searchList(category[categorys[i]], categorys[i])),
+                                      );
                                     },
                                     child: Text(categorys[i]),
                                   ),
@@ -636,8 +642,11 @@ class SearchPageState extends State<SearchPage> {
                                   ),
                                   child: InkWell(
                                     onTap: () {
-                                      isSelected[i] = !isSelected[i];
-                                      clickTagBottons(i);
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => searchList(tag[tags[i]], tags[i])),
+                                      );
                                     },
                                     child: Text(tags[i]),
                                   ),
