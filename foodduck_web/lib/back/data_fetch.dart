@@ -43,13 +43,23 @@ Future<int> makelist(var parsedList) async {
       trav_time[i["trav_time"]].add(idx);
     }
 
-    var pp = ((i["price"])/10000).toInt();
-    if (price.containsKey(pp)) {
-      price[pp].add(idx);
-    } else {
-      price[pp] = <int>[];
-      price[pp].add(idx);
+    if(i["avg_Price"] != 0){
+      var pp = ((i["avg_Price"])/10000).toInt();
+      if (price.containsKey(pp)) {
+        price[pp].add(idx);
+      } else {
+        price[pp] = <int>[];
+        price[pp].add(idx);
+      }
+    }else{
+      for(int i = 0; i< 4 ;i++){
+        if(!price.containsKey(i)) {
+          price[i] = <int>[];
+        }
+        price[i].add(idx);
+      }
     }
+
 
     if (place.containsKey(i["place"])) {
       place[i["place"]].add(idx);
@@ -59,7 +69,6 @@ Future<int> makelist(var parsedList) async {
     }
 
     for (var j in i["tags"]) {
-      if (!tags.contains(j)) tags.add(j);
       if (tag.containsKey(j)) {
         tag[j].add(idx);
       } else {

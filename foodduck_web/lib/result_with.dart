@@ -56,15 +56,16 @@ class _RenderLinkImageState extends State<RenderLinkImage> {
   }
 }
 
-class resultlist extends StatefulWidget {
+class resultlist_with extends StatefulWidget {
   final Idx;
-  const resultlist(this.Idx, {super.key});
+  final List<dynamic> leftlist;
+  const resultlist_with(this.Idx,this.leftlist, {super.key});
 
   @override
-  Result createState() => Result();
+  Result_with createState() => Result_with();
 }
 
-class Result extends State<resultlist> {
+class Result_with extends State<resultlist_with> {
   var Index;
   late String storeName;
   late String menu;
@@ -77,7 +78,7 @@ class Result extends State<resultlist> {
   late RenderLinkImage img;
   late Uri _url;
   late Uri? maplink;
-  late List<dynamic> times;
+  late List<dynamic> leftlist;
 
   @override
   void initState() {
@@ -94,13 +95,12 @@ class Result extends State<resultlist> {
         (index) => '#${listfood[Index]["tags"][index]}');
     tagstring = foodtag.join(" ");
     _url = Uri.parse('https://forms.gle/J5nnWwScc6ehhUuQ6');
-
-    if(listfood[Index]["NaverMap"]!=null){
+    if(listfood[Index]["NaverMap"] != null){
       maplink = Uri.parse(listfood[Index]["NaverMap"]);
-    }else{
+    }else {
       maplink = null;
     }
-    times = listfood[Index]["times"];
+    leftlist=widget.leftlist.toSet().toList();
     super.initState();
   }
 
@@ -159,33 +159,87 @@ class Result extends State<resultlist> {
                         ),
                       ),
                     ),
-                    IconButton(
-                      padding: EdgeInsets.zero,
-                      icon: Icon(
-                        liked.contains(Index) ? Icons.star : Icons.star_border,
-                        color: liked.contains(Index) ? Colors.yellow : null,
-                        semanticLabel: liked.contains(Index)
-                            ? 'Remove from saved'
-                            : 'Save',
-                        size: 36,
-                      ),
-                      onPressed: () async {
-                        int flag = 0;
-                        if (liked.contains(Index)) {
-                          flag = 1;
-                          await WriteCaches(listfood[Index]["name"], '0');
-                        } else {
-                          flag = 0;
-                          await WriteCaches(listfood[Index]["name"], '1');
-                        }
-                        setState(() {
-                          if (flag == 1) {
-                            liked.remove(Index);
-                          } else {
-                            liked.add(Index);
-                          }
-                        });
-                      },
+                    Row(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            // 버튼을 클릭하면 다른 페이지로 이동
+                            if(leftlist.length>0){
+                              var rand = leftlist[Random().nextInt(leftlist.length)];
+                              leftlist.remove(rand);
+                              Navigator.pop(context);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => resultlist_with(rand,leftlist)),
+                              );
+                            }else{
+                              Fluttertoast.showToast(
+                                  msg: "남은 음식점이 없습니다.",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.CENTER,
+                                  timeInSecForIosWeb: 1,
+                                  backgroundColor: Colors.red,
+                                  textColor: Colors.white,
+                                  fontSize: 16.0);
+                            }
+
+                          },
+                          child: Container(
+                            height: 40,
+                            width: 150,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                color: Colors.grey[300],
+                                // border: Border.all(
+                                //   color: const Color.fromARGB(255, 180, 180, 180),
+                                //   width: 1.5,
+                                // ),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: const Text(
+                              "다시 뽑기",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontFamily: 'NanumSquareB.ttf',
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          )
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        IconButton(
+                          padding: EdgeInsets.zero,
+                          icon: Icon(
+                            liked.contains(Index)
+                                ? Icons.star
+                                : Icons.star_border,
+                            color: liked.contains(Index) ? Colors.yellow : null,
+                            semanticLabel: liked.contains(Index)
+                                ? 'Remove from saved'
+                                : 'Save',
+                            size: 36,
+                          ),
+                          onPressed: () async {
+                            int flag = 0;
+                            if (liked.contains(Index)) {
+                              flag = 1;
+                              await WriteCaches(listfood[Index]["name"], '0');
+                            } else {
+                              flag = 0;
+                              await WriteCaches(listfood[Index]["name"], '1');
+                            }
+                            setState(() {
+                              if (flag == 1) {
+                                liked.remove(Index);
+                              } else {
+                                liked.add(Index);
+                              }
+                            });
+                          },
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -226,112 +280,44 @@ class Result extends State<resultlist> {
                         alignment: Alignment.topLeft,
                         margin: const EdgeInsets.fromLTRB(23, 10, 23, 0),
                         child: RichText(
-                          text: TextSpan(
-                              children: <TextSpan>[
-                                TextSpan(children: <TextSpan>[
-                                  const TextSpan(
-                                      text: "메뉴: ",
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontFamily: "NanumSquare_ac",
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.black,
-                                        height: 1.5,
-                                      )),
-                                  TextSpan(
-                                      text: '$menu\n',
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        fontFamily: "NanumSquare_ac",
-                                        fontWeight: FontWeight.w200,
-                                        color: Colors.black,
-                                        height: 1.5,
-                                      )),
-                                  const TextSpan(
-                                      text: "위치: ",
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontFamily: "NanumSquare_ac",
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.black,
-                                        height: 1.5,
-                                      )),
-                                  TextSpan(
-                                      text: '$position\n',
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        fontFamily: "NanumSquare_ac",
-                                        fontWeight: FontWeight.w200,
-                                        color: Colors.black,
-                                        height: 1.5,
-                                      ))
-                                ]),
-                                if(times.length == 4)
-                                  TextSpan(
-                                      children : [
-                                        const TextSpan(
-                                            text: "영업 시간: ",
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                              fontFamily: "NanumSquare_ac",
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.black,
-                                              height: 1.5,
-                                            )),
-                                        TextSpan(
-                                            text: '${times[0]} ~ ${times[3]}\n',
-                                            style: const TextStyle(
-                                              fontSize: 20,
-                                              fontFamily: "NanumSquare_ac",
-                                              fontWeight: FontWeight.w200,
-                                              color: Colors.black,
-                                              height: 1.5,
-                                            )),
-                                        const TextSpan(
-                                            text: "브레이크 타임: ",
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                              fontFamily: "NanumSquare_ac",
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.black,
-                                              height: 1.5,
-                                            )),
-                                        TextSpan(
-                                            text: '${times[1]} ~ ${times[2]}\n',
-                                            style: const TextStyle(
-                                              fontSize: 20,
-                                              fontFamily: "NanumSquare_ac",
-                                              fontWeight: FontWeight.w200,
-                                              color: Colors.black,
-                                              height: 1.5,
-                                            ))
-                                      ]
-                                  ),
-                                if(times.length == 2)
-                                  TextSpan(
-                                      children : [
-                                        const TextSpan(
-                                            text: "영업 시간: ",
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                              fontFamily: "NanumSquare_ac",
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.black,
-                                              height: 1.5,
-                                            )),
-                                        TextSpan(
-                                            text: '${times[0]} ~ ${times[1]}\n',
-                                            style: const TextStyle(
-                                              fontSize: 20,
-                                              fontFamily: "NanumSquare_ac",
-                                              fontWeight: FontWeight.w200,
-                                              color: Colors.black,
-                                              height: 1.5,
-                                            ))
-                                      ]
-                                  )
-                              ]
-                          ),
+                          text: TextSpan(children: <TextSpan>[
+                            const TextSpan(
+                                text: "메뉴: ",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontFamily: "NanumSquare_ac",
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black,
+                                  height: 1.5,
+                                )),
+                            TextSpan(
+                                text: '$menu\n',
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontFamily: "NanumSquare_ac",
+                                  fontWeight: FontWeight.w200,
+                                  color: Colors.black,
+                                  height: 1.5,
+                                )),
+                            const TextSpan(
+                                text: "위치: ",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontFamily: "NanumSquare_ac",
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black,
+                                  height: 1.5,
+                                )),
+                            TextSpan(
+                                text: '$position\n',
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontFamily: "NanumSquare_ac",
+                                  fontWeight: FontWeight.w200,
+                                  color: Colors.black,
+                                  height: 1.5,
+                                ))
+                          ]),
                         ),
                       ),
                       Container(
@@ -359,7 +345,7 @@ class Result extends State<resultlist> {
                       TextButton(
                         onPressed: (){
                           if(maplink !=null){
-                            _launchUrl(maplink!);
+                           _launchUrl(maplink!);
                           }else{
                             Fluttertoast.showToast(
                                 msg: "음식점 링크가 없습니다.",
@@ -373,7 +359,7 @@ class Result extends State<resultlist> {
                         },
                         style: TextButton.styleFrom(
                           foregroundColor:
-                          Colors.redAccent.shade200, // Text Color
+                              Colors.redAccent.shade200, // Text Color
                         ),
                         child: const Text(
                           '식당 위치 지도로 보기',
@@ -463,33 +449,99 @@ class Result extends State<resultlist> {
                         ),
                       ),
                     ),
-                    IconButton(
-                      padding: EdgeInsets.zero,
-                      icon: Icon(
-                        liked.contains(Index) ? Icons.star : Icons.star_border,
-                        color: liked.contains(Index) ? Colors.yellow : null,
-                        semanticLabel: liked.contains(Index)
-                            ? 'Remove from saved'
-                            : 'Save',
-                        size: 36,
-                      ),
-                      onPressed: () async {
-                        int flag = 0;
-                        if (liked.contains(Index)) {
-                          flag = 1;
-                          await WriteCaches(listfood[Index]["name"], '0');
-                        } else {
-                          flag = 0;
-                          await WriteCaches(listfood[Index]["name"], '1');
-                        }
-                        setState(() {
-                          if (flag == 1) {
-                            liked.remove(Index);
-                          } else {
-                            liked.add(Index);
-                          }
-                        });
-                      },
+                    Row(
+                      children: [
+                        Container(
+                          height: 40,
+                          width: 150,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              color: Colors.grey[300],
+                              // border: Border.all(
+                              //   color: const Color.fromARGB(255, 180, 180, 180),
+                              //   width: 1.5,
+                              // ),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: InkWell(
+                              onTap: () {
+                                // 버튼을 클릭하면 다른 페이지로 이동
+                                if(leftlist.length>0){
+                                  var rand = leftlist[Random().nextInt(leftlist.length)];
+                                  leftlist.remove(rand);
+                                  Navigator.pop(context);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => resultlist_with(rand,leftlist)),
+                                  );
+                                }else{
+                                  Fluttertoast.showToast(
+                                      msg: "남은 음식점이 없습니다.",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.CENTER,
+                                      timeInSecForIosWeb: 1,
+                                      backgroundColor: Colors.red,
+                                      textColor: Colors.white,
+                                      fontSize: 16.0);
+                                }
+
+                              },
+                              child: Container(
+                                height: 40,
+                                width: 150,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                    color: Colors.grey[300],
+                                    // border: Border.all(
+                                    //   color: const Color.fromARGB(255, 180, 180, 180),
+                                    //   width: 1.5,
+                                    // ),
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: const Text(
+                                  "다시 뽑기",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontFamily: 'NanumSquareB.ttf',
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              )
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        IconButton(
+                          padding: EdgeInsets.zero,
+                          icon: Icon(
+                            liked.contains(Index)
+                                ? Icons.star
+                                : Icons.star_border,
+                            color: liked.contains(Index) ? Colors.yellow : null,
+                            semanticLabel: liked.contains(Index)
+                                ? 'Remove from saved'
+                                : 'Save',
+                            size: 36,
+                          ),
+                          onPressed: () async {
+                            int flag = 0;
+                            if (liked.contains(Index)) {
+                              flag = 1;
+                              await WriteCaches(listfood[Index]["name"], '0');
+                            } else {
+                              flag = 0;
+                              await WriteCaches(listfood[Index]["name"], '1');
+                            }
+                            setState(() {
+                              if (flag == 1) {
+                                liked.remove(Index);
+                              } else {
+                                liked.add(Index);
+                              }
+                            });
+                          },
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -552,112 +604,44 @@ class Result extends State<resultlist> {
                                 margin:
                                     const EdgeInsets.fromLTRB(23, 10, 23, 0),
                                 child: RichText(
-                                  text: TextSpan(
-                                    children: <TextSpan>[
-                                      TextSpan(children: <TextSpan>[
-                                        const TextSpan(
-                                            text: "메뉴: ",
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                              fontFamily: "NanumSquare_ac",
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.black,
-                                              height: 1.5,
-                                            )),
-                                        TextSpan(
-                                            text: '$menu\n',
-                                            style: const TextStyle(
-                                              fontSize: 20,
-                                              fontFamily: "NanumSquare_ac",
-                                              fontWeight: FontWeight.w200,
-                                              color: Colors.black,
-                                              height: 1.5,
-                                            )),
-                                        const TextSpan(
-                                            text: "위치: ",
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                              fontFamily: "NanumSquare_ac",
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.black,
-                                              height: 1.5,
-                                            )),
-                                        TextSpan(
-                                            text: '$position\n',
-                                            style: const TextStyle(
-                                              fontSize: 20,
-                                              fontFamily: "NanumSquare_ac",
-                                              fontWeight: FontWeight.w200,
-                                              color: Colors.black,
-                                              height: 1.5,
-                                            ))
-                                      ]),
-                                      if(times.length == 4)
-                                        TextSpan(
-                                          children : [
-                                            const TextSpan(
-                                                text: "영업 시간: ",
-                                                style: TextStyle(
-                                                  fontSize: 20,
-                                                  fontFamily: "NanumSquare_ac",
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Colors.black,
-                                                  height: 1.5,
-                                                )),
-                                            TextSpan(
-                                                text: '${times[0]} ~ ${times[3]}\n',
-                                                style: const TextStyle(
-                                                  fontSize: 20,
-                                                  fontFamily: "NanumSquare_ac",
-                                                  fontWeight: FontWeight.w200,
-                                                  color: Colors.black,
-                                                  height: 1.5,
-                                                )),
-                                            const TextSpan(
-                                                text: "브레이크 타임: ",
-                                                style: TextStyle(
-                                                  fontSize: 20,
-                                                  fontFamily: "NanumSquare_ac",
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Colors.black,
-                                                  height: 1.5,
-                                                )),
-                                            TextSpan(
-                                                text: '${times[1]} ~ ${times[2]}\n',
-                                                style: const TextStyle(
-                                                  fontSize: 20,
-                                                  fontFamily: "NanumSquare_ac",
-                                                  fontWeight: FontWeight.w200,
-                                                  color: Colors.black,
-                                                  height: 1.5,
-                                                ))
-                                          ]
-                                        ),
-                                      if(times.length == 2)
-                                        TextSpan(
-                                            children : [
-                                              const TextSpan(
-                                                  text: "영업 시간: ",
-                                                  style: TextStyle(
-                                                    fontSize: 20,
-                                                    fontFamily: "NanumSquare_ac",
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.black,
-                                                    height: 1.5,
-                                                  )),
-                                              TextSpan(
-                                                  text: '${times[0]} ~ ${times[1]}\n',
-                                                  style: const TextStyle(
-                                                    fontSize: 20,
-                                                    fontFamily: "NanumSquare_ac",
-                                                    fontWeight: FontWeight.w200,
-                                                    color: Colors.black,
-                                                    height: 1.5,
-                                                  ))
-                                            ]
-                                        )
-                                    ]
-                                  ),
+                                  text: TextSpan(children: <TextSpan>[
+                                    const TextSpan(
+                                        text: "메뉴: ",
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontFamily: "NanumSquare_ac",
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black,
+                                          height: 1.5,
+                                        )),
+                                    TextSpan(
+                                        text: '$menu\n',
+                                        style: const TextStyle(
+                                          fontSize: 20,
+                                          fontFamily: "NanumSquare_ac",
+                                          fontWeight: FontWeight.w200,
+                                          color: Colors.black,
+                                          height: 1.5,
+                                        )),
+                                    const TextSpan(
+                                        text: "위치: ",
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontFamily: "NanumSquare_ac",
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black,
+                                          height: 1.5,
+                                        )),
+                                    TextSpan(
+                                        text: '$position\n',
+                                        style: const TextStyle(
+                                          fontSize: 20,
+                                          fontFamily: "NanumSquare_ac",
+                                          fontWeight: FontWeight.w200,
+                                          color: Colors.black,
+                                          height: 1.5,
+                                        ))
+                                  ]),
                                 ),
                               ),
                               Container(

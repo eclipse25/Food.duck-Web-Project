@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:project2307/result_with.dart';
 import 'loading.dart';
 import 'drawer.dart';
 import 'search_page.dart';
@@ -72,7 +73,7 @@ class _HomePage extends State<HomePage> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           //drawer기능 때문에 Appbar 필요
-          automaticallyImplyLeading:false,
+          automaticallyImplyLeading: false,
           toolbarHeight: 60,
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -180,10 +181,12 @@ class _HomePage extends State<HomePage> {
                       onTap: () {
                         // 버튼을 클릭하면 다른 페이지로 이동
                         var rand = Random().nextInt(listfood.length);
+                        List<dynamic> leftlist = List<int>.generate(listfood.length, (i) => i );
+                        leftlist.toSet().toList().remove(rand);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => resultlist(rand)),
+                              builder: (context) => resultlist_with(rand,leftlist)),
                         );
                       },
                       child: Container(
