@@ -4,12 +4,10 @@ import 'drawer.dart';
 import 'widget.dart'; //appBar
 import 'back/data_fetch.dart';
 import 'dart:html';
-import 'package:flutter/services.dart';
 import 'dart:ui' as ui;
 import 'dart:math';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
 
 class RenderLinkImage extends StatefulWidget {
   final src;
@@ -59,7 +57,7 @@ class _RenderLinkImageState extends State<RenderLinkImage> {
 class resultlist_with extends StatefulWidget {
   final Idx;
   final List<dynamic>? leftlist;
-  const resultlist_with(this.Idx,this.leftlist, {super.key});
+  const resultlist_with(this.Idx, this.leftlist, {super.key});
 
   @override
   Result_with createState() => Result_with();
@@ -88,23 +86,27 @@ class Result_with extends State<resultlist_with> {
     menu = listfood[Index]["category"];
     position = listfood[Index]["address"];
     description = listfood[Index]["OneLiner"];
-    if(listfood[Index]["image"] != null){
+    if (listfood[Index]["image"] != null) {
       storeimage = listfood[Index]["image"];
       img = RenderLinkImage(src: storeimage);
-    }else img = RenderLinkImage(src: "https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg");
+    } else {
+      img = const RenderLinkImage(
+          src:
+              "https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg");
+    }
     foodtag = List.generate(listfood[Index]["tags"].length,
         (index) => '#${listfood[Index]["tags"][index]}');
     tagstring = foodtag.join(" ");
     _url = Uri.parse('https://forms.gle/J5nnWwScc6ehhUuQ6');
-    if(listfood[Index]["NaverMap"] != null){
+    if (listfood[Index]["NaverMap"] != null) {
       maplink = Uri.parse(listfood[Index]["NaverMap"]);
-    }else {
+    } else {
       maplink = null;
     }
-    if(widget.leftlist != null){
-      leftlist=widget.leftlist!.toSet().toList();
-    }else{
-      leftlist=widget.leftlist;
+    if (widget.leftlist != null) {
+      leftlist = widget.leftlist!.toSet().toList();
+    } else {
+      leftlist = widget.leftlist;
     }
     times = listfood[Index]["times"];
     super.initState();
@@ -167,20 +169,22 @@ class Result_with extends State<resultlist_with> {
                     ),
                     Row(
                       children: [
-                        if(leftlist != null)
+                        if (leftlist != null)
                           InkWell(
                               onTap: () {
                                 // 버튼을 클릭하면 다른 페이지로 이동
-                                if(leftlist!.length>0){
-                                  var rand = leftlist![Random().nextInt(leftlist!.length)];
+                                if (leftlist!.isNotEmpty) {
+                                  var rand = leftlist![
+                                      Random().nextInt(leftlist!.length)];
                                   leftlist!.remove(rand);
                                   Navigator.pop(context);
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => resultlist_with(rand,leftlist)),
+                                        builder: (context) =>
+                                            resultlist_with(rand, leftlist)),
                                   );
-                                }else{
+                                } else {
                                   Fluttertoast.showToast(
                                       msg: "남은 음식점이 없습니다.",
                                       toastLength: Toast.LENGTH_SHORT,
@@ -190,7 +194,6 @@ class Result_with extends State<resultlist_with> {
                                       textColor: Colors.white,
                                       fontSize: 16.0);
                                 }
-
                               },
                               child: Container(
                                 height: 40,
@@ -211,8 +214,7 @@ class Result_with extends State<resultlist_with> {
                                     fontWeight: FontWeight.normal,
                                   ),
                                 ),
-                              )
-                          ),
+                              )),
                         const SizedBox(
                           width: 10,
                         ),
@@ -287,112 +289,106 @@ class Result_with extends State<resultlist_with> {
                         alignment: Alignment.topLeft,
                         margin: const EdgeInsets.fromLTRB(23, 10, 23, 0),
                         child: RichText(
-                          text: TextSpan(
-                              children: <TextSpan>[
-                                TextSpan(children: <TextSpan>[
-                                  const TextSpan(
-                                      text: "메뉴: ",
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontFamily: "NanumSquare_ac",
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.black,
-                                        height: 1.5,
-                                      )),
-                                  TextSpan(
-                                      text: '$menu\n',
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        fontFamily: "NanumSquare_ac",
-                                        fontWeight: FontWeight.w200,
-                                        color: Colors.black,
-                                        height: 1.5,
-                                      )),
-                                  const TextSpan(
-                                      text: "위치: ",
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontFamily: "NanumSquare_ac",
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.black,
-                                        height: 1.5,
-                                      )),
-                                  TextSpan(
-                                      text: '$position\n',
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        fontFamily: "NanumSquare_ac",
-                                        fontWeight: FontWeight.w200,
-                                        color: Colors.black,
-                                        height: 1.5,
-                                      ))
-                                ]),
-                                if(times.length == 4)
-                                  TextSpan(
-                                      children : [
-                                        const TextSpan(
-                                            text: "영업 시간: ",
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                              fontFamily: "NanumSquare_ac",
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.black,
-                                              height: 1.5,
-                                            )),
-                                        TextSpan(
-                                            text: '${times[0]} ~ ${times[3]}\n',
-                                            style: const TextStyle(
-                                              fontSize: 20,
-                                              fontFamily: "NanumSquare_ac",
-                                              fontWeight: FontWeight.w200,
-                                              color: Colors.black,
-                                              height: 1.5,
-                                            )),
-                                        const TextSpan(
-                                            text: "브레이크 타임: ",
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                              fontFamily: "NanumSquare_ac",
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.black,
-                                              height: 1.5,
-                                            )),
-                                        TextSpan(
-                                            text: '${times[1]} ~ ${times[2]}\n',
-                                            style: const TextStyle(
-                                              fontSize: 20,
-                                              fontFamily: "NanumSquare_ac",
-                                              fontWeight: FontWeight.w200,
-                                              color: Colors.black,
-                                              height: 1.5,
-                                            ))
-                                      ]
-                                  ),
-                                if(times.length == 2)
-                                  TextSpan(
-                                      children : [
-                                        const TextSpan(
-                                            text: "영업 시간: ",
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                              fontFamily: "NanumSquare_ac",
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.black,
-                                              height: 1.5,
-                                            )),
-                                        TextSpan(
-                                            text: '${times[0]} ~ ${times[1]}\n',
-                                            style: const TextStyle(
-                                              fontSize: 20,
-                                              fontFamily: "NanumSquare_ac",
-                                              fontWeight: FontWeight.w200,
-                                              color: Colors.black,
-                                              height: 1.5,
-                                            ))
-                                      ]
-                                  )
-                              ]
-                          ),
+                          text: TextSpan(children: <TextSpan>[
+                            TextSpan(children: <TextSpan>[
+                              const TextSpan(
+                                  text: "메뉴: ",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontFamily: "NanumSquare_ac",
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black,
+                                    height: 1.5,
+                                  )),
+                              TextSpan(
+                                  text: '$menu\n',
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontFamily: "NanumSquare_ac",
+                                    fontWeight: FontWeight.w200,
+                                    color: Colors.black,
+                                    height: 1.5,
+                                  )),
+                              const TextSpan(
+                                  text: "위치: ",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontFamily: "NanumSquare_ac",
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black,
+                                    height: 1.5,
+                                  )),
+                              TextSpan(
+                                  text: '$position\n',
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontFamily: "NanumSquare_ac",
+                                    fontWeight: FontWeight.w200,
+                                    color: Colors.black,
+                                    height: 1.5,
+                                  ))
+                            ]),
+                            if (times.length == 4)
+                              TextSpan(children: [
+                                const TextSpan(
+                                    text: "영업 시간: ",
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontFamily: "NanumSquare_ac",
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black,
+                                      height: 1.5,
+                                    )),
+                                TextSpan(
+                                    text: '${times[0]} ~ ${times[3]}\n',
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontFamily: "NanumSquare_ac",
+                                      fontWeight: FontWeight.w200,
+                                      color: Colors.black,
+                                      height: 1.5,
+                                    )),
+                                const TextSpan(
+                                    text: "브레이크 타임: ",
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontFamily: "NanumSquare_ac",
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black,
+                                      height: 1.5,
+                                    )),
+                                TextSpan(
+                                    text: '${times[1]} ~ ${times[2]}\n',
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontFamily: "NanumSquare_ac",
+                                      fontWeight: FontWeight.w200,
+                                      color: Colors.black,
+                                      height: 1.5,
+                                    ))
+                              ]),
+                            if (times.length == 2)
+                              TextSpan(children: [
+                                const TextSpan(
+                                    text: "영업 시간: ",
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontFamily: "NanumSquare_ac",
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black,
+                                      height: 1.5,
+                                    )),
+                                TextSpan(
+                                    text: '${times[0]} ~ ${times[1]}\n',
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontFamily: "NanumSquare_ac",
+                                      fontWeight: FontWeight.w200,
+                                      color: Colors.black,
+                                      height: 1.5,
+                                    ))
+                              ])
+                          ]),
                         ),
                       ),
                       Container(
@@ -418,10 +414,10 @@ class Result_with extends State<resultlist_with> {
                         ),
                       ),
                       TextButton(
-                        onPressed: (){
-                          if(maplink !=null){
-                           _launchUrl(maplink!);
-                          }else{
+                        onPressed: () {
+                          if (maplink != null) {
+                            _launchUrl(maplink!);
+                          } else {
                             Fluttertoast.showToast(
                                 msg: "음식점 링크가 없습니다.",
                                 toastLength: Toast.LENGTH_SHORT,
@@ -526,8 +522,8 @@ class Result_with extends State<resultlist_with> {
                     ),
                     Row(
                       children: [
-                        if(leftlist != null)
-                            Container(
+                        if (leftlist != null)
+                          Container(
                             height: 40,
                             width: 150,
                             alignment: Alignment.center,
@@ -541,16 +537,18 @@ class Result_with extends State<resultlist_with> {
                             child: InkWell(
                                 onTap: () {
                                   // 버튼을 클릭하면 다른 페이지로 이동
-                                  if(leftlist!.length>0){
-                                    var rand = leftlist![Random().nextInt(leftlist!.length)];
+                                  if (leftlist!.isNotEmpty) {
+                                    var rand = leftlist![
+                                        Random().nextInt(leftlist!.length)];
                                     leftlist!.remove(rand);
                                     Navigator.pop(context);
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => resultlist_with(rand,leftlist)),
+                                          builder: (context) =>
+                                              resultlist_with(rand, leftlist)),
                                     );
-                                  }else{
+                                  } else {
                                     Fluttertoast.showToast(
                                         msg: "남은 음식점이 없습니다.",
                                         toastLength: Toast.LENGTH_SHORT,
@@ -560,7 +558,6 @@ class Result_with extends State<resultlist_with> {
                                         textColor: Colors.white,
                                         fontSize: 16.0);
                                   }
-
                                 },
                                 child: Container(
                                   height: 40,
@@ -581,8 +578,7 @@ class Result_with extends State<resultlist_with> {
                                       fontWeight: FontWeight.normal,
                                     ),
                                   ),
-                                )
-                            ),
+                                )),
                           ),
                         const SizedBox(
                           width: 10,
@@ -677,114 +673,109 @@ class Result_with extends State<resultlist_with> {
                               ),
                               Container(
                                 alignment: Alignment.topLeft,
-                                margin: const EdgeInsets.fromLTRB(23, 10, 23, 0),
+                                margin:
+                                    const EdgeInsets.fromLTRB(23, 10, 23, 0),
                                 child: RichText(
-                                  text: TextSpan(
-                                      children: <TextSpan>[
-                                        TextSpan(children: <TextSpan>[
-                                          const TextSpan(
-                                              text: "메뉴: ",
-                                              style: TextStyle(
-                                                fontSize: 20,
-                                                fontFamily: "NanumSquare_ac",
-                                                fontWeight: FontWeight.w600,
-                                                color: Colors.black,
-                                                height: 1.5,
-                                              )),
-                                          TextSpan(
-                                              text: '$menu\n',
-                                              style: const TextStyle(
-                                                fontSize: 20,
-                                                fontFamily: "NanumSquare_ac",
-                                                fontWeight: FontWeight.w200,
-                                                color: Colors.black,
-                                                height: 1.5,
-                                              )),
-                                          const TextSpan(
-                                              text: "위치: ",
-                                              style: TextStyle(
-                                                fontSize: 20,
-                                                fontFamily: "NanumSquare_ac",
-                                                fontWeight: FontWeight.w600,
-                                                color: Colors.black,
-                                                height: 1.5,
-                                              )),
-                                          TextSpan(
-                                              text: '$position\n',
-                                              style: const TextStyle(
-                                                fontSize: 20,
-                                                fontFamily: "NanumSquare_ac",
-                                                fontWeight: FontWeight.w200,
-                                                color: Colors.black,
-                                                height: 1.5,
-                                              ))
-                                        ]),
-                                        if(times.length == 4)
-                                          TextSpan(
-                                              children : [
-                                                const TextSpan(
-                                                    text: "영업 시간: ",
-                                                    style: TextStyle(
-                                                      fontSize: 20,
-                                                      fontFamily: "NanumSquare_ac",
-                                                      fontWeight: FontWeight.w600,
-                                                      color: Colors.black,
-                                                      height: 1.5,
-                                                    )),
-                                                TextSpan(
-                                                    text: '${times[0]} ~ ${times[3]}\n',
-                                                    style: const TextStyle(
-                                                      fontSize: 20,
-                                                      fontFamily: "NanumSquare_ac",
-                                                      fontWeight: FontWeight.w200,
-                                                      color: Colors.black,
-                                                      height: 1.5,
-                                                    )),
-                                                const TextSpan(
-                                                    text: "브레이크 타임: ",
-                                                    style: TextStyle(
-                                                      fontSize: 20,
-                                                      fontFamily: "NanumSquare_ac",
-                                                      fontWeight: FontWeight.w600,
-                                                      color: Colors.black,
-                                                      height: 1.5,
-                                                    )),
-                                                TextSpan(
-                                                    text: '${times[1]} ~ ${times[2]}\n',
-                                                    style: const TextStyle(
-                                                      fontSize: 20,
-                                                      fontFamily: "NanumSquare_ac",
-                                                      fontWeight: FontWeight.w200,
-                                                      color: Colors.black,
-                                                      height: 1.5,
-                                                    ))
-                                              ]
-                                          ),
-                                        if(times.length == 2)
-                                          TextSpan(
-                                              children : [
-                                                const TextSpan(
-                                                    text: "영업 시간: ",
-                                                    style: TextStyle(
-                                                      fontSize: 20,
-                                                      fontFamily: "NanumSquare_ac",
-                                                      fontWeight: FontWeight.w600,
-                                                      color: Colors.black,
-                                                      height: 1.5,
-                                                    )),
-                                                TextSpan(
-                                                    text: '${times[0]} ~ ${times[1]}\n',
-                                                    style: const TextStyle(
-                                                      fontSize: 20,
-                                                      fontFamily: "NanumSquare_ac",
-                                                      fontWeight: FontWeight.w200,
-                                                      color: Colors.black,
-                                                      height: 1.5,
-                                                    ))
-                                              ]
-                                          )
-                                      ]
-                                  ),
+                                  text: TextSpan(children: <TextSpan>[
+                                    TextSpan(children: <TextSpan>[
+                                      const TextSpan(
+                                          text: "메뉴: ",
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontFamily: "NanumSquare_ac",
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.black,
+                                            height: 1.5,
+                                          )),
+                                      TextSpan(
+                                          text: '$menu\n',
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                            fontFamily: "NanumSquare_ac",
+                                            fontWeight: FontWeight.w200,
+                                            color: Colors.black,
+                                            height: 1.5,
+                                          )),
+                                      const TextSpan(
+                                          text: "위치: ",
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontFamily: "NanumSquare_ac",
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.black,
+                                            height: 1.5,
+                                          )),
+                                      TextSpan(
+                                          text: '$position\n',
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                            fontFamily: "NanumSquare_ac",
+                                            fontWeight: FontWeight.w200,
+                                            color: Colors.black,
+                                            height: 1.5,
+                                          ))
+                                    ]),
+                                    if (times.length == 4)
+                                      TextSpan(children: [
+                                        const TextSpan(
+                                            text: "영업 시간: ",
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              fontFamily: "NanumSquare_ac",
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.black,
+                                              height: 1.5,
+                                            )),
+                                        TextSpan(
+                                            text: '${times[0]} ~ ${times[3]}\n',
+                                            style: const TextStyle(
+                                              fontSize: 20,
+                                              fontFamily: "NanumSquare_ac",
+                                              fontWeight: FontWeight.w200,
+                                              color: Colors.black,
+                                              height: 1.5,
+                                            )),
+                                        const TextSpan(
+                                            text: "브레이크 타임: ",
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              fontFamily: "NanumSquare_ac",
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.black,
+                                              height: 1.5,
+                                            )),
+                                        TextSpan(
+                                            text: '${times[1]} ~ ${times[2]}\n',
+                                            style: const TextStyle(
+                                              fontSize: 20,
+                                              fontFamily: "NanumSquare_ac",
+                                              fontWeight: FontWeight.w200,
+                                              color: Colors.black,
+                                              height: 1.5,
+                                            ))
+                                      ]),
+                                    if (times.length == 2)
+                                      TextSpan(children: [
+                                        const TextSpan(
+                                            text: "영업 시간: ",
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              fontFamily: "NanumSquare_ac",
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.black,
+                                              height: 1.5,
+                                            )),
+                                        TextSpan(
+                                            text: '${times[0]} ~ ${times[1]}\n',
+                                            style: const TextStyle(
+                                              fontSize: 20,
+                                              fontFamily: "NanumSquare_ac",
+                                              fontWeight: FontWeight.w200,
+                                              color: Colors.black,
+                                              height: 1.5,
+                                            ))
+                                      ])
+                                  ]),
                                 ),
                               ),
                               Container(
@@ -818,10 +809,10 @@ class Result_with extends State<resultlist_with> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     TextButton(
-                                      onPressed: (){
-                                        if(maplink !=null){
+                                      onPressed: () {
+                                        if (maplink != null) {
                                           _launchUrl(maplink!);
-                                        }else{
+                                        } else {
                                           Fluttertoast.showToast(
                                               msg: "음식점 링크가 없습니다.",
                                               toastLength: Toast.LENGTH_SHORT,
@@ -833,8 +824,8 @@ class Result_with extends State<resultlist_with> {
                                         }
                                       },
                                       style: TextButton.styleFrom(
-                                        foregroundColor:
-                                        Colors.redAccent.shade200, // Text Color
+                                        foregroundColor: Colors
+                                            .redAccent.shade200, // Text Color
                                       ),
                                       child: const Text(
                                         '식당 위치 지도로 보기',

@@ -180,12 +180,14 @@ class _HomePage extends State<HomePage> {
                       onTap: () {
                         // 버튼을 클릭하면 다른 페이지로 이동
                         var rand = Random().nextInt(listfood.length);
-                        List<dynamic> leftlist = List<int>.generate(listfood.length, (i) => i );
+                        List<dynamic> leftlist =
+                            List<int>.generate(listfood.length, (i) => i);
                         leftlist.toSet().toList().remove(rand);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => resultlist_with(rand,leftlist)),
+                              builder: (context) =>
+                                  resultlist_with(rand, leftlist)),
                         );
                       },
                       child: Container(
