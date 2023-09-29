@@ -347,75 +347,76 @@ class SearchPageState extends State<SearchTag> {
                                 ],
                               ),
                             ),
-                            ListView.separated(
-                              shrinkWrap: true,
-                              itemCount: targetIndex.length + 1,
-                              itemBuilder: (context, index) {
-                                if (index == targetIndex.length) {
-                                  return Container();
-                                } else {
-                                  return ListTile(
-                                    title: Text(listfood[targetIndex[index]]["name"]),
-                                    subtitle: Text(listfood[targetIndex[index]]["OneLiner"]),
-                                    contentPadding: const EdgeInsets.symmetric(horizontal: 30),
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => resultlist_with(targetIndex[index],null)),
-                                      );
-                                    },
-                                    trailing: IconButton(
-                                      padding: EdgeInsets.zero,
-                                      icon: Icon(
-                                        liked.contains(targetIndex[index])
-                                            ? Icons.star
-                                            : Icons.star_border,
-                                        color: liked.contains(targetIndex[index])
-                                            ? Colors.yellow
-                                            : null,
-                                        semanticLabel: liked.contains(targetIndex[index])
-                                            ? 'Remove from saved'
-                                            : 'Save',
-                                        size: 35,
-                                      ),
-                                      onPressed: ()async{
-                                        int flag = 0;
-                                        if (liked.contains(targetIndex[index])) {
-                                          flag = 1;
-                                          await WriteCaches(
-                                              listfood[targetIndex[index]]["name"], '0');
-                                        } else {
-                                          flag = 0;
-                                          await WriteCaches(
-                                              listfood[targetIndex[index]]["name"], '1');
-                                        }
-                                        setState(() {
-                                          if (flag == 1) {
-                                            liked.remove(targetIndex[index]);
-                                          } else {
-                                            liked.add(targetIndex[index]);
-                                          }
-                                        });
-                                        print(liked);
-                                      },
-                                    ),
-                                  );
-                                }
-                              },
-                              separatorBuilder: (context, index) {
-                                return const Divider(
-                                  thickness: 1.5,
-                                  indent: 20,
-                                  endIndent: 20,
-                                );
-                              },
-                              scrollDirection: Axis.vertical,
-                            )
+
                           ],
                         ),
                       ),
                     ),
+                    ListView.separated(
+                      shrinkWrap: true,
+                      itemCount: targetIndex.length + 1,
+                      itemBuilder: (context, index) {
+                        if (index == targetIndex.length) {
+                          return Container();
+                        } else {
+                          return ListTile(
+                            title: Text(listfood[targetIndex[index]]["name"]),
+                            subtitle: Text(listfood[targetIndex[index]]["OneLiner"]),
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 30),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => resultlist_with(targetIndex[index],null)),
+                              );
+                            },
+                            trailing: IconButton(
+                              padding: EdgeInsets.zero,
+                              icon: Icon(
+                                liked.contains(targetIndex[index])
+                                    ? Icons.star
+                                    : Icons.star_border,
+                                color: liked.contains(targetIndex[index])
+                                    ? Colors.yellow
+                                    : null,
+                                semanticLabel: liked.contains(targetIndex[index])
+                                    ? 'Remove from saved'
+                                    : 'Save',
+                                size: 35,
+                              ),
+                              onPressed: ()async{
+                                int flag = 0;
+                                if (liked.contains(targetIndex[index])) {
+                                  flag = 1;
+                                  await WriteCaches(
+                                      listfood[targetIndex[index]]["name"], '0');
+                                } else {
+                                  flag = 0;
+                                  await WriteCaches(
+                                      listfood[targetIndex[index]]["name"], '1');
+                                }
+                                setState(() {
+                                  if (flag == 1) {
+                                    liked.remove(targetIndex[index]);
+                                  } else {
+                                    liked.add(targetIndex[index]);
+                                  }
+                                });
+                                print(liked);
+                              },
+                            ),
+                          );
+                        }
+                      },
+                      separatorBuilder: (context, index) {
+                        return const Divider(
+                          thickness: 1.5,
+                          indent: 20,
+                          endIndent: 20,
+                        );
+                      },
+                      scrollDirection: Axis.vertical,
+                    )
                   ],
                 ),
               ),
