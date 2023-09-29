@@ -186,6 +186,7 @@ class SearchPageState extends State<SearchTag> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       appBar: CustomAppBar(scaffoldKey: scaffoldKey),
       endDrawer: const SafeArea(
         child: Drawer(

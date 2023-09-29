@@ -227,6 +227,7 @@ class SearchPageState extends State<SearchRecent> {
     var screenwidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      key: scaffoldKey,
       appBar: CustomAppBar(scaffoldKey: scaffoldKey),
       endDrawer: const SafeArea(
         child: Drawer(

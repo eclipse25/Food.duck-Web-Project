@@ -17,7 +17,8 @@ Map price = {};
 Map place = {};
 Map tag = {};
 List<int> listmeta = [];
-List<String> tags = [];
+List<dynamic> tags = [];
+List<dynamic> places = [];
 List<String> categorys = <String>[];
 List<String> recentSearches = []; //최근검색어 리스트
 List<int> liked = [];
@@ -85,6 +86,9 @@ Future<int> makelist(var parsedList) async {
 
     idx++;
   }
+
+  places = place.keys.toList();
+  tags = tag.keys.toList();
   return 0;
 }
 
@@ -119,7 +123,6 @@ Future<int> init(CounterStorage cs) async {
 
         listfood = jsonDecode(fooddata);
         await makelist(listfood);
-        print(tag);
         // Data for "images/island.jpg" is returned, use this as needed.
       } on FirebaseException catch (e) {
         print("fetch error {$e}");
