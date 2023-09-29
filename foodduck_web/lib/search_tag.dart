@@ -15,21 +15,21 @@ class SearchPageState extends State<SearchTag> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   void clickBottons() {
     setState(() {
-      List<int> tmpprice =[];
-      for(int i in Iterable.generate(prices.length)){
-        if(isSelectedPrices[i]) tmpprice.addAll(price[i]);
+      List<int> tmpprice = [];
+      for (int i in Iterable.generate(prices.length)) {
+        if (isSelectedPrices[i]) tmpprice.addAll(price[i]);
       }
       tmpprice = tmpprice.toSet().toList();
 
-      List<int> tmpplace =[];
-      for(int i in Iterable.generate(places.length)){
-        if(isSelectedPlaces[i]) tmpplace.addAll(place[places[i]]);
+      List<int> tmpplace = [];
+      for (int i in Iterable.generate(places.length)) {
+        if (isSelectedPlaces[i]) tmpplace.addAll(place[places[i]]);
       }
       tmpplace = tmpplace.toSet().toList();
 
-      List<int> tmpcate =[];
-      for(int i in Iterable.generate(categorys.length)){
-        if(isSelectedCate[i])tmpcate.addAll(category[categorys[i]]);
+      List<int> tmpcate = [];
+      for (int i in Iterable.generate(categorys.length)) {
+        if (isSelectedCate[i]) tmpcate.addAll(category[categorys[i]]);
       }
       tmpcate = tmpcate.toSet().toList();
 
@@ -52,9 +52,12 @@ class SearchPageState extends State<SearchTag> {
   @override
   void initState() {
     super.initState();
-    isSelectedPrices = List.generate(prices.length, (index) => false); // isSelectedPrices 초기화
-    isSelectedCate = List.generate(categorys.length, (index) => false); // isSelectedCate 초기화
-    isSelectedPlaces = List.generate(places.length, (index) => false); // isSelectedCate 초기화
+    isSelectedPrices =
+        List.generate(prices.length, (index) => false); // isSelectedPrices 초기화
+    isSelectedCate =
+        List.generate(categorys.length, (index) => false); // isSelectedCate 초기화
+    isSelectedPlaces =
+        List.generate(places.length, (index) => false); // isSelectedCate 초기화
     targetIndex = [];
   }
 
@@ -84,6 +87,7 @@ class SearchPageState extends State<SearchTag> {
                   children: [
                     // 태그 선택하는 박스
                     Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 20),
                       decoration: BoxDecoration(
                         color: Colors.grey[200],
                         borderRadius: BorderRadius.circular(10),
@@ -338,10 +342,17 @@ class SearchPageState extends State<SearchTag> {
                                 ],
                               ),
                             ),
-
                           ],
                         ),
                       ),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    const Divider(
+                      thickness: 1.5,
+                      indent: 20,
+                      endIndent: 20,
                     ),
                     ListView.separated(
                       shrinkWrap: true,
@@ -352,13 +363,16 @@ class SearchPageState extends State<SearchTag> {
                         } else {
                           return ListTile(
                             title: Text(listfood[targetIndex[index]]["name"]),
-                            subtitle: Text(listfood[targetIndex[index]]["OneLiner"]),
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 30),
+                            subtitle:
+                                Text(listfood[targetIndex[index]]["OneLiner"]),
+                            contentPadding:
+                                const EdgeInsets.symmetric(horizontal: 30),
                             onTap: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => resultlist_with(targetIndex[index],null)),
+                                    builder: (context) => resultlist_with(
+                                        targetIndex[index], null)),
                               );
                             },
                             trailing: IconButton(
@@ -370,21 +384,24 @@ class SearchPageState extends State<SearchTag> {
                                 color: liked.contains(targetIndex[index])
                                     ? Colors.yellow
                                     : null,
-                                semanticLabel: liked.contains(targetIndex[index])
-                                    ? 'Remove from saved'
-                                    : 'Save',
+                                semanticLabel:
+                                    liked.contains(targetIndex[index])
+                                        ? 'Remove from saved'
+                                        : 'Save',
                                 size: 35,
                               ),
-                              onPressed: ()async{
+                              onPressed: () async {
                                 int flag = 0;
                                 if (liked.contains(targetIndex[index])) {
                                   flag = 1;
                                   await WriteCaches(
-                                      listfood[targetIndex[index]]["name"], '0');
+                                      listfood[targetIndex[index]]["name"],
+                                      '0');
                                 } else {
                                   flag = 0;
                                   await WriteCaches(
-                                      listfood[targetIndex[index]]["name"], '1');
+                                      listfood[targetIndex[index]]["name"],
+                                      '1');
                                 }
                                 setState(() {
                                   if (flag == 1) {
