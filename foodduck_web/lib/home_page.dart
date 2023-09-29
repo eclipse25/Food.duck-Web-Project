@@ -196,7 +196,7 @@ class _HomePage extends State<HomePage> {
                         width: 250,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                            color: Colors.grey[300],
+                            //color: Colors.grey[300],
                             // border: Border.all(
                             //   color: const Color.fromARGB(255, 180, 180, 180),
                             //   width: 1.5,
