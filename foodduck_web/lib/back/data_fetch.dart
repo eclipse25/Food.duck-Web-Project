@@ -19,6 +19,7 @@ Map tag = {};
 List<int> listmeta = [];
 List<dynamic> tags = [];
 List<dynamic> places = [];
+List<dynamic> prices = [];
 List<String> categorys = <String>[];
 List<String> recentSearches = []; //최근검색어 리스트
 List<int> liked = [];
@@ -46,6 +47,7 @@ Future<int> makelist(var parsedList) async {
 
     if(i["avg_Price"] != 0){
       var pp = ((i["avg_Price"])/10000).toInt();
+      if(pp>3) pp =3;
       if (price.containsKey(pp)) {
         price[pp].add(idx);
       } else {
@@ -60,15 +62,12 @@ Future<int> makelist(var parsedList) async {
         price[i].add(idx);
       }
     }
-
-
     if (place.containsKey(i["place"])) {
       place[i["place"]].add(idx);
     } else {
       place[i["place"]] = <int>[];
       place[i["place"]].add(idx);
     }
-
     for (var j in i["tags"]) {
       if (tag.containsKey(j)) {
         tag[j].add(idx);
@@ -86,9 +85,9 @@ Future<int> makelist(var parsedList) async {
 
     idx++;
   }
-
   places = place.keys.toList();
   tags = tag.keys.toList();
+  prices = price.keys.toList();
   return 0;
 }
 

@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:project2307/result_with.dart';
 import 'loading.dart';
 import 'drawer.dart';
-import 'search_page.dart';
+import 'search_recent.dart';
 import 'back/data_fetch.dart';
 import 'dart:async';
 import 'dart:math';
@@ -140,7 +140,7 @@ class _HomePage extends State<HomePage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const SearchPage()),
+                                  builder: (context) => const SearchRecent()),
                             );
                           },
                           child: Container(

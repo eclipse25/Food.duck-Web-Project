@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'back/data_fetch.dart';
-import 'package:korea_regexp/korea_regexp.dart';
-import 'result_page.dart';
-import 'not_found.dart';
+import 'package:project2307/result_with.dart';
 import 'widget.dart';
 import 'drawer.dart';
 
@@ -15,172 +13,58 @@ class SearchTag extends StatefulWidget {
 
 class SearchPageState extends State<SearchTag> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  final TextEditingController _searchController = TextEditingController();
-
-  @override
-  void dispose() {
-    WriteCaches('recentSearches', recentSearches.join('\n'));
-    _searchController.dispose();
-    super.dispose();
-  }
-
-  void clickTagBottons(int tag) {
+  void clickBottons() {
     setState(() {
-      // selectedTags = []; //[](빈 리스트)로 수정 예정
-      // for (int i = 0; i < isSelected.length; i++) {
-      //   if (isSelected[i]) {
-      //     selectedTags.add(tags[i].substring(0)); //#제외
-      //   }else{
-      //     selectedTags.remove(tags[i].substring(0));
-      //   }
-      // }
-      if (isSelected[tag]) {
-        selectedTags.add(tags[tag]);
-      } else {
-        selectedTags.remove(tags[tag]);
+      List<int> tmpprice =[];
+      for(int i in Iterable.generate(prices.length)){
+        if(isSelectedPrices[i]) tmpprice.addAll(price[i]);
+      }
+      tmpprice = tmpprice.toSet().toList();
+
+      List<int> tmpplace =[];
+      for(int i in Iterable.generate(places.length)){
+        if(isSelectedPlaces[i]) tmpplace.addAll(place[places[i]]);
+      }
+      tmpplace = tmpplace.toSet().toList();
+
+      List<int> tmpcate =[];
+      for(int i in Iterable.generate(categorys.length)){
+        if(isSelectedCate[i])tmpcate.addAll(category[categorys[i]]);
+      }
+      tmpcate = tmpcate.toSet().toList();
+
+      if(tmpprice.isNotEmpty) {
+        targetIndex = [...tmpprice];
+      }else{
+        targetIndex = List<int>.generate(listfood.length, (i) => i);
+      }
+      if(tmpplace.isNotEmpty){
+        targetIndex.removeWhere(
+                (item) => !tmpplace.contains(item));
+      }
+      if(tmpcate.isNotEmpty){
+        targetIndex.removeWhere(
+                (item) => !tmpcate.contains(item));
       }
     });
   }
 
-  void clickCategoryBottons(int cate) {
-    setState(() {
-      // selectedCates = []; //[](빈 리스트)로 수정 예정
-      // for (int i = 0; i < isSelectedCate.length; i++) {
-      //   if (isSelectedCate[i]) {
-      //     selectedCates.add(cate[i].substring(0)); //#제외
-      //   }else{
-      //     selectedCates.remove(cate[i].substring(0));
-      //   }
-      // }
-      if (isSelectedCate[cate]) {
-        selectedCates.add(categorys[cate]);
-      } else {
-        selectedCates.remove(categorys[cate]);
-      }
-    });
-  }
-
-  List<bool> isSelected = []; //태그들 선택여부 리스트
-  List<String> selectedTags = []; //선택된태그 리스트
+  List<bool> isSelectedPrices = []; //가격대 선택여부 리스트
+  List<String> selectedPrices = []; //가격대 태그 리스트
   List<bool> isSelectedCate = []; //카테고리 선택여부 리스트
-  List<String> selectedCates = []; //선택된카테고리 리스트
-  String searchText = '';
-  List<int> resultlist = [];
+  List<String> selectedCates = []; //선택된 카테고리 리스트
+  List<bool> isSelectedPlaces = []; //위치 선택여부 리스트
+  List<String> selectedPlaces = []; //선택된 위치 리스트
+  List<int> targetIndex = [];
 
   @override
   void initState() {
     super.initState();
-    isSelected = List.generate(tags.length, (index) => false); // isSelected 초기화
-    isSelectedCate =
-        List.generate(categorys.length, (index) => false); // isSelectedCate 초기화
-    resultlist = [];
-  }
-
-  void _submitSearch() async {
-    // 검색어 리스트가 5개 이상이면 가장 오래된 검색어 삭제
-    if (recentSearches.length >= 5) {
-      recentSearches.removeLast();
-    }
-    for (var element in recentSearches) {
-      print(element);
-    }
-    setState(() {
-      searchText = _searchController.text.trim();
-      setState(() {
-        // 최근 검색어 리스트에 새로운 검색어 추가
-        if (searchText.isNotEmpty && !recentSearches.contains(searchText)) {
-          recentSearches.insert(0, searchText);
-        }
-      });
-    });
-    // 최근 검색어 리스트를 캐시에 저장
-    WriteCaches('recentSearches', recentSearches.join('\n'));
-    // 검색 기능을 구현하는 로직을 추가
-
-    changeSearchTerm(searchText, selectedTags, selectedCates);
-    //검색어, 태그리스트, 최근검색어리스트를 다른 페이지로 넘기기
-    if (resultlist.isEmpty) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => NotFound()),
-      );
-    } else {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => searchList(resultlist, "검색 결과")),
-      );
-    }
-  }
-
-  List<String> tagCheck(List<String> tags, List<String> cate) {
-    List<String> result = [];
-    List<int> tmp = Iterable<int>.generate(listfood.length).toList();
-    for (int i = 0; i < tags.length; i++) {
-      tmp.removeWhere((item) => !tag[tags[i]].contains(item));
-    }
-    for (int i = 0; i < cate.length; i++) {
-      tmp.removeWhere((item) => !category[cate[i]].contains(item));
-    }
-    for (int i = 0; i < tmp.length; i++) {
-      result.add(listfood[tmp[i]]["name"]);
-    }
-    return result;
-  }
-
-  void changeSearchTerm(String text, List<String> tags, List<String> cate) {
-    print("태그 $tags");
-    print("카테고리 $cate");
-    List<String> list = tagCheck(tags, cate);
-    late List<String> terms;
-    List<int> tmp = [];
-    print("리스트 $list");
-    if (text.isNotEmpty) {
-      RegExp regExp = getRegExp(
-          text,
-          RegExpOptions(
-            initialSearch: true,
-            startsWith: false,
-            endsWith: false,
-            fuzzy: false,
-            ignoreSpace: true,
-            ignoreCase: false,
-          ));
-      print(regExp);
-      terms = list.where((element) => regExp.hasMatch(element)).toList();
-      print(terms);
-      for (var i in terms) {
-        tmp.add(name[i]);
-      }
-
-      var catlist = category.keys.toList();
-      List<dynamic> textcat =
-          catlist.where((element) => regExp.hasMatch(element)).toList();
-      for (var i in textcat) {
-        for (var idx in category[i]) {
-          if (!tmp.contains(idx)) {
-            tmp.add(idx);
-          }
-        }
-      }
-      var taglist = tag.keys.toList();
-      List<dynamic> texttag =
-          taglist.where((element) => regExp.hasMatch(element)).toList();
-      for (var i in texttag) {
-        for (var idx in tag[i]) {
-          if (!tmp.contains(idx)) {
-            tmp.add(idx);
-          }
-        }
-      }
-      resultlist = tmp;
-    } else {
-      for (var restaurantname in list) {
-        tmp.add(name[restaurantname]);
-      }
-      resultlist = tmp;
-    }
-    print("idx $resultlist");
+    isSelectedPrices = List.generate(prices.length, (index) => false); // isSelectedPrices 초기화
+    isSelectedCate = List.generate(categorys.length, (index) => false); // isSelectedCate 초기화
+    isSelectedPlaces = List.generate(places.length, (index) => false); // isSelectedCate 초기화
+    targetIndex = List<int>.generate(listfood.length, (i) => i);
+    print(targetIndex);
   }
 
   @override
@@ -277,7 +161,7 @@ class SearchPageState extends State<SearchTag> {
                                                   onTap: () {
                                                     isSelectedCate[i] =
                                                         !isSelectedCate[i];
-                                                    clickCategoryBottons(i);
+                                                    clickBottons();
                                                   },
                                                   child: Text(
                                                     categorys[i],
@@ -334,18 +218,18 @@ class SearchPageState extends State<SearchTag> {
                                           runSpacing: 10,
                                           children: [
                                             for (int i = 0;
-                                                i < categorys.length;
+                                                i < places.length;
                                                 i++)
                                               Container(
                                                 padding:
                                                     const EdgeInsets.symmetric(
                                                         horizontal: 10),
                                                 decoration: BoxDecoration(
-                                                  color: isSelectedCate[i]
+                                                  color: isSelectedPlaces[i]
                                                       ? Colors.amber[300]
                                                       : Colors.grey[200],
                                                   border: Border.all(
-                                                    color: isSelectedCate[i]
+                                                    color: isSelectedPlaces[i]
                                                         ? const Color.fromARGB(
                                                             255, 255, 213, 79)
                                                         : const Color.fromARGB(
@@ -357,12 +241,12 @@ class SearchPageState extends State<SearchTag> {
                                                 ),
                                                 child: InkWell(
                                                   onTap: () {
-                                                    isSelectedCate[i] =
-                                                        !isSelectedCate[i];
-                                                    clickCategoryBottons(i);
+                                                    isSelectedPlaces[i] =
+                                                        !isSelectedPlaces[i];
+                                                    clickBottons();
                                                   },
                                                   child: Text(
-                                                    categorys[i],
+                                                    places[i],
                                                     style: const TextStyle(
                                                       fontSize: 16,
                                                       fontFamily:
@@ -416,18 +300,18 @@ class SearchPageState extends State<SearchTag> {
                                           runSpacing: 10,
                                           children: [
                                             for (int i = 0;
-                                                i < categorys.length;
+                                                i < prices.length;
                                                 i++)
                                               Container(
                                                 padding:
                                                     const EdgeInsets.symmetric(
                                                         horizontal: 10),
                                                 decoration: BoxDecoration(
-                                                  color: isSelectedCate[i]
+                                                  color: isSelectedPrices[i]
                                                       ? Colors.amber[300]
                                                       : Colors.grey[200],
                                                   border: Border.all(
-                                                    color: isSelectedCate[i]
+                                                    color: isSelectedPrices[i]
                                                         ? const Color.fromARGB(
                                                             255, 255, 213, 79)
                                                         : const Color.fromARGB(
@@ -439,12 +323,12 @@ class SearchPageState extends State<SearchTag> {
                                                 ),
                                                 child: InkWell(
                                                   onTap: () {
-                                                    isSelectedCate[i] =
-                                                        !isSelectedCate[i];
-                                                    clickCategoryBottons(i);
+                                                    isSelectedPrices[i] =
+                                                        !isSelectedPrices[i];
+                                                    clickBottons();
                                                   },
                                                   child: Text(
-                                                    categorys[i],
+                                                    PricesliderValIndicators[i],
                                                     style: const TextStyle(
                                                       fontSize: 16,
                                                       fontFamily:
@@ -463,6 +347,71 @@ class SearchPageState extends State<SearchTag> {
                                 ],
                               ),
                             ),
+                            ListView.separated(
+                              shrinkWrap: true,
+                              itemCount: targetIndex.length + 1,
+                              itemBuilder: (context, index) {
+                                if (index == targetIndex.length) {
+                                  return Container();
+                                } else {
+                                  return ListTile(
+                                    title: Text(listfood[targetIndex[index]]["name"]),
+                                    subtitle: Text(listfood[targetIndex[index]]["OneLiner"]),
+                                    contentPadding: const EdgeInsets.symmetric(horizontal: 30),
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => resultlist_with(targetIndex[index],null)),
+                                      );
+                                    },
+                                    trailing: IconButton(
+                                      padding: EdgeInsets.zero,
+                                      icon: Icon(
+                                        liked.contains(targetIndex[index])
+                                            ? Icons.star
+                                            : Icons.star_border,
+                                        color: liked.contains(targetIndex[index])
+                                            ? Colors.yellow
+                                            : null,
+                                        semanticLabel: liked.contains(targetIndex[index])
+                                            ? 'Remove from saved'
+                                            : 'Save',
+                                        size: 35,
+                                      ),
+                                      onPressed: ()async{
+                                        int flag = 0;
+                                        if (liked.contains(targetIndex[index])) {
+                                          flag = 1;
+                                          await WriteCaches(
+                                              listfood[targetIndex[index]]["name"], '0');
+                                        } else {
+                                          flag = 0;
+                                          await WriteCaches(
+                                              listfood[targetIndex[index]]["name"], '1');
+                                        }
+                                        setState(() {
+                                          if (flag == 1) {
+                                            liked.remove(targetIndex[index]);
+                                          } else {
+                                            liked.add(targetIndex[index]);
+                                          }
+                                        });
+                                        print(liked);
+                                      },
+                                    ),
+                                  );
+                                }
+                              },
+                              separatorBuilder: (context, index) {
+                                return const Divider(
+                                  thickness: 1.5,
+                                  indent: 20,
+                                  endIndent: 20,
+                                );
+                              },
+                              scrollDirection: Axis.vertical,
+                            )
                           ],
                         ),
                       ),
