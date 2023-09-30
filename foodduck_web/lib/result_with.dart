@@ -171,50 +171,63 @@ class Result_with extends State<resultlist_with> {
                       children: [
                         if (leftlist != null)
                           InkWell(
-                              onTap: () {
-                                // 버튼을 클릭하면 다른 페이지로 이동
-                                if (leftlist!.isNotEmpty) {
-                                  var rand = leftlist![
-                                      Random().nextInt(leftlist!.length)];
-                                  leftlist!.remove(rand);
-                                  Navigator.pop(context);
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            resultlist_with(rand, leftlist)),
-                                  );
-                                } else {
-                                  Fluttertoast.showToast(
-                                      msg: "남은 음식점이 없습니다.",
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      gravity: ToastGravity.CENTER,
-                                      timeInSecForIosWeb: 1,
-                                      backgroundColor: Colors.red,
-                                      textColor: Colors.white,
-                                      fontSize: 16.0);
-                                }
-                              },
-                              child: Container(
-                                height: 40,
-                                width: 150,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                    color: Colors.grey[300],
-                                    // border: Border.all(
-                                    //   color: const Color.fromARGB(255, 180, 180, 180),
-                                    //   width: 1.5,
-                                    // ),
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: const Text(
-                                  "다시 뽑기",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontFamily: 'NanumSquareB.ttf',
-                                    fontWeight: FontWeight.normal,
+                            onTap: () {
+                              // 버튼을 클릭하면 다른 페이지로 이동
+                              if (leftlist!.isNotEmpty) {
+                                var rand = leftlist![
+                                    Random().nextInt(leftlist!.length)];
+                                leftlist!.remove(rand);
+                                Navigator.pop(context);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          resultlist_with(rand, leftlist)),
+                                );
+                              } else {
+                                Fluttertoast.showToast(
+                                    msg: "남은 음식점이 없습니다.",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.CENTER,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor: Colors.red,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0);
+                              }
+                            },
+                            child: Container(
+                              height: 40,
+                              width: 130,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                  color: Colors.grey[300],
+                                  // border: Border.all(
+                                  //   color: const Color.fromARGB(255, 180, 180, 180),
+                                  //   width: 1.5,
+                                  // ),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.replay),
+                                  SizedBox(
+                                    width: 10,
                                   ),
-                                ),
-                              )),
+                                  Text(
+                                    "다시 뽑기",
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontFamily: "NanumSquare_ac",
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                         const SizedBox(
                           width: 10,
                         ),
@@ -570,13 +583,25 @@ class Result_with extends State<resultlist_with> {
                                       //   width: 1.5,
                                       // ),
                                       borderRadius: BorderRadius.circular(10)),
-                                  child: const Text(
-                                    "다시 뽑기",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontFamily: 'NanumSquareB.ttf',
-                                      fontWeight: FontWeight.normal,
-                                    ),
+                                  child: const Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.replay),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        "다시 뽑기",
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontFamily: "NanumSquare_ac",
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                    ],
                                   ),
                                 )),
                           ),
