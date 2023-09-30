@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:project2307/result_with.dart';
 import 'drawer.dart';
 import 'back/data_fetch.dart';
 import 'widget.dart';
-import 'result.dart';
 
 class searchList extends StatefulWidget {
-  final List<int> listIndex;
+  final List<dynamic> listIndex;
   final String titleString;
   const searchList(this.listIndex, this.titleString, {super.key});
 
@@ -17,13 +17,13 @@ class _searchListState extends State<searchList> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   var names = <String>[];
   var descriptions = <String>[];
-  var targetIndex = <int>[];
+  var targetIndex = <dynamic>[];
   var selectedName = <String>[];
   var selectedDesc = <String>[];
 
   @override
   void initState() {
-    targetIndex = widget.listIndex;
+    targetIndex = widget.listIndex.toSet().toList();
     /*
     if (targetIndex.isEmpty) {
       selectedName = names;
@@ -61,7 +61,7 @@ class _searchListState extends State<searchList> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => resultlist(targetIndex[index - 1])),
+                    builder: (context) => resultlist_with(targetIndex[index - 1],null)),
               );
             },
             trailing: IconButton(

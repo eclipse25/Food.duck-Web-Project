@@ -29,6 +29,4 @@ linter:
 # https://dart.dev/guides/language/analysis-options
 analyzer:
   errors:
-   undefined_prefix_name: ignore
-
-   
+    undefined_prefixed_name: ignore

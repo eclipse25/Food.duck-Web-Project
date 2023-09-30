@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:project2307/result_with.dart';
 import 'loading.dart';
 import 'drawer.dart';
-import 'search_page.dart';
+import 'search_recent.dart';
 import 'back/data_fetch.dart';
 import 'dart:async';
-import 'result.dart';
 import 'dart:math';
 
 bool isloaded = false;
@@ -66,13 +66,14 @@ class _HomePage extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var screenwidth = MediaQuery.of(context).size.width;
     if (loaded) {
       return Scaffold(
         key: scaffoldKey,
         backgroundColor: Colors.white,
         appBar: AppBar(
           //drawer기능 때문에 Appbar 필요
-          automaticallyImplyLeading:false,
+          automaticallyImplyLeading: false,
           toolbarHeight: 60,
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -139,13 +140,13 @@ class _HomePage extends State<HomePage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const SearchPage()),
+                                  builder: (context) => const SearchRecent()),
                             );
                           },
                           child: Container(
                             //검색창
                             height: 45,
-                            width: MediaQuery.of(context).size.width * 0.4,
+                            width: screenwidth < 600 ? screenwidth - 100 : 500,
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 border: Border.all(
@@ -180,10 +181,14 @@ class _HomePage extends State<HomePage> {
                       onTap: () {
                         // 버튼을 클릭하면 다른 페이지로 이동
                         var rand = Random().nextInt(listfood.length);
+                        List<dynamic> leftlist =
+                            List<int>.generate(listfood.length, (i) => i);
+                        leftlist.toSet().toList().remove(rand);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => resultlist(rand)),
+                              builder: (context) =>
+                                  resultlist_with(rand, leftlist)),
                         );
                       },
                       child: Container(
@@ -191,7 +196,7 @@ class _HomePage extends State<HomePage> {
                         width: 250,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                            color: Colors.grey[300],
+                            //color: Colors.grey[300],
                             // border: Border.all(
                             //   color: const Color.fromARGB(255, 180, 180, 180),
                             //   width: 1.5,

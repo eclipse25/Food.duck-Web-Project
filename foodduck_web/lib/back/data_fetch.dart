@@ -17,7 +17,9 @@ Map price = {};
 Map place = {};
 Map tag = {};
 List<int> listmeta = [];
-List<String> tags = [];
+List<dynamic> tags = [];
+List<dynamic> places = [];
+List<dynamic> prices = [];
 List<String> categorys = <String>[];
 List<String> recentSearches = []; //최근검색어 리스트
 List<int> liked = [];
@@ -43,23 +45,30 @@ Future<int> makelist(var parsedList) async {
       trav_time[i["trav_time"]].add(idx);
     }
 
-    var pp = ((i["price"])/10000).toInt();
-    if (price.containsKey(pp)) {
-      price[pp].add(idx);
-    } else {
-      price[pp] = <int>[];
-      price[pp].add(idx);
+    if(i["avg_Price"] != 0){
+      var pp = ((i["avg_Price"])/10000).toInt();
+      if(pp>3) pp =3;
+      if (price.containsKey(pp)) {
+        price[pp].add(idx);
+      } else {
+        price[pp] = <int>[];
+        price[pp].add(idx);
+      }
+    }else{
+      for(int i = 0; i< 4 ;i++){
+        if(!price.containsKey(i)) {
+          price[i] = <int>[];
+        }
+        price[i].add(idx);
+      }
     }
-
     if (place.containsKey(i["place"])) {
       place[i["place"]].add(idx);
     } else {
       place[i["place"]] = <int>[];
       place[i["place"]].add(idx);
     }
-
     for (var j in i["tags"]) {
-      if (!tags.contains(j)) tags.add(j);
       if (tag.containsKey(j)) {
         tag[j].add(idx);
       } else {
@@ -76,6 +85,9 @@ Future<int> makelist(var parsedList) async {
 
     idx++;
   }
+  places = place.keys.toList();
+  tags = tag.keys.toList();
+  prices = price.keys.toList();
   return 0;
 }
 
@@ -110,7 +122,6 @@ Future<int> init(CounterStorage cs) async {
 
         listfood = jsonDecode(fooddata);
         await makelist(listfood);
-        print(price);
         // Data for "images/island.jpg" is returned, use this as needed.
       } on FirebaseException catch (e) {
         print("fetch error {$e}");

@@ -179,26 +179,28 @@ class SearchPageState extends State<SearchPage> {
       }
 
       var catlist = category.keys.toList();
-      List<dynamic> textcat = catlist.where((element) => regExp.hasMatch(element)).toList();
+      List<dynamic> textcat =
+          catlist.where((element) => regExp.hasMatch(element)).toList();
       for (var i in textcat) {
-        for(var idx in category[i]){
-          if(!tmp.contains(idx)){
+        for (var idx in category[i]) {
+          if (!tmp.contains(idx)) {
             tmp.add(idx);
           }
         }
       }
       var taglist = tag.keys.toList();
-      List<dynamic> texttag = taglist.where((element) => regExp.hasMatch(element)).toList();
+      List<dynamic> texttag =
+          taglist.where((element) => regExp.hasMatch(element)).toList();
       for (var i in texttag) {
-        for(var idx in tag[i]){
-          if(!tmp.contains(idx)){
+        for (var idx in tag[i]) {
+          if (!tmp.contains(idx)) {
             tmp.add(idx);
           }
         }
       }
       resultlist = tmp;
     } else {
-      for( var restaurantname in list){
+      for (var restaurantname in list) {
         tmp.add(name[restaurantname]);
       }
       resultlist = tmp;
@@ -329,7 +331,8 @@ class SearchPageState extends State<SearchPage> {
                                     searchText = recentSearches[i];
                                   });
                                   clickRecentSearches();
-                                },
+                                }
+                                ,
                                 child: Text(
                                   recentSearches[i],
                                   overflow: TextOverflow.ellipsis,
@@ -395,8 +398,11 @@ class SearchPageState extends State<SearchPage> {
                           ),
                           child: InkWell(
                             onTap: () {
-                              isSelectedCate[i] = !isSelectedCate[i];
-                              clickCategoryBottons(i);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => searchList(category[categorys[i]], categorys[i])),
+                              );
                             },
                             child: Text(
                               categorys[i],
@@ -425,8 +431,11 @@ class SearchPageState extends State<SearchPage> {
                           ),
                           child: InkWell(
                             onTap: () {
-                              isSelected[i] = !isSelected[i];
-                              clickTagBottons(i);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => searchList(tag[tags[i]], tags[i])),
+                              );
                             },
                             child: Text(
                               tags[i],
@@ -584,54 +593,60 @@ class SearchPageState extends State<SearchPage> {
                             children: [
                               for (int i = 0; i < categorys.length; i++)
                                 Container(
-                                  padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
                                   decoration: BoxDecoration(
                                     color: isSelectedCate[i]
                                         ? Colors.amber[300]
                                         : const Color.fromARGB(
-                                        255, 210, 210, 210),
+                                            255, 210, 210, 210),
                                     border: Border.all(
                                       color: isSelectedCate[i]
                                           ? const Color.fromARGB(
-                                          255, 255, 213, 79)
+                                              255, 255, 213, 79)
                                           : const Color.fromARGB(
-                                          255, 210, 210, 210),
+                                              255, 210, 210, 210),
                                       width: 3,
                                     ),
                                     borderRadius: BorderRadius.circular(50),
                                   ),
                                   child: InkWell(
                                     onTap: () {
-                                      isSelectedCate[i] = !isSelectedCate[i];
-                                      clickCategoryBottons(i);
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => searchList(category[categorys[i]], categorys[i])),
+                                      );
                                     },
                                     child: Text(categorys[i]),
                                   ),
                                 ),
                               for (int i = 0; i < tags.length; i++)
                                 Container(
-                                  padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
                                   decoration: BoxDecoration(
                                     color: isSelected[i]
                                         ? Colors.amber[300]
                                         : const Color.fromARGB(
-                                        255, 210, 210, 210),
+                                            255, 210, 210, 210),
                                     border: Border.all(
                                       color: isSelected[i]
                                           ? const Color.fromARGB(
-                                          255, 255, 213, 79)
+                                              255, 255, 213, 79)
                                           : const Color.fromARGB(
-                                          255, 210, 210, 210),
+                                              255, 210, 210, 210),
                                       width: 3,
                                     ),
                                     borderRadius: BorderRadius.circular(50),
                                   ),
                                   child: InkWell(
                                     onTap: () {
-                                      isSelected[i] = !isSelected[i];
-                                      clickTagBottons(i);
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => searchList(tag[tags[i]], tags[i])),
+                                      );
                                     },
                                     child: Text(tags[i]),
                                   ),
@@ -674,15 +689,15 @@ class SearchPageState extends State<SearchPage> {
                           shrinkWrap: true, // ListView 크기를 내용에 맞게 조절
                           children: [
                             for (int i = 0;
-                            i < recentSearches.length && i < 5;
-                            i++)
+                                i < recentSearches.length && i < 5;
+                                i++)
                               Container(
                                 height: 35,
                                 padding:
-                                const EdgeInsets.symmetric(horizontal: 10),
+                                    const EdgeInsets.symmetric(horizontal: 10),
                                 child: Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Expanded(
                                       child: InkWell(
