@@ -35,8 +35,19 @@ class SearchPageState extends State<SearchTag> {
 
       targetIndex = [];
       targetIndex.addAll(tmpprice);
-      targetIndex.addAll(tmpplace);
-      targetIndex.addAll(tmpcate);
+      if(tmpplace.isNotEmpty && targetIndex.isNotEmpty){
+        targetIndex.removeWhere(
+                (item) => !tmpplace.contains(item));
+      }else{
+        targetIndex.addAll(tmpplace);
+      }
+
+      if(tmpcate.isNotEmpty && targetIndex.isNotEmpty){
+        targetIndex.removeWhere(
+                (item) => !tmpcate.contains(item));
+      }else{
+        targetIndex.addAll(tmpcate);
+      }
       targetIndex.toSet().toList();
     });
   }

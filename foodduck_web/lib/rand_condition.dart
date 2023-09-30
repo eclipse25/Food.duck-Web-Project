@@ -255,7 +255,7 @@ class _RandConditionState extends State<RandCondition> {
             tmp = [...category[dropdownValue]];
             tmp = tmp.toSet().toList();
             print(tmp);
-            for (int dis = initialSliderValue.toInt() + 1; dis < 5; dis++) {
+            for (int dis = initialSliderValue.toInt() + 1; dis < 4; dis++) {
               if (trav_time.containsKey(dis)) {
                 tmp.removeWhere((item) => trav_time[dis].contains(item));
               }
@@ -267,7 +267,7 @@ class _RandConditionState extends State<RandCondition> {
             }
 
             if (tmp.isNotEmpty) {
-              var rand = Random().nextInt(tmp.length);
+              var rand = tmp[Random().nextInt(tmp.length)];
               tmp.remove(rand);
               Navigator.push(
                 context,
