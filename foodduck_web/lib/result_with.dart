@@ -38,7 +38,7 @@ class _RenderLinkImageState extends State<RenderLinkImage> {
     );
 
     return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.45,
+      width: MediaQuery.of(context).size.width * 0.80,
       height: MediaQuery.of(context).size.height * 0.45,
       child: HtmlElementView(
         viewType: "link_image_instance$randomString",
@@ -157,9 +157,7 @@ class Result_with extends State<resultlist_with> {
                             const Velocity(pixelsPerSecond: Offset(30, 0)),
                         pauseBetween: const Duration(milliseconds: 1000),
                         mode: TextScrollMode.bouncing,
-                        fadedBorder: true,
-                        fadeBorderVisibility: FadeBorderVisibility.auto,
-                        fadeBorderSide: FadeBorderSide.right,
+                        fadedBorder: false,
                         style: const TextStyle(
                           fontSize: 36,
                           fontFamily: "NanumSquare_ac",

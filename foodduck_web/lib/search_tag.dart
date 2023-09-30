@@ -41,7 +41,6 @@ class SearchPageState extends State<SearchTag> {
       }else{
         targetIndex.addAll(tmpplace);
       }
-
       if(tmpcate.isNotEmpty && targetIndex.isNotEmpty){
         targetIndex.removeWhere(
                 (item) => !tmpcate.contains(item));
