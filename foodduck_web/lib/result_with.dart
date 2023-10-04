@@ -409,7 +409,7 @@ class Result_with extends State<resultlist_with> {
                         ),
                         alignment: Alignment.center,
                         width: double.infinity,
-                        height: 120,
+                        height: 120, //조정필요 (잘리는 경우 발생 ex 족발야시장)
                         margin: const EdgeInsets.fromLTRB(20, 0, 20, 20),
                         padding: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 15),
@@ -453,10 +453,11 @@ class Result_with extends State<resultlist_with> {
                           ),
                         ),
                       ),
+                      const SizedBox(height: 20),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             InkWell(
                               onTap: () => _launchUrl(_url),
@@ -642,67 +643,104 @@ class Result_with extends State<resultlist_with> {
                 ),
                 const SizedBox(height: 12),
                 Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(30),
-                      border: Border.all(color: Colors.transparent),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.45,
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 20),
-                                child: Container(
-                                  alignment: Alignment.topCenter,
-                                  width: double.infinity,
-                                  margin:
-                                      const EdgeInsets.fromLTRB(12, 20, 12, 20),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(30),
-                                    child: img,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.45,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              Container(
-                                alignment: Alignment.topLeft,
-                                margin: const EdgeInsets.symmetric(
-                                    vertical: 3, horizontal: 23),
-                                child: Text(
-                                  tagstring,
-                                  textAlign: TextAlign.justify,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontFamily: "NanumSquare_ac",
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                alignment: Alignment.topLeft,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(30),
+                    border: Border.all(color: Colors.transparent),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.45,
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 20),
+                              child: Container(
+                                alignment: Alignment.topCenter,
+                                width: double.infinity,
                                 margin:
-                                    const EdgeInsets.fromLTRB(23, 10, 23, 0),
-                                child: RichText(
-                                  text: TextSpan(children: <TextSpan>[
-                                    TextSpan(children: <TextSpan>[
+                                    const EdgeInsets.fromLTRB(12, 20, 12, 20),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(30),
+                                  child: img,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.45,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Container(
+                              alignment: Alignment.topLeft,
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: 3, horizontal: 23),
+                              child: Text(
+                                tagstring,
+                                textAlign: TextAlign.justify,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: "NanumSquare_ac",
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              alignment: Alignment.topLeft,
+                              margin: const EdgeInsets.fromLTRB(23, 10, 23, 0),
+                              child: RichText(
+                                text: TextSpan(children: <TextSpan>[
+                                  TextSpan(children: <TextSpan>[
+                                    const TextSpan(
+                                        text: "메뉴: ",
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontFamily: "NanumSquare_ac",
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black,
+                                          height: 1.5,
+                                        )),
+                                    TextSpan(
+                                        text: '$menu\n',
+                                        style: const TextStyle(
+                                          fontSize: 20,
+                                          fontFamily: "NanumSquare_ac",
+                                          fontWeight: FontWeight.w200,
+                                          color: Colors.black,
+                                          height: 1.5,
+                                        )),
+                                    const TextSpan(
+                                        text: "위치: ",
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontFamily: "NanumSquare_ac",
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black,
+                                          height: 1.5,
+                                        )),
+                                    TextSpan(
+                                        text: '$position\n',
+                                        style: const TextStyle(
+                                          fontSize: 20,
+                                          fontFamily: "NanumSquare_ac",
+                                          fontWeight: FontWeight.w200,
+                                          color: Colors.black,
+                                          height: 1.5,
+                                        ))
+                                  ]),
+                                  if (times.length == 4)
+                                    TextSpan(children: [
                                       const TextSpan(
-                                          text: "메뉴: ",
+                                          text: "영업 시간: ",
                                           style: TextStyle(
                                             fontSize: 20,
                                             fontFamily: "NanumSquare_ac",
@@ -711,7 +749,7 @@ class Result_with extends State<resultlist_with> {
                                             height: 1.5,
                                           )),
                                       TextSpan(
-                                          text: '$menu\n',
+                                          text: '${times[0]} ~ ${times[3]}\n',
                                           style: const TextStyle(
                                             fontSize: 20,
                                             fontFamily: "NanumSquare_ac",
@@ -720,7 +758,7 @@ class Result_with extends State<resultlist_with> {
                                             height: 1.5,
                                           )),
                                       const TextSpan(
-                                          text: "위치: ",
+                                          text: "브레이크 타임: ",
                                           style: TextStyle(
                                             fontSize: 20,
                                             fontFamily: "NanumSquare_ac",
@@ -729,7 +767,7 @@ class Result_with extends State<resultlist_with> {
                                             height: 1.5,
                                           )),
                                       TextSpan(
-                                          text: '$position\n',
+                                          text: '${times[1]} ~ ${times[2]}\n',
                                           style: const TextStyle(
                                             fontSize: 20,
                                             fontFamily: "NanumSquare_ac",
@@ -738,158 +776,118 @@ class Result_with extends State<resultlist_with> {
                                             height: 1.5,
                                           ))
                                     ]),
-                                    if (times.length == 4)
-                                      TextSpan(children: [
-                                        const TextSpan(
-                                            text: "영업 시간: ",
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                              fontFamily: "NanumSquare_ac",
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.black,
-                                              height: 1.5,
-                                            )),
-                                        TextSpan(
-                                            text: '${times[0]} ~ ${times[3]}\n',
-                                            style: const TextStyle(
-                                              fontSize: 20,
-                                              fontFamily: "NanumSquare_ac",
-                                              fontWeight: FontWeight.w200,
-                                              color: Colors.black,
-                                              height: 1.5,
-                                            )),
-                                        const TextSpan(
-                                            text: "브레이크 타임: ",
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                              fontFamily: "NanumSquare_ac",
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.black,
-                                              height: 1.5,
-                                            )),
-                                        TextSpan(
-                                            text: '${times[1]} ~ ${times[2]}\n',
-                                            style: const TextStyle(
-                                              fontSize: 20,
-                                              fontFamily: "NanumSquare_ac",
-                                              fontWeight: FontWeight.w200,
-                                              color: Colors.black,
-                                              height: 1.5,
-                                            ))
-                                      ]),
-                                    if (times.length == 2)
-                                      TextSpan(children: [
-                                        const TextSpan(
-                                            text: "영업 시간: ",
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                              fontFamily: "NanumSquare_ac",
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.black,
-                                              height: 1.5,
-                                            )),
-                                        TextSpan(
-                                            text: '${times[0]} ~ ${times[1]}\n',
-                                            style: const TextStyle(
-                                              fontSize: 20,
-                                              fontFamily: "NanumSquare_ac",
-                                              fontWeight: FontWeight.w200,
-                                              color: Colors.black,
-                                              height: 1.5,
-                                            ))
-                                      ])
-                                  ]),
-                                ),
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30),
-                                  color: Colors.white,
-                                ),
-                                alignment: Alignment.center,
-                                width: double.infinity,
-                                height: 120,
-                                margin:
-                                    const EdgeInsets.fromLTRB(20, 0, 20, 20),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 15),
-                                child: Text(
-                                  description,
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    fontFamily: "NanumSquare_ac",
-                                    fontWeight: FontWeight.w400,
-                                    height: 1.5,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    TextButton(
-                                      onPressed: () {
-                                        if (maplink != null) {
-                                          _launchUrl(maplink!);
-                                        } else {
-                                          Fluttertoast.showToast(
-                                              msg: "음식점 링크가 없습니다.",
-                                              toastLength: Toast.LENGTH_SHORT,
-                                              gravity: ToastGravity.CENTER,
-                                              timeInSecForIosWeb: 1,
-                                              backgroundColor: Colors.red,
-                                              textColor: Colors.white,
-                                              fontSize: 16.0);
-                                        }
-                                      },
-                                      style: TextButton.styleFrom(
-                                        foregroundColor: Colors
-                                            .redAccent.shade200, // Text Color
-                                      ),
-                                      child: const Text(
-                                        '식당 위치 지도로 보기',
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          fontFamily: "NanumSquare_ac",
-                                          fontWeight: FontWeight.w600,
-                                          decoration: TextDecoration.underline,
-                                        ),
-                                      ),
-                                    ),
-                                    InkWell(
-                                      onTap: () => _launchUrl(_url),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(30),
-                                          color: Colors.grey[400],
-                                        ),
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 5),
-                                        child: const Text(
-                                          "관리자에게 제보하기",
-                                          textAlign: TextAlign.center,
+                                  if (times.length == 2)
+                                    TextSpan(children: [
+                                      const TextSpan(
+                                          text: "영업 시간: ",
                                           style: TextStyle(
-                                            fontSize: 15,
+                                            fontSize: 20,
                                             fontFamily: "NanumSquare_ac",
-                                            fontWeight: FontWeight.w400,
-                                          ),
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.black,
+                                            height: 1.5,
+                                          )),
+                                      TextSpan(
+                                          text: '${times[0]} ~ ${times[1]}\n',
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                            fontFamily: "NanumSquare_ac",
+                                            fontWeight: FontWeight.w200,
+                                            color: Colors.black,
+                                            height: 1.5,
+                                          ))
+                                    ])
+                                ]),
+                              ),
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                color: Colors.white,
+                              ),
+                              alignment: Alignment.center,
+                              width: double.infinity,
+                              height: 120,
+                              margin: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 15),
+                              child: Text(
+                                description,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontFamily: "NanumSquare_ac",
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.5,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  TextButton(
+                                    onPressed: () {
+                                      if (maplink != null) {
+                                        _launchUrl(maplink!);
+                                      } else {
+                                        Fluttertoast.showToast(
+                                            msg: "음식점 링크가 없습니다.",
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.CENTER,
+                                            timeInSecForIosWeb: 1,
+                                            backgroundColor: Colors.red,
+                                            textColor: Colors.white,
+                                            fontSize: 16.0);
+                                      }
+                                    },
+                                    style: TextButton.styleFrom(
+                                      foregroundColor: Colors
+                                          .redAccent.shade200, // Text Color
+                                    ),
+                                    child: const Text(
+                                      '식당 위치 지도로 보기',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontFamily: "NanumSquare_ac",
+                                        fontWeight: FontWeight.w600,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: () => _launchUrl(_url),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(30),
+                                        color: Colors.grey[400],
+                                      ),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 5),
+                                      child: const Text(
+                                        "관리자에게 제보하기",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          fontFamily: "NanumSquare_ac",
+                                          fontWeight: FontWeight.w400,
                                         ),
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                              const SizedBox(height: 20),
-                            ],
-                          ),
-                        )
-                      ],
-                    ))
+                            ),
+                            const SizedBox(height: 20),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),

@@ -290,7 +290,7 @@ class _RandConditionState extends State<RandCondition> {
       ],
     );
 
-    Widget PriceSlider = SizedBox(
+    Widget priceSlider = SizedBox(
       width: 330,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -338,7 +338,7 @@ class _RandConditionState extends State<RandCondition> {
         children: [
           const SubText("3. 가격대 선택", "음식점의 가격대를 설정할 수 있어요."),
           const SizedBox(height: 20),
-          PriceSlider,
+          priceSlider,
           const SizedBox(height: 20),
         ],
       ),
@@ -346,25 +346,22 @@ class _RandConditionState extends State<RandCondition> {
 
     Widget mainSection = screenwidth < 600
         ? Container(
-            margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-            height: MediaQuery.of(context).size.height * 0.72,
+            margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
             decoration: BoxDecoration(
               color: Colors.transparent,
               borderRadius: BorderRadius.circular(30),
               border: Border.all(color: Colors.transparent),
             ),
-            child: FittedBox(
-                child: Column(
+            child: Column(
               children: [
-                const SizedBox(height: 30),
                 randombutton,
                 textSection1,
                 textSection2,
                 priceSection,
                 resultbutton,
-                const SizedBox(height: 30)
+                const SizedBox(height: 10)
               ],
-            )),
+            ),
           )
         : Container(
             alignment: Alignment.center,
@@ -409,13 +406,15 @@ class _RandConditionState extends State<RandCondition> {
           child: CustomDrawer(), // CustomDrawer 위젯 사용
         ),
       ),
-      body: SafeArea(
-        child: ListView(
-          children: [
-            const titleSection("랜덤 추천"),
-            mainSection,
-          ],
-        ),
+      body: ListView(
+        children: [
+          Column(
+            children: [
+              const titleSection("랜덤 추천"),
+              mainSection,
+            ],
+          ),
+        ],
       ),
     );
   }

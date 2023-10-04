@@ -146,7 +146,7 @@ class _HomePage extends State<HomePage> {
                           child: Container(
                             //검색창
                             height: 45,
-                            width: screenwidth < 600 ? screenwidth - 100 : 500,
+                            width: screenwidth < 600 ? screenwidth - 80 : 520,
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 border: Border.all(
