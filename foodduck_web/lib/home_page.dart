@@ -206,8 +206,8 @@ class _HomePage extends State<HomePage> {
                           "I’m Feeling Hungry",
                           style: TextStyle(
                             fontSize: 20,
-                            fontFamily: 'NanumSquareB.ttf',
-                            fontWeight: FontWeight.normal,
+                            fontFamily: "NanumSquare_ac",
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
                       ),

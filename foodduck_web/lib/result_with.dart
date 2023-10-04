@@ -235,7 +235,7 @@ class Result_with extends State<resultlist_with> {
                             liked.contains(Index)
                                 ? Icons.star
                                 : Icons.star_border,
-                            color: liked.contains(Index) ? Colors.yellow : null,
+                            color: liked.contains(Index) ? Colors.amberAccent : null,
                             semanticLabel: liked.contains(Index)
                                 ? 'Remove from saved'
                                 : 'Save',
@@ -263,7 +263,7 @@ class Result_with extends State<resultlist_with> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 15),
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.grey[200],
@@ -298,7 +298,8 @@ class Result_with extends State<resultlist_with> {
                       ),
                       Container(
                         alignment: Alignment.topLeft,
-                        margin: const EdgeInsets.fromLTRB(23, 10, 23, 0),
+                        padding: const EdgeInsets.all(0),
+                        margin: const EdgeInsets.fromLTRB(23, 10, 23, 5),
                         child: RichText(
                           text: TextSpan(children: <TextSpan>[
                             TextSpan(children: <TextSpan>[
@@ -409,10 +410,8 @@ class Result_with extends State<resultlist_with> {
                         ),
                         alignment: Alignment.center,
                         width: double.infinity,
-                        height: 120, //조정필요 (잘리는 경우 발생 ex 족발야시장)
-                        margin: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 15),
+                        margin: const EdgeInsets.fromLTRB(20, 8, 20, 20),
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                         child: Text(
                           description,
                           textAlign: TextAlign.center,

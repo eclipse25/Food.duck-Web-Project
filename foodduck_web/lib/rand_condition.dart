@@ -139,7 +139,7 @@ class _RandConditionState extends State<RandCondition> {
     );
 
     Widget textSection1 = Container(
-      padding: const EdgeInsets.fromLTRB(22, 25, 22, 15),
+      padding: const EdgeInsets.fromLTRB(22, 15, 22, 5),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -189,7 +189,7 @@ class _RandConditionState extends State<RandCondition> {
     );
 
     Widget textSection2 = Container(
-      padding: const EdgeInsets.fromLTRB(22, 10, 22, 15),
+      padding: const EdgeInsets.fromLTRB(22, 0, 22, 0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -332,7 +332,7 @@ class _RandConditionState extends State<RandCondition> {
     );
 
     Widget priceSection = Container(
-      padding: const EdgeInsets.fromLTRB(22, 25, 22, 15),
+      padding: const EdgeInsets.fromLTRB(22, 10, 22, 15),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -346,7 +346,7 @@ class _RandConditionState extends State<RandCondition> {
 
     Widget mainSection = screenwidth < 600
         ? Container(
-            margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+            margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 5),
             decoration: BoxDecoration(
               color: Colors.transparent,
               borderRadius: BorderRadius.circular(30),
@@ -358,8 +358,7 @@ class _RandConditionState extends State<RandCondition> {
                 textSection1,
                 textSection2,
                 priceSection,
-                resultbutton,
-                const SizedBox(height: 10)
+                resultbutton
               ],
             ),
           )
