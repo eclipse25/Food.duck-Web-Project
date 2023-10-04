@@ -45,7 +45,8 @@ dependencies:
   run_with_network_images: ^0.0.1
   auto_size_widget: ^0.0.4
   text_scroll: ^0.2.0
-  url_launcher: 6.1.6
+  url_launcher: 6.1.12
+  url_launcher_web: ^2.0.20
 
 dev_dependencies:
   flutter_test:

@@ -31,17 +31,19 @@ class _RenderLinkImageState extends State<RenderLinkImage> {
           ..style.height = "100%"
           ..style.objectFit = "cover"
           ..style.border = "none";
-        element.height = element.naturalHeight;
-        element.width = element.naturalWidth;
+        element.height = 600;
+        element.width = 800;
         return element;
       },
     );
 
-    return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.80,
-      height: MediaQuery.of(context).size.height * 0.45,
-      child: HtmlElementView(
-        viewType: "link_image_instance$randomString",
+    return FittedBox(
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.width * 0.75,
+        child: HtmlElementView(
+          viewType: "link_image_instance$randomString",
+        ),
       ),
     );
   }
@@ -103,6 +105,7 @@ class Result_with extends State<resultlist_with> {
     } else {
       maplink = null;
     }
+    print(maplink);
     if (widget.leftlist != null) {
       leftlist = widget.leftlist!.toSet().toList();
     } else {
@@ -261,7 +264,7 @@ class Result_with extends State<resultlist_with> {
                       Container(
                         alignment: Alignment.topCenter,
                         width: double.infinity,
-                        margin: const EdgeInsets.fromLTRB(12, 20, 12, 10),
+                        padding: EdgeInsets.all(20),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(30),
                           child: img,
@@ -397,7 +400,8 @@ class Result_with extends State<resultlist_with> {
                         alignment: Alignment.center,
                         width: double.infinity,
                         margin: const EdgeInsets.fromLTRB(20, 8, 20, 20),
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 20),
                         child: Text(
                           description,
                           textAlign: TextAlign.center,
