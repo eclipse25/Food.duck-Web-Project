@@ -79,6 +79,7 @@ class _RandConditionState extends State<RandCondition> {
     priceSliderValue = 0.0;
     dropdownValue = categorys[0];
     list = categorys;
+    list.add("전체");
     tmp = category[dropdownValue];
     super.initState();
   }
@@ -252,18 +253,27 @@ class _RandConditionState extends State<RandCondition> {
           ),
           onPressed: () {
             //with tag
-            tmp = [...category[dropdownValue]];
-            tmp = tmp.toSet().toList();
+            if(dropdownValue == "전체") {
+              tmp = List<int>.generate(listfood.length, (i) => i);
+            }else{
+              tmp = [...category[dropdownValue]];
+              tmp = tmp.toSet().toList();
+            }
+
             print(tmp);
             for (int dis = initialSliderValue.toInt() + 1; dis < 4; dis++) {
               if (trav_time.containsKey(dis)) {
                 tmp.removeWhere((item) => trav_time[dis].contains(item));
               }
             }
-
+            List<int> pricelist=[];
+            for(int i = 0; i<=priceSliderValue.toInt();i++){
+              pricelist.addAll(price[i]);
+            }
+            pricelist.toSet().toList();
             if (price.containsKey(priceSliderValue.toInt())) {
               tmp.removeWhere(
-                  (item) => !price[priceSliderValue.toInt()].contains(item));
+                  (item) => !pricelist.contains(item));
             }
 
             if (tmp.isNotEmpty) {
