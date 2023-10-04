@@ -195,10 +195,10 @@ class Result_with extends State<resultlist_with> {
                             },
                             child: Container(
                               height: 40,
-                              width: 130,
+                              width: 40,
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
-                                  color: Colors.grey[300],
+                                  color: Colors.amberAccent,
                                   // border: Border.all(
                                   //   color: const Color.fromARGB(255, 180, 180, 180),
                                   //   width: 1.5,
@@ -208,20 +208,6 @@ class Result_with extends State<resultlist_with> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Icon(Icons.replay),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    "다시 뽑기",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontFamily: "NanumSquare_ac",
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
                                 ],
                               ),
                             ),
@@ -575,7 +561,7 @@ class Result_with extends State<resultlist_with> {
                                   width: 150,
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
-                                      color: Colors.grey[300],
+                                      color: Colors.amberAccent,
                                       // border: Border.all(
                                       //   color: const Color.fromARGB(255, 180, 180, 180),
                                       //   width: 1.5,
