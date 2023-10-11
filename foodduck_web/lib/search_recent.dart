@@ -81,9 +81,6 @@ class SearchPageState extends State<SearchRecent> {
     if (recentSearches.length >= 15) {
       recentSearches.removeLast();
     }
-    for (var element in recentSearches) {
-      print(element);
-    }
     setState(() {
       searchText = _searchController.text.trim();
       setState(() {
@@ -156,12 +153,9 @@ class SearchPageState extends State<SearchRecent> {
   }
 
   void changeSearchTerm(String text, List<String> tags, List<String> cate) {
-    print("태그 $tags");
-    print("카테고리 $cate");
     List<String> list = tag_check(tags, cate);
     late List<String> terms;
     List<int> tmp = [];
-    print("리스트 $list");
     if (text.isNotEmpty) {
       RegExp regExp = getRegExp(
           text,
@@ -173,9 +167,7 @@ class SearchPageState extends State<SearchRecent> {
             ignoreSpace: true,
             ignoreCase: false,
           ));
-      print(regExp);
       terms = list.where((element) => regExp.hasMatch(element)).toList();
-      print(terms);
       for (var i in terms) {
         tmp.add(name[i]);
       }
@@ -206,19 +198,6 @@ class SearchPageState extends State<SearchRecent> {
         tmp.add(name[restaurantname]);
       }
       resultlist = tmp;
-    }
-    print("idx $resultlist");
-  }
-
-  Widget buildWidget(double width) {
-    if (width < 1000) {
-      return Container(
-          // Container 위젯 설정
-          );
-    } else {
-      return const SizedBox(
-          // SizedBox 위젯 설정
-          );
     }
   }
 

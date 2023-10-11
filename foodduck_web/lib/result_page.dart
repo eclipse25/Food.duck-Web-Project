@@ -61,7 +61,8 @@ class _searchListState extends State<searchList> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => resultlist_with(targetIndex[index - 1],null)),
+                    builder: (context) =>
+                        resultlist_with(targetIndex[index - 1], null)),
               );
             },
             trailing: IconButton(
@@ -78,7 +79,7 @@ class _searchListState extends State<searchList> {
                     : 'Save',
                 size: 35,
               ),
-              onPressed: ()async{
+              onPressed: () async {
                 int flag = 0;
                 if (liked.contains(targetIndex[index - 1])) {
                   flag = 1;
@@ -96,7 +97,6 @@ class _searchListState extends State<searchList> {
                     liked.add(targetIndex[index - 1]);
                   }
                 });
-                print(liked);
               },
             ),
           );
