@@ -78,7 +78,7 @@ class _RandConditionState extends State<RandCondition> {
     initialSliderValue = 0.0;
     priceSliderValue = 0.0;
     dropdownValue = categorys[0];
-    list = categorys;
+    list = [...categorys];
     list.add("전체");
     tmp = category[dropdownValue];
     super.initState();
@@ -317,8 +317,8 @@ class _RandConditionState extends State<RandCondition> {
             ),
             child: Slider(
               value: priceSliderValue,
-              max: 3,
-              divisions: 3,
+              max: 2,
+              divisions: 2,
               //label: sliderValIndicators[priceSliderValue.toInt()],
               onChanged: (double value) {
                 setState(() {
