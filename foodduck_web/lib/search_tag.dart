@@ -396,6 +396,7 @@ class SearchPageState extends State<SearchTag> {
                     ),
                     ListView.separated(
                       shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
                       itemCount: targetIndex.length + 1,
                       itemBuilder: (context, index) {
                         if (index == targetIndex.length) {
@@ -462,7 +463,6 @@ class SearchPageState extends State<SearchTag> {
                           endIndent: 20,
                         );
                       },
-                      scrollDirection: Axis.vertical,
                     )
                   ],
                 ),
